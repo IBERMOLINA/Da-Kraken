@@ -1,30 +1,112 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="krakenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#4338ca;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    <!-- Cyberpunk-inspired gradients with metallic tones -->
+    <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d3748;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4a5568;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a202c;stop-opacity:1" />
     </linearGradient>
+
+    <!-- Mechanical joint gradient -->
+    <radialGradient id="jointGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#718096;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2d3748;stop-opacity:1" />
+    </radialGradient>
+
+    <!-- Eye glow gradient -->
+    <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#e2e8f0;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#cbd5e1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#718096;stop-opacity:1" />
+    </radialGradient>
   </defs>
-  
-  <!-- Kraken body -->
-  <circle cx="50" cy="45" r="20" fill="url(#krakenGradient)"/>
-  
-  <!-- Eyes -->
-  <circle cx="44" cy="40" r="3" fill="white"/>
-  <circle cx="56" cy="40" r="3" fill="white"/>
-  <circle cx="44" cy="40" r="1.5" fill="#1e293b"/>
-  <circle cx="56" cy="40" r="1.5" fill="#1e293b"/>
-  
-  <!-- Tentacles -->
-  <path d="M35 55 Q30 65 25 75 Q20 80 15 85" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M40 60 Q35 70 30 80 Q25 85 20 90" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M60 60 Q65 70 70 80 Q75 85 80 90" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M65 55 Q70 65 75 75 Q80 80 85 85" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  
-  <!-- Additional tentacles for depth -->
-  <path d="M45 65 Q40 75 35 85 Q30 90 25 95" stroke="url(#krakenGradient)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
-  <path d="M55 65 Q60 75 65 85 Q70 90 75 95" stroke="url(#krakenGradient)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
-  
-  <!-- Mouth -->
-  <ellipse cx="50" cy="48" rx="4" ry="2" fill="#1e293b" opacity="0.7"/>
+
+  <!-- Main mechanical body with angular design -->
+  <g transform="translate(50, 45)">
+    <!-- Central core -->
+    <polygon points="-15,-10 -10,-15 10,-15 15,-10 15,10 10,15 -10,15 -15,10" fill="url(#bodyGradient)" stroke="#4a5568" stroke-width="1"/>
+
+    <!-- Mechanical ridges/details -->
+    <line x1="-12" y1="-12" x2="12" y2="-12" stroke="#718096" stroke-width="0.5"/>
+    <line x1="-12" y1="-8" x2="12" y2="-8" stroke="#718096" stroke-width="0.5"/>
+    <line x1="-12" y1="8" x2="12" y2="8" stroke="#718096" stroke-width="0.5"/>
+    <line x1="-12" y1="12" x2="12" y2="12" stroke="#718096" stroke-width="0.5"/>
+
+    <!-- Vertical ridges -->
+    <line x1="-12" y1="-12" x2="-12" y2="12" stroke="#718096" stroke-width="0.5"/>
+    <line x1="-8" y1="-12" x2="-8" y2="12" stroke="#718096" stroke-width="0.5"/>
+    <line x1="8" y1="-12" y2="8" stroke="#718096" stroke-width="0.5"/>
+    <line x1="12" y1="-12" y2="12" stroke="#718096" stroke-width="0.5"/>
+  </g>
+
+  <!-- Glowing mechanical eyes -->
+  <circle cx="42" cy="38" r="4" fill="url(#eyeGlow)"/>
+  <circle cx="58" cy="38" r="4" fill="url(#eyeGlow)"/>
+  <circle cx="42" cy="38" r="2" fill="#2d3748"/>
+  <circle cx="58" cy="38" r="2" fill="#2d3748"/>
+  <circle cx="42" cy="38" r="1" fill="#e2e8f0"/>
+  <circle cx="58" cy="38" r="1" fill="#e2e8f0"/>
+
+  <!-- Aggressive mechanical tentacles with joints -->
+  <g>
+    <!-- Tentacle 1 - Left upper -->
+    <g>
+      <circle cx="30" cy="55" r="2" fill="url(#jointGradient)"/>
+      <path d="M30 57 L25 70 Q20 75 15 85" stroke="#4a5568" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="25" cy="70" r="1.5" fill="url(#jointGradient)"/>
+      <circle cx="20" cy="77" r="1" fill="url(#jointGradient)"/>
+    </g>
+
+    <!-- Tentacle 2 - Left lower -->
+    <g>
+      <circle cx="35" cy="65" r="2" fill="url(#jointGradient)"/>
+      <path d="M35 67 L28 80 Q22 85 18 95" stroke="#4a5568" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="28" cy="80" r="1.5" fill="url(#jointGradient)"/>
+      <circle cx="24" cy="87" r="1" fill="url(#jointGradient)"/>
+    </g>
+
+    <!-- Tentacle 3 - Right upper -->
+    <g>
+      <circle cx="70" cy="55" r="2" fill="url(#jointGradient)"/>
+      <path d="M70 57 L75 70 Q80 75 85 85" stroke="#4a5568" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="75" cy="70" r="1.5" fill="url(#jointGradient)"/>
+      <circle cx="80" cy="77" r="1" fill="url(#jointGradient)"/>
+    </g>
+
+    <!-- Tentacle 4 - Right lower -->
+    <g>
+      <circle cx="65" cy="65" r="2" fill="url(#jointGradient)"/>
+      <path d="M65 67 L72 80 Q78 85 82 95" stroke="#4a5568" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="72" cy="80" r="1.5" fill="url(#jointGradient)"/>
+      <circle cx="76" cy="87" r="1" fill="url(#jointGradient)"/>
+    </g>
+
+    <!-- Additional side tentacles for more aggressive look -->
+    <g>
+      <circle cx="40" cy="75" r="1.5" fill="url(#jointGradient)"/>
+      <path d="M40 76 L35 85 Q30 90 25 95" stroke="#4a5568" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+      <circle cx="35" cy="85" r="1" fill="url(#jointGradient)"/>
+    </g>
+
+    <g>
+      <circle cx="60" cy="75" r="1.5" fill="url(#jointGradient)"/>
+      <path d="M60 76 L65 85 Q70 90 75 95" stroke="#4a5568" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+      <circle cx="65" cy="85" r="1" fill="url(#jointGradient)"/>
+    </g>
+  </g>
+
+  <!-- Mechanical mouth with sharp teeth -->
+  <g transform="translate(50, 52)">
+    <path d="M-6,-2 L-4,-3 L-2,-2 L0,-3 L2,-2 L4,-3 L6,-2 L6,2 L4,3 L2,2 L0,3 L-2,2 L-4,3 L-6,2 Z" fill="#2d3748" stroke="#4a5568" stroke-width="0.5"/>
+  </g>
+
+  <!-- Small mechanical details/scars for aggressive look -->
+  <g opacity="0.6">
+    <line x1="25" y1="30" x2="27" y2="32" stroke="#718096" stroke-width="1"/>
+    <line x1="73" y1="30" x2="75" y2="32" stroke="#718096" stroke-width="1"/>
+    <circle cx="20" cy="25" r="0.5" fill="#718096"/>
+    <circle cx="80" cy="25" r="0.5" fill="#718096"/>
+    <circle cx="15" cy="35" r="0.5" fill="#718096"/>
+    <circle cx="85" cy="35" r="0.5" fill="#718096"/>
+  </g>
 </svg>

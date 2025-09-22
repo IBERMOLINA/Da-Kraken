@@ -185,24 +185,57 @@ class ColorPaletteTool {
 
   async copyColor(color, element) {
     const hexColor = DK.hslToHex(color);
-    
+
     try {
+      // Check if clipboard API is available and context is secure
+      if (!navigator.clipboard) {
+        throw new Error('Clipboard API not available');
+      }
+
+      // Check if we're in a secure context (HTTPS or localhost)
+      if (!window.isSecureContext && !window.location.hostname.includes('localhost')) {
+        throw new Error('Secure context required for clipboard access');
+      }
+
       await navigator.clipboard.writeText(hexColor);
       this.showCopyFeedback(element, 'Copied!');
     } catch (error) {
-      // Fallback for browsers that don't support clipboard API
-      this.fallbackCopyColor(hexColor);
+      console.warn('Clipboard API failed:', error.message);
+      // Enhanced fallback for browsers that don't support clipboard API
+      this.fallbackCopyColor(hexColor, element);
       this.showCopyFeedback(element, 'Copied!');
     }
   }
 
-  fallbackCopyColor(text) {
+  fallbackCopyColor(text, element) {
     const textarea = document.createElement('textarea');
     textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.top = '-9999px';
+    textarea.style.opacity = '0';
+    textarea.setAttribute('readonly', '');
+    textarea.setAttribute('aria-hidden', 'true');
+
     document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
+
+    try {
+      textarea.select();
+      textarea.setSelectionRange(0, text.length); // For mobile devices
+
+      const successful = document.execCommand('copy');
+      if (!successful) {
+        throw new Error('Copy command failed');
+      }
+
+      console.log('Color copied using fallback method:', text);
+    } catch (error) {
+      console.error('Fallback copy method failed:', error);
+      // Show a more detailed feedback if both methods fail
+      this.showCopyFeedback(element, 'Copy failed - try again');
+    } finally {
+      document.body.removeChild(textarea);
+    }
   }
 
   showCopyFeedback(element, message) {

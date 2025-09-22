@@ -1,0 +1,50 @@
+{
+  "name": "da-kraken",
+  "version": "1.0.0",
+  "description": "A modern local application with engaging user experience - no external dependencies",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx http-server",
+    "dev": "npx live-server --port=8000",
+    "validate": "echo 'Validating HTML, CSS, and JS...' && npx html-validate index.html",
+    "lint": "echo 'Linting JavaScript...' && npx eslint scripts/ || echo 'ESLint not installed'",
+    "format": "echo 'Formatting code...' && npx prettier --write \"**/*.{js,css,html,json,md}\" || echo 'Prettier not installed'",
+    "build": "echo 'No build process needed - this is a static app'",
+    "test": "echo 'No automated tests yet - manual testing recommended'"
+  },
+  "keywords": [
+    "local-app",
+    "pwa",
+    "vanilla-js",
+    "css3",
+    "html5",
+    "productivity",
+    "offline",
+    "privacy-focused",
+    "kraken",
+    "modern-ui"
+  ],
+  "author": "Da-Kraken Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/da-kraken.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/da-kraken/issues"
+  },
+  "homepage": "https://github.com/yourusername/da-kraken#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not dead"
+  ],
+  "devDependencies": {
+    "comment": "Development dependencies are optional - this app works without any build tools"
+  },
+  "private": true
+}
