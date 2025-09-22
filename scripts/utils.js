@@ -4,9 +4,12 @@ class DaKrakenUtils {
   static getFromStorage(key, defaultValue = null) {
     try {
       const item = localStorage.getItem(`da-kraken-${key}`);
-      return item ? JSON.parse(item) : defaultValue;
+      if (item === null) {
+        return defaultValue;
+      }
+      return JSON.parse(item);
     } catch (error) {
-      console.warn(`Error reading from localStorage: ${error.message}`);
+      console.warn(`🐙 Da-Kraken: Error reading from localStorage for key "${key}":`, error.message);
       return defaultValue;
     }
   }
@@ -14,9 +17,10 @@ class DaKrakenUtils {
   static setToStorage(key, value) {
     try {
       localStorage.setItem(`da-kraken-${key}`, JSON.stringify(value));
+      console.log(`🐙 Da-Kraken: Stored "${key}" in localStorage`);
       return true;
     } catch (error) {
-      console.warn(`Error writing to localStorage: ${error.message}`);
+      console.error(`🐙 Da-Kraken: Error writing to localStorage for key "${key}":`, error.message);
       return false;
     }
   }
@@ -24,9 +28,10 @@ class DaKrakenUtils {
   static removeFromStorage(key) {
     try {
       localStorage.removeItem(`da-kraken-${key}`);
+      console.log(`🐙 Da-Kraken: Removed "${key}" from localStorage`);
       return true;
     } catch (error) {
-      console.warn(`Error removing from localStorage: ${error.message}`);
+      console.warn(`🐙 Da-Kraken: Error removing from localStorage for key "${key}":`, error.message);
       return false;
     }
   }
@@ -34,10 +39,12 @@ class DaKrakenUtils {
   static clearAllStorage() {
     try {
       const keys = Object.keys(localStorage).filter(key => key.startsWith('da-kraken-'));
+      const removedCount = keys.length;
       keys.forEach(key => localStorage.removeItem(key));
+      console.log(`🐙 Da-Kraken: Cleared ${removedCount} items from localStorage`);
       return true;
     } catch (error) {
-      console.warn(`Error clearing localStorage: ${error.message}`);
+      console.error(`🐙 Da-Kraken: Error clearing localStorage:`, error.message);
       return false;
     }
   }

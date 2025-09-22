@@ -18,10 +18,12 @@
 ## 🚀 Quick Start
 
 1. **Clone or download this repository**
-2. **Open `index.html` in your web browser**
-3. **Start using the app immediately - no installation required!**
+2. **Open `index.html` directly in your web browser**
+3. **Start using the app immediately - no installation or server required!**
 
-### Alternative: Serve with a local web server
+### Optional: Serve with a local web server
+
+For development or testing purposes, you can serve the app with a local web server:
 
 ```bash
 # Using Python 3
@@ -35,6 +37,8 @@ php -S localhost:8000
 ```
 
 Then open `http://localhost:8000` in your browser.
+
+**Note:** The app works perfectly without a server - just double-click `index.html`!
 
 ## 🛠️ Tools & Utilities
 
