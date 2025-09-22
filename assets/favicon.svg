@@ -1,30 +1,56 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="krakenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#4338ca;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    <!-- Muted industrial palette (no neon) -->
+    <linearGradient id="steel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f2937" />
+      <stop offset="100%" stop-color="#0b1320" />
+    </linearGradient>
+    <linearGradient id="metalEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#6b7280" />
+    </linearGradient>
+    <linearGradient id="cable" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#1f2937" />
     </linearGradient>
   </defs>
-  
-  <!-- Kraken body -->
-  <circle cx="50" cy="45" r="20" fill="url(#krakenGradient)"/>
-  
-  <!-- Eyes -->
-  <circle cx="44" cy="40" r="3" fill="white"/>
-  <circle cx="56" cy="40" r="3" fill="white"/>
-  <circle cx="44" cy="40" r="1.5" fill="#1e293b"/>
-  <circle cx="56" cy="40" r="1.5" fill="#1e293b"/>
-  
-  <!-- Tentacles -->
-  <path d="M35 55 Q30 65 25 75 Q20 80 15 85" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M40 60 Q35 70 30 80 Q25 85 20 90" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M60 60 Q65 70 70 80 Q75 85 80 90" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M65 55 Q70 65 75 75 Q80 80 85 85" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  
-  <!-- Additional tentacles for depth -->
-  <path d="M45 65 Q40 75 35 85 Q30 90 25 95" stroke="url(#krakenGradient)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
-  <path d="M55 65 Q60 75 65 85 Q70 90 75 95" stroke="url(#krakenGradient)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
-  
-  <!-- Mouth -->
-  <ellipse cx="50" cy="48" rx="4" ry="2" fill="#1e293b" opacity="0.7"/>
+
+  <!-- Body: angular armored shell -->
+  <g id="body" transform="translate(0,2)">
+    <path d="M50 20 L68 28 L76 46 L68 64 L50 72 L32 64 L24 46 L32 28 Z" fill="url(#steel)" stroke="url(#metalEdge)" stroke-width="2"/>
+    <!-- Center plating -->
+    <path d="M50 26 L62 32 L66 46 L62 60 L50 66 L38 60 L34 46 L38 32 Z" fill="#111827" stroke="#374151" stroke-width="1.5"/>
+  </g>
+
+  <!-- Eyes: visor with protective plates (muted amber, not neon) -->
+  <g id="eyes">
+    <rect x="38" y="38" width="24" height="8" rx="2" fill="#d97706" stroke="#92400e" stroke-width="1"/>
+    <circle cx="44" cy="42" r="2" fill="#111827"/>
+    <circle cx="56" cy="42" r="2" fill="#111827"/>
+  </g>
+
+  <!-- Mechanical tentacles: segmented with clamps -->
+  <g id="tentacles" stroke="url(#metalEdge)" stroke-width="3" fill="none" stroke-linecap="round">
+    <!-- Left cables -->
+    <path d="M34 62 C24 70, 18 78, 14 90" stroke="url(#cable)"/>
+    <path d="M38 64 C28 72, 22 80, 18 92" stroke="url(#cable)"/>
+    <!-- Right cables -->
+    <path d="M66 62 C76 70, 82 78, 86 90" stroke="url(#cable)"/>
+    <path d="M62 64 C72 72, 78 80, 82 92" stroke="url(#cable)"/>
+  </g>
+
+  <!-- Segment joints -->
+  <g id="joints" fill="#4b5563">
+    <circle cx="34" cy="62" r="2"/>
+    <circle cx="38" cy="64" r="2"/>
+    <circle cx="62" cy="64" r="2"/>
+    <circle cx="66" cy="62" r="2"/>
+  </g>
+
+  <!-- Top fins/panels for aggressive silhouette -->
+  <g id="fins" fill="#0f172a" stroke="#475569" stroke-width="1">
+    <path d="M50 14 L54 22 L46 22 Z"/>
+    <path d="M40 18 L44 26 L36 26 Z"/>
+    <path d="M60 18 L64 26 L56 26 Z"/>
+  </g>
 </svg>

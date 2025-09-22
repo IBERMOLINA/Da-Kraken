@@ -21,20 +21,20 @@
 2. **Open `index.html` in your web browser**
 3. **Start using the app immediately - no installation required!**
 
-### Alternative: Serve with a local web server
+### Alternative: Serve with a local web server (optional)
 
 ```bash
-# Using Python 3
-python -m http.server 8000
+# Using Python 3 (serves current directory)
+python -m http.server
 
 # Using Node.js (with http-server package)
 npx http-server
 
 # Using PHP
-php -S localhost:8000
+php -S localhost:0
 ```
 
-Then open `http://localhost:8000` in your browser.
+Open the URL printed by your server (port is chosen automatically), or simply double-click `index.html` to run without any server.
 
 ## 🛠️ Tools & Utilities
 

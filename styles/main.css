@@ -157,8 +157,13 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 3rem;
   animation: bounce 2s ease-in-out infinite;
+}
+
+.kraken-body img {
+  width: 64px;
+  height: 64px;
+  display: block;
 }
 
 @keyframes bounce {
@@ -281,7 +286,9 @@ body {
 }
 
 .logo-icon {
-  font-size: 2rem;
+  width: 32px;
+  height: 32px;
+  display: block;
 }
 
 .logo-text {

@@ -186,23 +186,42 @@ class ColorPaletteTool {
   async copyColor(color, element) {
     const hexColor = DK.hslToHex(color);
     
-    try {
-      await navigator.clipboard.writeText(hexColor);
-      this.showCopyFeedback(element, 'Copied!');
-    } catch (error) {
-      // Fallback for browsers that don't support clipboard API
-      this.fallbackCopyColor(hexColor);
-      this.showCopyFeedback(element, 'Copied!');
+    // Prefer modern API when available and in secure context
+    if (window.isSecureContext && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      try {
+        await navigator.clipboard.writeText(hexColor);
+        this.showCopyFeedback(element, 'Copied!');
+        return;
+      } catch (error) {
+        // Intentionally fall through to fallback below
+      }
     }
+
+    // Fallback path for file:// or unsupported browsers
+    const success = this.fallbackCopyColor(hexColor);
+    this.showCopyFeedback(element, success ? 'Copied!' : 'Copy failed');
   }
 
   fallbackCopyColor(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      // Prevent scrolling to bottom on iOS and keep offscreen
+      textarea.style.position = 'fixed';
+      textarea.style.top = '-1000px';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      const success = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      if (window.getSelection) {
+        const selection = window.getSelection();
+        if (selection && selection.removeAllRanges) selection.removeAllRanges();
+      }
+      return success;
+    } catch (e) {
+      return false;
+    }
   }
 
   showCopyFeedback(element, message) {
