@@ -186,23 +186,8 @@ class ColorPaletteTool {
   async copyColor(color, element) {
     const hexColor = DK.hslToHex(color);
     
-    try {
-      await navigator.clipboard.writeText(hexColor);
-      this.showCopyFeedback(element, 'Copied!');
-    } catch (error) {
-      // Fallback for browsers that don't support clipboard API
-      this.fallbackCopyColor(hexColor);
-      this.showCopyFeedback(element, 'Copied!');
-    }
-  }
-
-  fallbackCopyColor(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
+    const ok = await DK.copyTextToClipboard(hexColor);
+    this.showCopyFeedback(element, ok ? 'Copied!' : 'Copy failed');
   }
 
   showCopyFeedback(element, message) {

@@ -213,6 +213,43 @@ class DaKrakenUtils {
     }
   }
 
+  // Clipboard utilities
+  static async copyTextToClipboard(text) {
+    try {
+      if (window.isSecureContext && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        try {
+          if (navigator.permissions && navigator.permissions.query) {
+            try {
+              // Best-effort permission query; continue regardless of state
+              await navigator.permissions.query({ name: 'clipboard-write' });
+            } catch (ignored) {}
+          }
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (secureCopyError) {
+          // Fall through to legacy approach
+        }
+      }
+    } catch (ignoredOuter) {}
+
+    // Legacy/insecure-context fallback using a hidden textarea
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.top = '-9999px';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      return !!successful;
+    } catch (legacyError) {
+      return false;
+    }
+  }
+
   // Performance utilities
   static debounce(func, wait) {
     let timeout;
