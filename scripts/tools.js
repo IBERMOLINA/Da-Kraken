@@ -45,10 +45,10 @@ class NotesTool {
       // Load saved notes
       textarea.value = this.notes;
 
-      // Autosave on input with debouncing
+      // Aggressive autosave on input with shorter debouncing for autocommits
       DK.addEvent(textarea, 'input', DK.debounce(() => {
         this.autosave(textarea.value);
-      }, 1000));
+      }, 300)); // Reduced from 1000ms to 300ms for faster autocommits
 
       // Handle tab key for better UX
       DK.addEvent(textarea, 'keydown', (e) => {
@@ -90,6 +90,16 @@ class NotesTool {
   autosave(content) {
     this.notes = content;
     DK.setToStorage('notes', this.notes);
+    
+    // Trigger autocommit event for external systems
+    const event = new CustomEvent('autocommit', {
+      detail: {
+        type: 'notes',
+        content: content,
+        timestamp: Date.now()
+      }
+    });
+    window.dispatchEvent(event);
   }
 
   clearNotes() {
@@ -186,11 +196,19 @@ class ColorPaletteTool {
   async copyColor(color, element) {
     const hexColor = DK.hslToHex(color);
     
-    try {
-      await navigator.clipboard.writeText(hexColor);
-      this.showCopyFeedback(element, 'Copied!');
-    } catch (error) {
-      // Fallback for browsers that don't support clipboard API
+    // Check if clipboard API is available and permissions are granted
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(hexColor);
+        this.showCopyFeedback(element, 'Copied!');
+      } catch (error) {
+        console.warn('Clipboard API failed, using fallback:', error);
+        // Fallback for browsers that don't support clipboard API or permission denied
+        this.fallbackCopyColor(hexColor);
+        this.showCopyFeedback(element, 'Copied!');
+      }
+    } else {
+      // Direct fallback for non-secure contexts or missing API
       this.fallbackCopyColor(hexColor);
       this.showCopyFeedback(element, 'Copied!');
     }
@@ -199,9 +217,31 @@ class ColorPaletteTool {
   fallbackCopyColor(text) {
     const textarea = document.createElement('textarea');
     textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.top = '-9999px';
+    textarea.style.left = '-9999px';
+    textarea.setAttribute('readonly', '');
     document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
+    
+    // Select and copy text
+    if (navigator.userAgent.match(/ipad|iphone/i)) {
+      // iOS specific selection
+      const range = document.createRange();
+      range.selectNodeContents(textarea);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      textarea.setSelectionRange(0, 999999);
+    } else {
+      textarea.select();
+    }
+    
+    try {
+      document.execCommand('copy');
+    } catch (err) {
+      console.warn('Fallback copy failed:', err);
+    }
+    
     document.body.removeChild(textarea);
   }
 
@@ -436,7 +476,4 @@ document.addEventListener('DOMContentLoaded', () => {
   window.toolsManager = new ToolsManager();
 });
 
-// Export for module usage if needed
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { ToolsManager, NotesTool, ColorPaletteTool, PomodoroTimer };
-}
+// No module exports - this is a standalone local app

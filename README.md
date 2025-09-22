@@ -21,20 +21,19 @@
 2. **Open `index.html` in your web browser**
 3. **Start using the app immediately - no installation required!**
 
-### Alternative: Serve with a local web server
+### Direct File Access
 
-```bash
-# Using Python 3
-python -m http.server 8000
+This app is designed to work directly from the file system:
+- Simply double-click `index.html` to open in your default browser
+- Or drag and drop `index.html` into any browser window
+- No server, no ports, no dependencies - just pure local functionality
 
-# Using Node.js (with http-server package)
-npx http-server
+### Optional: PWA Installation
 
-# Using PHP
-php -S localhost:8000
-```
-
-Then open `http://localhost:8000` in your browser.
+For the best experience, you can install it as a Progressive Web App:
+1. Open the app in Chrome or Edge
+2. Click the install icon in the address bar
+3. The app will run in its own window like a native application
 
 ## 🛠️ Tools & Utilities
 

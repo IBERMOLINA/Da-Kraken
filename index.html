@@ -21,7 +21,9 @@
                 <div class="tentacle tentacle-2"></div>
                 <div class="tentacle tentacle-3"></div>
                 <div class="tentacle tentacle-4"></div>
-                <div class="kraken-body">🐙</div>
+                <div class="kraken-body">
+                    <img src="assets/favicon.svg" alt="Kraken" style="width: 60px; height: 60px;">
+                </div>
             </div>
             <h2 class="loading-text">Da-Kraken</h2>
             <p class="loading-subtitle">Awakening...</p>
@@ -33,7 +35,9 @@
             <header class="header">
                 <div class="header-content">
                     <div class="logo">
-                        <span class="logo-icon">🐙</span>
+                        <span class="logo-icon">
+                            <img src="assets/favicon.svg" alt="Kraken" style="width: 32px; height: 32px; vertical-align: middle;">
+                        </span>
                         <h1 class="logo-text">Da-Kraken</h1>
                     </div>
                     <nav class="nav">
@@ -160,7 +164,16 @@
                         </div>
 
                         <div class="setting-group">
-                            <h3>Data</h3>
+                            <h3>Data & Autocommit</h3>
+                            <div class="setting-item">
+                                <label for="autocommit-toggle">Enable Autocommit:</label>
+                                <input type="checkbox" id="autocommit-toggle" checked>
+                                <p class="setting-description">Automatically save changes in real-time</p>
+                            </div>
+                            <div class="setting-item">
+                                <button class="btn btn-secondary" id="view-commits">View Commit History</button>
+                                <button class="btn btn-primary" id="force-commit">Force Commit Now</button>
+                            </div>
                             <div class="setting-item">
                                 <button class="btn btn-danger" id="clear-data">Clear All Data</button>
                                 <p class="setting-description">This will remove all stored notes and settings</p>
@@ -183,6 +196,7 @@
     <script src="scripts/utils.js"></script>
     <script src="scripts/theme.js"></script>
     <script src="scripts/tools.js"></script>
+    <script src="scripts/autocommit.js"></script>
     <script src="scripts/app.js"></script>
 </body>
 </html>
