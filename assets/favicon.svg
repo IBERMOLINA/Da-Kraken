@@ -1,30 +1,98 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="krakenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#4338ca;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    <!-- Mechanical gradient - dark metallic tones -->
+    <linearGradient id="metalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d3748;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#4a5568;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a202c;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Red accent for aggressive look -->
+    <linearGradient id="redAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#991b1b;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Dark steel -->
+    <linearGradient id="steelGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#374151;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1f2937;stop-opacity:1" />
     </linearGradient>
   </defs>
   
-  <!-- Kraken body -->
-  <circle cx="50" cy="45" r="20" fill="url(#krakenGradient)"/>
+  <!-- Main mechanical body - hexagonal shape -->
+  <polygon points="50,25 65,35 65,55 50,65 35,55 35,35" fill="url(#metalGradient)" stroke="#1a202c" stroke-width="2"/>
   
-  <!-- Eyes -->
-  <circle cx="44" cy="40" r="3" fill="white"/>
-  <circle cx="56" cy="40" r="3" fill="white"/>
-  <circle cx="44" cy="40" r="1.5" fill="#1e293b"/>
-  <circle cx="56" cy="40" r="1.5" fill="#1e293b"/>
+  <!-- Central core -->
+  <polygon points="50,32 58,38 58,52 50,58 42,52 42,38" fill="url(#steelGradient)" stroke="#374151" stroke-width="1"/>
   
-  <!-- Tentacles -->
-  <path d="M35 55 Q30 65 25 75 Q20 80 15 85" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M40 60 Q35 70 30 80 Q25 85 20 90" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M60 60 Q65 70 70 80 Q75 85 80 90" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M65 55 Q70 65 75 75 Q80 80 85 85" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Mechanical eyes - angular -->
+  <polygon points="45,40 48,37 48,43 45,46" fill="url(#redAccent)"/>
+  <polygon points="55,40 52,37 52,43 55,46" fill="url(#redAccent)"/>
   
-  <!-- Additional tentacles for depth -->
-  <path d="M45 65 Q40 75 35 85 Q30 90 25 95" stroke="url(#krakenGradient)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
-  <path d="M55 65 Q60 75 65 85 Q70 90 75 95" stroke="url(#krakenGradient)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <!-- Eye glow effect -->
+  <polygon points="45,40 48,37 48,43 45,46" fill="#dc2626" opacity="0.6"/>
+  <polygon points="55,40 52,37 52,43 55,46" fill="#dc2626" opacity="0.6"/>
   
-  <!-- Mouth -->
-  <ellipse cx="50" cy="48" rx="4" ry="2" fill="#1e293b" opacity="0.7"/>
+  <!-- Mechanical tentacles - angular and segmented -->
+  <!-- Left side tentacles -->
+  <g stroke="url(#metalGradient)" stroke-width="6" fill="none" stroke-linecap="square">
+    <path d="M35 55 L28 62 L25 70 L22 78 L18 85"/>
+    <path d="M38 60 L32 67 L28 75 L24 83 L20 90"/>
+  </g>
+  
+  <!-- Right side tentacles -->
+  <g stroke="url(#metalGradient)" stroke-width="6" fill="none" stroke-linecap="square">
+    <path d="M65 55 L72 62 L75 70 L78 78 L82 85"/>
+    <path d="M62 60 L68 67 L72 75 L76 83 L80 90"/>
+  </g>
+  
+  <!-- Bottom tentacles -->
+  <g stroke="url(#metalGradient)" stroke-width="6" fill="none" stroke-linecap="square">
+    <path d="M45 65 L42 72 L38 80 L34 87 L30 95"/>
+    <path d="M55 65 L58 72 L62 80 L66 87 L70 95"/>
+  </g>
+  
+  <!-- Mechanical joints on tentacles -->
+  <g fill="url(#steelGradient)" stroke="#1a202c" stroke-width="1">
+    <circle cx="28" cy="62" r="2"/>
+    <circle cx="25" cy="70" r="2"/>
+    <circle cx="22" cy="78" r="2"/>
+    
+    <circle cx="32" cy="67" r="2"/>
+    <circle cx="28" cy="75" r="2"/>
+    <circle cx="24" cy="83" r="2"/>
+    
+    <circle cx="72" cy="62" r="2"/>
+    <circle cx="75" cy="70" r="2"/>
+    <circle cx="78" cy="78" r="2"/>
+    
+    <circle cx="68" cy="67" r="2"/>
+    <circle cx="72" cy="75" r="2"/>
+    <circle cx="76" cy="83" r="2"/>
+    
+    <circle cx="42" cy="72" r="2"/>
+    <circle cx="38" cy="80" r="2"/>
+    <circle cx="34" cy="87" r="2"/>
+    
+    <circle cx="58" cy="72" r="2"/>
+    <circle cx="62" cy="80" r="2"/>
+    <circle cx="66" cy="87" r="2"/>
+  </g>
+  
+  <!-- Mechanical details on main body -->
+  <g stroke="#1a202c" stroke-width="1" fill="none">
+    <!-- Panel lines -->
+    <line x1="42" y1="35" x2="58" y2="35"/>
+    <line x1="42" y1="45" x2="58" y2="45"/>
+    <line x1="42" y1="55" x2="58" y2="55"/>
+    
+    <!-- Vertical dividers -->
+    <line x1="47" y1="32" x2="47" y2="58"/>
+    <line x1="53" y1="32" x2="53" y2="58"/>
+  </g>
+  
+  <!-- Aggressive mouth - jagged -->
+  <polygon points="50,48 45,50 50,52 55,50" fill="#1a202c"/>
+  <polygon points="47,50 53,50 52,51 48,51" fill="#991b1b"/>
 </svg>

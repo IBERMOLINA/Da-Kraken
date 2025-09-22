@@ -29,11 +29,15 @@ class NotesTool {
   constructor() {
     this.notes = DK.getFromStorage('notes', '');
     this.autosaveTimer = null;
+    this.lastSaved = this.notes;
+    this.saveInProgress = false;
+    this.saveQueue = [];
   }
 
   init() {
     this.setupEventListeners();
     this.loadNotes();
+    this.startPeriodicSave();
   }
 
   setupEventListeners() {
@@ -45,10 +49,22 @@ class NotesTool {
       // Load saved notes
       textarea.value = this.notes;
 
-      // Autosave on input with debouncing
+      // Enhanced autosave with multiple triggers
       DK.addEvent(textarea, 'input', DK.debounce(() => {
-        this.autosave(textarea.value);
-      }, 1000));
+        this.queueSave(textarea.value);
+      }, 500)); // Faster response
+
+      // Save on focus loss
+      DK.addEvent(textarea, 'blur', () => {
+        this.queueSave(textarea.value, true); // Force immediate save
+      });
+
+      // Save on page visibility change
+      DK.addEvent(document, 'visibilitychange', () => {
+        if (document.hidden) {
+          this.queueSave(textarea.value, true);
+        }
+      });
 
       // Handle tab key for better UX
       DK.addEvent(textarea, 'keydown', (e) => {
@@ -58,6 +74,16 @@ class NotesTool {
           const end = textarea.selectionEnd;
           textarea.value = textarea.value.substring(0, start) + '\t' + textarea.value.substring(end);
           textarea.selectionStart = textarea.selectionEnd = start + 1;
+          // Trigger autosave after tab insertion
+          this.queueSave(textarea.value);
+        }
+      });
+
+      // Save on Ctrl+S
+      DK.addEvent(textarea, 'keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+          e.preventDefault();
+          this.queueSave(textarea.value, true);
         }
       });
     }
@@ -68,6 +94,62 @@ class NotesTool {
 
     if (clearBtn) {
       DK.addEvent(clearBtn, 'click', () => this.clearNotes());
+    }
+
+    // Save before page unload
+    DK.addEvent(window, 'beforeunload', () => {
+      const textarea = DK.$('#notes');
+      if (textarea && textarea.value !== this.lastSaved) {
+        this.autosave(textarea.value);
+      }
+    });
+  }
+
+  startPeriodicSave() {
+    // Periodic save every 30 seconds if there are changes
+    setInterval(() => {
+      const textarea = DK.$('#notes');
+      if (textarea && textarea.value !== this.lastSaved) {
+        this.queueSave(textarea.value);
+      }
+    }, 30000);
+  }
+
+  queueSave(content, immediate = false) {
+    if (content === this.lastSaved) {
+      return; // No changes to save
+    }
+
+    this.saveQueue.push({ content, timestamp: Date.now() });
+
+    if (immediate || !this.saveInProgress) {
+      this.processSaveQueue();
+    }
+  }
+
+  async processSaveQueue() {
+    if (this.saveInProgress || this.saveQueue.length === 0) {
+      return;
+    }
+
+    this.saveInProgress = true;
+    
+    try {
+      // Get the most recent save request
+      const latestSave = this.saveQueue[this.saveQueue.length - 1];
+      this.saveQueue = []; // Clear the queue
+
+      await this.autosave(latestSave.content);
+      
+    } catch (error) {
+      console.warn('Auto-save failed:', error);
+    } finally {
+      this.saveInProgress = false;
+      
+      // Process any new saves that came in while we were saving
+      if (this.saveQueue.length > 0) {
+        setTimeout(() => this.processSaveQueue(), 100);
+      }
     }
   }
 
@@ -87,9 +169,65 @@ class NotesTool {
     }
   }
 
-  autosave(content) {
-    this.notes = content;
-    DK.setToStorage('notes', this.notes);
+  async autosave(content) {
+    try {
+      // Validate content
+      if (typeof content !== 'string') {
+        throw new Error('Invalid content type for autosave');
+      }
+
+      // Only save if content has actually changed
+      if (content === this.lastSaved) {
+        return true;
+      }
+
+      // Attempt to save
+      const saveSuccess = DK.setToStorage('notes', content);
+      
+      if (saveSuccess) {
+        this.notes = content;
+        this.lastSaved = content;
+        console.log('Auto-saved notes successfully');
+        
+        // Update UI to show save status
+        this.showAutosaveStatus('saved');
+        return true;
+      } else {
+        throw new Error('Failed to save to localStorage');
+      }
+    } catch (error) {
+      console.error('Autosave failed:', error);
+      this.showAutosaveStatus('error');
+      return false;
+    }
+  }
+
+  showAutosaveStatus(status) {
+    const saveBtn = DK.$('#save-notes');
+    if (!saveBtn) return;
+
+    // Remove any existing status classes
+    saveBtn.classList.remove('autosave-success', 'autosave-error');
+    
+    if (status === 'saved') {
+      saveBtn.classList.add('autosave-success');
+      const originalText = saveBtn.textContent;
+      saveBtn.textContent = 'Auto-saved';
+      
+      setTimeout(() => {
+        saveBtn.textContent = originalText;
+        saveBtn.classList.remove('autosave-success');
+      }, 2000);
+    } else if (status === 'error') {
+      saveBtn.classList.add('autosave-error');
+      const originalText = saveBtn.textContent;
+      saveBtn.textContent = 'Save Error';
+      
+      setTimeout(() => {
+        saveBtn.textContent = originalText;
+        saveBtn.classList.remove('autosave-error');
+      }, 3000);
+    }
   }
 
   clearNotes() {
@@ -185,24 +323,68 @@ class ColorPaletteTool {
 
   async copyColor(color, element) {
     const hexColor = DK.hslToHex(color);
+    let success = false;
+    let method = '';
     
     try {
-      await navigator.clipboard.writeText(hexColor);
-      this.showCopyFeedback(element, 'Copied!');
+      // First try the modern clipboard API
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(hexColor);
+        success = true;
+        method = 'modern';
+      } else {
+        throw new Error('Clipboard API not available');
+      }
     } catch (error) {
-      // Fallback for browsers that don't support clipboard API
-      this.fallbackCopyColor(hexColor);
+      // Fallback for browsers that don't support clipboard API or insecure contexts
+      try {
+        success = this.fallbackCopyColor(hexColor);
+        method = 'fallback';
+      } catch (fallbackError) {
+        console.warn('Clipboard copy failed:', fallbackError);
+        success = false;
+      }
+    }
+    
+    if (success) {
       this.showCopyFeedback(element, 'Copied!');
+      console.log(`Color ${hexColor} copied using ${method} method`);
+    } else {
+      this.showCopyFeedback(element, 'Copy failed - try selecting manually');
     }
   }
 
   fallbackCopyColor(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
+    try {
+      // Create a temporary textarea element
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      textarea.style.top = '-9999px';
+      textarea.setAttribute('readonly', '');
+      
+      document.body.appendChild(textarea);
+      
+      // Select the text
+      textarea.select();
+      textarea.setSelectionRange(0, 99999); // For mobile devices
+      
+      // Try to copy
+      const successful = document.execCommand('copy');
+      
+      // Clean up
+      document.body.removeChild(textarea);
+      
+      if (!successful) {
+        throw new Error('execCommand copy failed');
+      }
+      
+      return true;
+    } catch (error) {
+      console.warn('Fallback copy method failed:', error);
+      return false;
+    }
   }
 
   showCopyFeedback(element, message) {
@@ -364,7 +546,7 @@ class PomodoroTimer {
     
     // Show notification if supported
     DK.showNotification('Pomodoro Complete!', {
-      body: 'Time for a break! 🍅',
+      body: 'System recommends: Break time! ⚙️',
       tag: 'pomodoro-complete'
     });
 
