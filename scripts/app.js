@@ -113,8 +113,8 @@ class DaKrakenApp {
     // Set initial section
     this.navigateToSection('dashboard');
 
-    console.log('🐙 Da-Kraken App initialized successfully!');
-    console.log('Features: Notes, Color Palette, Pomodoro Timer, Theme Management');
+    console.log('⚙️ Da-Kraken Systems Online!');
+    console.log('Modules: Notes, Color Palette, Pomodoro Timer, Theme Management');
     console.log('No external dependencies • Fully offline • Privacy-focused');
   }
 
@@ -402,7 +402,7 @@ class DaKrakenApp {
     }
 
     // Clean up other intervals and event listeners if needed
-    console.log('🐙 Da-Kraken App cleaned up');
+    console.log('⚙️ Da-Kraken Systems Shutdown Complete');
   }
 }
 
@@ -446,7 +446,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
 // Global error handler
 window.addEventListener('error', (e) => {
-  console.error('🐙 Da-Kraken App Error:', e.error);
+  console.error('⚙️ Da-Kraken System Error:', e.error);
   
   // Could implement user-friendly error reporting here
   // For now, just log it to console
@@ -454,5 +454,5 @@ window.addEventListener('error', (e) => {
 
 // Unhandled promise rejection handler
 window.addEventListener('unhandledrejection', (e) => {
-  console.error('🐙 Da-Kraken App Promise Rejection:', e.reason);
+  console.error('⚙️ Da-Kraken System Promise Rejection:', e.reason);
 });

@@ -1,4 +1,4 @@
-# 🐙 Da-Kraken - Modern Local App
+# ⚙️ Da-Kraken - Modern Local App
 
 **BUILD-DEPLOY-ENJOY** - A cost-effective local application with modern UI design and engaging user experience.
 
@@ -18,23 +18,27 @@
 ## 🚀 Quick Start
 
 1. **Clone or download this repository**
-2. **Open `index.html` in your web browser**
-3. **Start using the app immediately - no installation required!**
+2. **Open `index.html` directly in your web browser**
+3. **Start using the app immediately - no installation or server required!**
 
-### Alternative: Serve with a local web server
+### 🔥 Zero Dependencies Setup
+- **No server needed** - Works directly from your file system
+- **No installation required** - Just open and use
+- **Completely offline** - No internet connection needed after download
+- **Cross-platform** - Works on any device with a modern browser
+
+### Optional: Local Web Server (for development only)
+If you're developing or need to test PWA features:
 
 ```bash
-# Using Python 3
+# Using Python 3 (optional)
 python -m http.server 8000
 
-# Using Node.js (with http-server package)
+# Using Node.js (optional)
 npx http-server
-
-# Using PHP
-php -S localhost:8000
 ```
 
-Then open `http://localhost:8000` in your browser.
+**Note:** The local server is only needed for PWA installation testing. The app works perfectly without any server.
 
 ## 🛠️ Tools & Utilities
 
@@ -190,4 +194,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-**Da-Kraken** - Where modern design meets local functionality! 🐙✨
+**Da-Kraken** - Where mechanical precision meets local functionality! ⚙️✨
