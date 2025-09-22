@@ -90,6 +90,44 @@ class DaKrakenApp {
       });
     }
 
+    // Autocommit toggle
+    const autocommitToggle = DK.$('#autocommit-toggle');
+    if (autocommitToggle && window.autoCommitManager) {
+      autocommitToggle.checked = DK.getFromStorage('autocommit-enabled', true);
+      
+      DK.addEvent(autocommitToggle, 'change', (e) => {
+        const enabled = e.target.checked;
+        window.autoCommitManager.toggle(enabled);
+      });
+    }
+
+    // Force commit button
+    const forceCommitBtn = DK.$('#force-commit');
+    if (forceCommitBtn && window.autoCommitManager) {
+      DK.addEvent(forceCommitBtn, 'click', () => {
+        window.autoCommitManager.forceCommit();
+        this.showNotification('Changes committed successfully!');
+      });
+    }
+
+    // View commits button
+    const viewCommitsBtn = DK.$('#view-commits');
+    if (viewCommitsBtn && window.autoCommitManager) {
+      DK.addEvent(viewCommitsBtn, 'click', () => {
+        const history = window.autoCommitManager.getHistory();
+        const count = history.length;
+        const recent = history.slice(-5).reverse();
+        
+        let message = `Total commits: ${count}\n\nRecent commits:\n`;
+        recent.forEach(commit => {
+          const date = new Date(commit.timestamp).toLocaleString();
+          message += `\n${date} - ${commit.changes.length} changes`;
+        });
+        
+        alert(message);
+      });
+    }
+
     // Clear data button
     const clearDataBtn = DK.$('#clear-data');
     if (clearDataBtn) {
@@ -331,6 +369,46 @@ class DaKrakenApp {
     }
   }
 
+  showNotification(message, type = 'success') {
+    const notification = DK.createElement('div', {
+      className: `notification notification-${type}`,
+      style: `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#10b981' : '#ef4444'};
+        color: white;
+        padding: 12px 20px;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        z-index: 10000;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease-out;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      `
+    }, message);
+
+    document.body.appendChild(notification);
+
+    // Animate in
+    requestAnimationFrame(() => {
+      notification.style.opacity = '1';
+      notification.style.transform = 'translateY(0)';
+    });
+
+    // Remove after delay
+    setTimeout(() => {
+      notification.style.opacity = '0';
+      notification.style.transform = 'translateY(-10px)';
+      setTimeout(() => {
+        if (notification.parentNode) {
+          document.body.removeChild(notification);
+        }
+      }, 300);
+    }, 3000);
+  }
+
   handleResize() {
     // Handle responsive behavior if needed
     const isMobile = DK.isMobile();
@@ -439,10 +517,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Export for module usage if needed
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = DaKrakenApp;
-}
+// No module exports - this is a standalone local app
 
 // Global error handler
 window.addEventListener('error', (e) => {

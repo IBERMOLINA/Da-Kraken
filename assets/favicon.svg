@@ -1,30 +1,118 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
-    <linearGradient id="krakenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#4338ca;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    <!-- Dark metallic gradient for mechanical look -->
+    <linearGradient id="metalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d3436;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#636e72;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2d3436;stop-opacity:1" />
     </linearGradient>
+    
+    <!-- Chrome/steel gradient for highlights -->
+    <linearGradient id="chromeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#74b9ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#a29bfe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#74b9ff;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Dark red gradient for aggressive eyes -->
+    <radialGradient id="eyeGlow">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#ee5a24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c44569;stop-opacity:0.8" />
+    </radialGradient>
+    
+    <!-- Circuit pattern -->
+    <pattern id="circuits" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="none"/>
+      <path d="M0,10 L5,10 M15,10 L20,10 M10,0 L10,5 M10,15 L10,20" stroke="#74b9ff" stroke-width="0.5" opacity="0.3"/>
+      <circle cx="10" cy="10" r="1" fill="#74b9ff" opacity="0.5"/>
+    </pattern>
   </defs>
   
-  <!-- Kraken body -->
-  <circle cx="50" cy="45" r="20" fill="url(#krakenGradient)"/>
+  <!-- Mechanical Kraken body - angular and aggressive -->
+  <g id="krakenBody">
+    <!-- Main body - hexagonal/angular shape -->
+    <path d="M50,25 L65,35 L65,55 L50,65 L35,55 L35,35 Z" fill="url(#metalGradient)" stroke="#2d3436" stroke-width="1"/>
+    
+    <!-- Body panels with circuit pattern overlay -->
+    <path d="M50,25 L65,35 L65,55 L50,65 L35,55 L35,35 Z" fill="url(#circuits)" opacity="0.5"/>
+    
+    <!-- Central core -->
+    <circle cx="50" cy="45" r="12" fill="#2d3436" stroke="url(#chromeGradient)" stroke-width="1.5"/>
+    
+    <!-- Inner mechanical details -->
+    <path d="M50,33 L56,39 L56,51 L50,57 L44,51 L44,39 Z" fill="none" stroke="#74b9ff" stroke-width="0.5" opacity="0.7"/>
+  </g>
   
-  <!-- Eyes -->
-  <circle cx="44" cy="40" r="3" fill="white"/>
-  <circle cx="56" cy="40" r="3" fill="white"/>
-  <circle cx="44" cy="40" r="1.5" fill="#1e293b"/>
-  <circle cx="56" cy="40" r="1.5" fill="#1e293b"/>
+  <!-- Aggressive glowing eyes -->
+  <g id="eyes">
+    <!-- Left eye -->
+    <polygon points="42,38 46,36 46,40 42,42" fill="url(#eyeGlow)"/>
+    <rect x="43" y="37" width="2" height="4" fill="#ff6b6b"/>
+    
+    <!-- Right eye -->
+    <polygon points="58,38 54,36 54,40 58,42" fill="url(#eyeGlow)"/>
+    <rect x="55" y="37" width="2" height="4" fill="#ff6b6b"/>
+    
+    <!-- Eye glow effect -->
+    <ellipse cx="44" cy="39" rx="4" ry="2" fill="#ff6b6b" opacity="0.3"/>
+    <ellipse cx="56" cy="39" rx="4" ry="2" fill="#ff6b6b" opacity="0.3"/>
+  </g>
   
-  <!-- Tentacles -->
-  <path d="M35 55 Q30 65 25 75 Q20 80 15 85" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M40 60 Q35 70 30 80 Q25 85 20 90" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M60 60 Q65 70 70 80 Q75 85 80 90" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <path d="M65 55 Q70 65 75 75 Q80 80 85 85" stroke="url(#krakenGradient)" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Mechanical tentacles - sharp and angular -->
+  <g id="tentacles">
+    <!-- Primary tentacles - mechanical arms -->
+    <path d="M35,55 L28,60 L22,68 L18,76 L16,85" stroke="url(#metalGradient)" stroke-width="3" fill="none" stroke-linecap="square"/>
+    <path d="M35,55 L30,62 L26,70 L24,79 L23,88" stroke="#636e72" stroke-width="2" fill="none" stroke-linecap="square" opacity="0.8"/>
+    
+    <path d="M65,55 L72,60 L78,68 L82,76 L84,85" stroke="url(#metalGradient)" stroke-width="3" fill="none" stroke-linecap="square"/>
+    <path d="M65,55 L70,62 L74,70 L76,79 L77,88" stroke="#636e72" stroke-width="2" fill="none" stroke-linecap="square" opacity="0.8"/>
+    
+    <!-- Secondary tentacles - more mechanical arms -->
+    <path d="M42,60 L38,66 L34,73 L31,81 L29,90" stroke="url(#metalGradient)" stroke-width="2.5" fill="none" stroke-linecap="square"/>
+    <path d="M58,60 L62,66 L66,73 L69,81 L71,90" stroke="url(#metalGradient)" stroke-width="2.5" fill="none" stroke-linecap="square"/>
+    
+    <!-- Mechanical joints on tentacles -->
+    <circle cx="28" cy="60" r="2" fill="url(#chromeGradient)"/>
+    <circle cx="22" cy="68" r="1.5" fill="url(#chromeGradient)"/>
+    <circle cx="72" cy="60" r="2" fill="url(#chromeGradient)"/>
+    <circle cx="78" cy="68" r="1.5" fill="url(#chromeGradient)"/>
+    
+    <!-- Hydraulic/piston details -->
+    <rect x="36" y="56" width="2" height="8" fill="#74b9ff" opacity="0.6"/>
+    <rect x="62" y="56" width="2" height="8" fill="#74b9ff" opacity="0.6"/>
+  </g>
   
-  <!-- Additional tentacles for depth -->
-  <path d="M45 65 Q40 75 35 85 Q30 90 25 95" stroke="url(#krakenGradient)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
-  <path d="M55 65 Q60 75 65 85 Q70 90 75 95" stroke="url(#krakenGradient)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <!-- Mechanical details and rivets -->
+  <g id="details">
+    <!-- Corner rivets -->
+    <circle cx="35" cy="35" r="1" fill="url(#chromeGradient)"/>
+    <circle cx="65" cy="35" r="1" fill="url(#chromeGradient)"/>
+    <circle cx="35" cy="55" r="1" fill="url(#chromeGradient)"/>
+    <circle cx="65" cy="55" r="1" fill="url(#chromeGradient)"/>
+    
+    <!-- Top spike/horn for aggression -->
+    <path d="M50,25 L47,20 L50,18 L53,20 Z" fill="url(#metalGradient)" stroke="#2d3436" stroke-width="0.5"/>
+    
+    <!-- Ventilation grilles -->
+    <rect x="48" y="50" width="4" height="1" fill="#74b9ff" opacity="0.5"/>
+    <rect x="48" y="52" width="4" height="1" fill="#74b9ff" opacity="0.5"/>
+    <rect x="48" y="54" width="4" height="1" fill="#74b9ff" opacity="0.5"/>
+  </g>
   
-  <!-- Mouth -->
-  <ellipse cx="50" cy="48" rx="4" ry="2" fill="#1e293b" opacity="0.7"/>
+  <!-- Cyberpunk circuit lines -->
+  <g id="circuitLines" opacity="0.6">
+    <path d="M50,65 L50,70 L45,75 L45,80" stroke="#74b9ff" stroke-width="0.5" fill="none"/>
+    <path d="M50,65 L50,70 L55,75 L55,80" stroke="#74b9ff" stroke-width="0.5" fill="none"/>
+    <circle cx="50" cy="70" r="1" fill="#74b9ff"/>
+    <circle cx="45" cy="80" r="0.5" fill="#74b9ff"/>
+    <circle cx="55" cy="80" r="0.5" fill="#74b9ff"/>
+  </g>
+  
+  <!-- Battle damage/wear for aggressive look -->
+  <g id="damage" opacity="0.3">
+    <path d="M38,38 L40,40" stroke="#2d3436" stroke-width="0.5"/>
+    <path d="M62,52 L60,54" stroke="#2d3436" stroke-width="0.5"/>
+    <path d="M55,30 L57,32" stroke="#2d3436" stroke-width="0.5"/>
+  </g>
 </svg>

@@ -183,7 +183,4 @@ document.addEventListener('DOMContentLoaded', () => {
   window.themeManager = new ThemeManager();
 });
 
-// Export for module usage if needed
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = ThemeManager;
-}
+// No module exports - this is a standalone local app
