@@ -24,17 +24,17 @@
 ### Alternative: Serve with a local web server
 
 ```bash
-# Using Python 3
-python -m http.server 8000
+# Using Python 3 (serves on a random available port by default)
+python -m http.server
 
-# Using Node.js (with http-server package)
-npx http-server
+# Using Node.js (with http-server package; auto-select port)
+npx http-server --port 0
 
-# Using PHP
-php -S localhost:8000
+# Using PHP (bind to any open port)
+php -S 127.0.0.1:0
 ```
 
-Then open `http://localhost:8000` in your browser.
+Then open the printed URL in your browser (port will vary).
 
 ## 🛠️ Tools & Utilities
 
