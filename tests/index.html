@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Da-Kraken Test Runner</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+        }
+        
+        .test-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .test-output {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        .test-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .result-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #007bff;
+        }
+        
+        .result-card.success {
+            border-left-color: #28a745;
+        }
+        
+        .result-card.failure {
+            border-left-color: #dc3545;
+        }
+        
+        .result-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .result-stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #666;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #28a745;
+            transition: width 0.3s ease;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Console styling */
+        .console-output {
+            white-space: pre-wrap;
+            color: #333;
+        }
+        
+        .console-output .error {
+            color: #dc3545;
+        }
+        
+        .console-output .success {
+            color: #28a745;
+        }
+        
+        .console-output .info {
+            color: #17a2b8;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🐙 Da-Kraken Test Runner</h1>
+        <p>Comprehensive testing suite for the Da-Kraken application</p>
+    </div>
+
+    <div class="test-controls">
+        <button class="btn btn-primary" id="run-all-tests">
+            <span id="run-all-icon">🚀</span> Run All Tests
+        </button>
+        <button class="btn btn-success" id="run-utils-tests">🔧 Utils Tests</button>
+        <button class="btn btn-success" id="run-app-tests">📱 App Tests</button>
+        <button class="btn btn-success" id="run-tools-tests">🛠️ Tools Tests</button>
+        <button class="btn btn-secondary" id="clear-output">🗑️ Clear Output</button>
+        <button class="btn btn-danger" id="reset-storage">💾 Reset Storage</button>
+    </div>
+
+    <div class="test-output">
+        <div id="console-output" class="console-output">
+            🐙 Welcome to Da-Kraken Test Runner!
+            Click "Run All Tests" to start testing the application.
+            
+            Individual test suites can be run using the specific buttons above.
+        </div>
+    </div>
+
+    <div id="test-results" class="test-results hidden">
+        <!-- Test results will be populated here -->
+    </div>
+
+    <!-- Load Da-Kraken application files -->
+    <script src="../scripts/utils.js"></script>
+    <script src="../scripts/theme.js"></script>
+    <script src="../scripts/tools.js"></script>
+    <script src="../scripts/app.js"></script>
+
+    <!-- Load test framework and tests -->
+    <script src="test-framework.js"></script>
+    <script src="utils.test.js"></script>
+    <script src="app.test.js"></script>
+    <script src="tools.test.js"></script>
+
+    <script>
+        // Test runner implementation
+        class DaKrakenTestRunner {
+            constructor() {
+                this.consoleOutput = document.getElementById('console-output');
+                this.testResults = document.getElementById('test-results');
+                this.runAllBtn = document.getElementById('run-all-tests');
+                this.runAllIcon = document.getElementById('run-all-icon');
+                
+                this.setupEventListeners();
+                this.hijackConsole();
+            }
+
+            setupEventListeners() {
+                document.getElementById('run-all-tests').addEventListener('click', () => {
+                    this.runAllTests();
+                });
+                
+                document.getElementById('run-utils-tests').addEventListener('click', () => {
+                    this.runSpecificTests('utils');
+                });
+                
+                document.getElementById('run-app-tests').addEventListener('click', () => {
+                    this.runSpecificTests('app');
+                });
+                
+                document.getElementById('run-tools-tests').addEventListener('click', () => {
+                    this.runSpecificTests('tools');
+                });
+                
+                document.getElementById('clear-output').addEventListener('click', () => {
+                    this.clearOutput();
+                });
+                
+                document.getElementById('reset-storage').addEventListener('click', () => {
+                    this.resetStorage();
+                });
+            }
+
+            hijackConsole() {
+                // Capture console output and display it in the UI
+                const originalLog = console.log;
+                const originalError = console.error;
+                const originalWarn = console.warn;
+
+                console.log = (...args) => {
+                    this.appendToOutput(args.join(' '), 'info');
+                    originalLog.apply(console, args);
+                };
+
+                console.error = (...args) => {
+                    this.appendToOutput(args.join(' '), 'error');
+                    originalError.apply(console, args);
+                };
+
+                console.warn = (...args) => {
+                    this.appendToOutput(args.join(' '), 'warning');
+                    originalWarn.apply(console, args);
+                };
+            }
+
+            appendToOutput(message, type = 'info') {
+                const timestamp = new Date().toLocaleTimeString();
+                const line = `[${timestamp}] ${message}\n`;
+                
+                const span = document.createElement('span');
+                span.className = type;
+                span.textContent = line;
+                
+                this.consoleOutput.appendChild(span);
+                this.consoleOutput.scrollTop = this.consoleOutput.scrollHeight;
+            }
+
+            clearOutput() {
+                this.consoleOutput.innerHTML = '';
+                this.testResults.innerHTML = '';
+                this.testResults.classList.add('hidden');
+            }
+
+            resetStorage() {
+                if (typeof DaKrakenUtils !== 'undefined') {
+                    DaKrakenUtils.clearAllStorage();
+                    this.appendToOutput('🗑️ Local storage cleared', 'info');
+                } else {
+                    this.appendToOutput('❌ DaKrakenUtils not available', 'error');
+                }
+            }
+
+            setLoading(isLoading) {
+                if (isLoading) {
+                    this.runAllIcon.className = 'loading';
+                    this.runAllBtn.disabled = true;
+                } else {
+                    this.runAllIcon.textContent = '🚀';
+                    this.runAllBtn.disabled = false;
+                }
+            }
+
+            async runAllTests() {
+                this.setLoading(true);
+                this.clearOutput();
+                
+                const results = [];
+                
+                // Run each test suite
+                if (window.daKrakenUtilsTests) {
+                    this.appendToOutput('Running Utils Tests...', 'info');
+                    const result = await window.daKrakenUtilsTests.runTests();
+                    results.push({ name: 'Utils Tests', ...result });
+                    window.daKrakenUtilsTests.reset();
+                }
+
+                if (window.daKrakenAppTests) {
+                    this.appendToOutput('Running App Tests...', 'info');
+                    const result = await window.daKrakenAppTests.runTests();
+                    results.push({ name: 'App Tests', ...result });
+                    window.daKrakenAppTests.reset();
+                }
+
+                if (window.daKrakenToolsTests) {
+                    this.appendToOutput('Running Tools Tests...', 'info');
+                    const result = await window.daKrakenToolsTests.runTests();
+                    results.push({ name: 'Tools Tests', ...result });
+                    window.daKrakenToolsTests.reset();
+                }
+
+                this.displayResults(results);
+                this.setLoading(false);
+            }
+
+            async runSpecificTests(type) {
+                this.clearOutput();
+                
+                let testFramework;
+                let name;
+                
+                switch (type) {
+                    case 'utils':
+                        testFramework = window.daKrakenUtilsTests;
+                        name = 'Utils Tests';
+                        break;
+                    case 'app':
+                        testFramework = window.daKrakenAppTests;
+                        name = 'App Tests';
+                        break;
+                    case 'tools':
+                        testFramework = window.daKrakenToolsTests;
+                        name = 'Tools Tests';
+                        break;
+                    default:
+                        this.appendToOutput('❌ Unknown test type', 'error');
+                        return;
+                }
+
+                if (testFramework) {
+                    this.appendToOutput(`Running ${name}...`, 'info');
+                    const result = await testFramework.runTests();
+                    this.displayResults([{ name, ...result }]);
+                    testFramework.reset();
+                } else {
+                    this.appendToOutput(`❌ ${name} not available`, 'error');
+                }
+            }
+
+            displayResults(results) {
+                this.testResults.innerHTML = '';
+                this.testResults.classList.remove('hidden');
+
+                results.forEach(result => {
+                    const card = this.createResultCard(result);
+                    this.testResults.appendChild(card);
+                });
+
+                // Add overall summary if multiple test suites
+                if (results.length > 1) {
+                    const totalPassed = results.reduce((sum, r) => sum + r.passed, 0);
+                    const totalFailed = results.reduce((sum, r) => sum + r.failed, 0);
+                    const totalTests = results.reduce((sum, r) => sum + r.total, 0);
+                    
+                    const summaryCard = this.createResultCard({
+                        name: '📊 Overall Summary',
+                        passed: totalPassed,
+                        failed: totalFailed,
+                        total: totalTests
+                    });
+                    
+                    this.testResults.insertBefore(summaryCard, this.testResults.firstChild);
+                }
+            }
+
+            createResultCard(result) {
+                const card = document.createElement('div');
+                const successRate = result.total > 0 ? Math.round((result.passed / result.total) * 100) : 0;
+                const isSuccess = result.failed === 0 && result.total > 0;
+                
+                card.className = `result-card ${isSuccess ? 'success' : 'failure'}`;
+                
+                card.innerHTML = `
+                    <div class="result-title">${result.name}</div>
+                    <div class="result-stats">
+                        <div class="stat">
+                            <div class="stat-value" style="color: #28a745;">${result.passed}</div>
+                            <div class="stat-label">Passed</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value" style="color: #dc3545;">${result.failed}</div>
+                            <div class="stat-label">Failed</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">${result.total}</div>
+                            <div class="stat-label">Total</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">${successRate}%</div>
+                            <div class="stat-label">Success Rate</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${successRate}%"></div>
+                    </div>
+                `;
+                
+                return card;
+            }
+        }
+
+        // Initialize test runner when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            window.daKrakenTestRunner = new DaKrakenTestRunner();
+        });
+    </script>
+</body>
+</html>
