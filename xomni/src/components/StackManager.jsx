@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import ProductionLineManager from './ProductionLineManager';
 
 const StackContainer = styled.div`
   padding: 20px;
@@ -122,6 +123,7 @@ const CreateButton = styled(motion.button)`
 const StackManager = () => {
   const [selectedStack, setSelectedStack] = useState(null);
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [viewMode, setViewMode] = useState('production'); // 'production' or 'stacks'
 
   const predefinedStacks = [
     {
@@ -191,52 +193,122 @@ const StackManager = () => {
 
   return (
     <StackContainer>
-      <CreateStackSection>
-        <CreateButton
-          onClick={handleCreateStack}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          🆕 Create New Stack
-        </CreateButton>
-      </CreateStackSection>
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        marginBottom: '20px',
+        padding: '20px',
+        background: 'rgba(255,255,255,0.05)',
+        borderRadius: '12px'
+      }}>
+        <h2 style={{ margin: 0, color: 'inherit' }}>Manufacturing Center</h2>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <motion.button
+            onClick={() => setViewMode('production')}
+            style={{
+              background: viewMode === 'production' ? '#00ff88' : 'transparent',
+              color: viewMode === 'production' ? '#000' : '#fff',
+              border: '1px solid #00ff88',
+              padding: '8px 16px',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: 'bold'
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            🏭 Production Line
+          </motion.button>
+          <motion.button
+            onClick={() => setViewMode('stacks')}
+            style={{
+              background: viewMode === 'stacks' ? '#00ff88' : 'transparent',
+              color: viewMode === 'stacks' ? '#000' : '#fff',
+              border: '1px solid #00ff88',
+              padding: '8px 16px',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: 'bold'
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            📚 Stack Library
+          </motion.button>
+        </div>
+      </div>
 
-      <StackGrid>
-        <AnimatePresence>
-          {predefinedStacks.map((stack) => (
-            <StackCard
-              key={stack.id}
-              onClick={() => setSelectedStack(stack)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <StackIcon>{stack.icon}</StackIcon>
-              <StackName>{stack.name}</StackName>
-              <StackDescription>{stack.description}</StackDescription>
-              
-              <StackTags>
-                {stack.tags.map((tag, index) => (
-                  <Tag key={index}>{tag}</Tag>
+      <AnimatePresence mode="wait">
+        {viewMode === 'production' ? (
+          <motion.div
+            key="production"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ProductionLineManager stacks={predefinedStacks} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="stacks"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <CreateStackSection>
+              <CreateButton
+                onClick={handleCreateStack}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                🆕 Create New Stack
+              </CreateButton>
+            </CreateStackSection>
+
+            <StackGrid>
+              <AnimatePresence>
+                {predefinedStacks.map((stack) => (
+                  <StackCard
+                    key={stack.id}
+                    onClick={() => setSelectedStack(stack)}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <StackIcon>{stack.icon}</StackIcon>
+                    <StackName>{stack.name}</StackName>
+                    <StackDescription>{stack.description}</StackDescription>
+                    
+                    <StackTags>
+                      {stack.tags.map((tag, index) => (
+                        <Tag key={index}>{tag}</Tag>
+                      ))}
+                    </StackTags>
+                    
+                    <StackActions>
+                      <ActionButton onClick={(e) => { e.stopPropagation(); handleDeployStack(stack.id); }}>
+                        🚀 Deploy
+                      </ActionButton>
+                      <ActionButton onClick={(e) => { e.stopPropagation(); handleDownloadStack(stack.id); }}>
+                        💾 Download
+                      </ActionButton>
+                    </StackActions>
+                  </StackCard>
                 ))}
-              </StackTags>
-              
-              <StackActions>
-                <ActionButton onClick={(e) => { e.stopPropagation(); handleDeployStack(stack.id); }}>
-                  🚀 Deploy
-                </ActionButton>
-                <ActionButton onClick={(e) => { e.stopPropagation(); handleDownloadStack(stack.id); }}>
-                  💾 Download
-                </ActionButton>
-              </StackActions>
-            </StackCard>
-          ))}
-        </AnimatePresence>
-      </StackGrid>
+              </AnimatePresence>
+            </StackGrid>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Selected Stack Details Modal could go here */}
+      {/* Selected Stack Details Modal */}
       {selectedStack && (
         <motion.div
           style={{
