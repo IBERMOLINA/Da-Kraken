@@ -17,6 +17,25 @@ export const DarkTheme = {
     info: '#4ecdc4',
     shadow: 'rgba(0, 255, 136, 0.1)',
     glow: 'rgba(0, 255, 136, 0.3)',
+    // Mechanical theme colors
+    metal: '#8a8a8a',
+    metalDark: '#555555',
+    metalLight: '#aaaaaa',
+    copper: '#b87333',
+    brass: '#b5a642',
+    steel: '#71797e',
+    chrome: '#e5e4e2',
+    mechanical: {
+      primary: '#00ff88',
+      secondary: '#66d9ff',
+      accent: '#ffaa00',
+      warning: '#ff6b6b',
+      metal: '#8a8a8a',
+      darkMetal: '#444444',
+      lightMetal: '#cccccc',
+      glow: 'rgba(0, 255, 136, 0.4)',
+      spark: '#ffffff',
+    }
   },
   spacing: {
     xs: '4px',

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import MechanicalSymbol from './MechanicalSymbol';
 
 const DictionaryContainer = styled.div`
   padding: 20px;
@@ -82,82 +83,47 @@ const SymbolDictionary = () => {
   const [searchTerm, setSearchTerm] = useState('');
   
   const symbolCategories = {
+    mechanical: {
+      title: 'Mechanical & Industrial',
+      symbols: [
+        { icon: 'gear', name: 'Gear', category: 'mechanical', rotating: true },
+        { icon: 'cog', name: 'Cog', category: 'mechanical', rotating: true },
+        { icon: 'bolt', name: 'Bolt', category: 'mechanical' },
+        { icon: 'wrench', name: 'Wrench', category: 'mechanical' },
+        { icon: 'hammer', name: 'Hammer', category: 'mechanical' },
+        { icon: 'screwdriver', name: 'Screwdriver', category: 'mechanical' },
+        { icon: 'nut', name: 'Nut', category: 'mechanical' },
+        { icon: 'chain', name: 'Chain', category: 'mechanical' },
+      ]
+    },
     navigation: {
       title: 'Navigation',
       symbols: [
-        { icon: '🏠', name: 'Home', category: 'navigation' },
-        { icon: '🔙', name: 'Back', category: 'navigation' },
-        { icon: '🔜', name: 'Forward', category: 'navigation' },
-        { icon: '📁', name: 'Folder', category: 'navigation' },
-        { icon: '🔍', name: 'Search', category: 'navigation' },
-        { icon: '⚙️', name: 'Settings', category: 'navigation' },
-        { icon: '📊', name: 'Dashboard', category: 'navigation' },
-        { icon: '🗂️', name: 'Projects', category: 'navigation' },
+        { icon: 'folder', name: 'Folder', category: 'navigation' },
+        { icon: 'search', name: 'Search', category: 'navigation' },
+        { icon: 'gear', name: 'Settings', category: 'navigation', rotating: true },
+        { icon: 'folder', name: 'Projects', category: 'navigation' },
       ]
     },
     development: {
       title: 'Development',
       symbols: [
-        { icon: '⚡', name: 'Develop', category: 'development' },
-        { icon: '🧪', name: 'Test', category: 'development' },
-        { icon: '🔧', name: 'Optimize', category: 'development' },
-        { icon: '🚀', name: 'Deploy', category: 'development' },
-        { icon: '📝', name: 'Edit', category: 'development' },
-        { icon: '🐛', name: 'Debug', category: 'development' },
-        { icon: '📦', name: 'Package', category: 'development' },
-        { icon: '🔄', name: 'Build', category: 'development' },
+        { icon: 'bolt', name: 'Develop', category: 'development' },
+        { icon: 'cog', name: 'Test', category: 'development', rotating: true },
+        { icon: 'gear', name: 'Optimize', category: 'development', rotating: true },
+        { icon: 'rocket', name: 'Deploy', category: 'development' },
+        { icon: 'gear', name: 'Build', category: 'development', rotating: true },
       ]
     },
-    tools: {
-      title: 'Tools',
+    automation: {
+      title: 'Automation & AI',
       symbols: [
-        { icon: '🤖', name: 'AI Agent', category: 'tools' },
-        { icon: '🛠️', name: 'Framework', category: 'tools' },
-        { icon: '📚', name: 'Stacks', category: 'tools' },
-        { icon: '🎯', name: 'Templates', category: 'tools' },
-        { icon: '📈', name: 'Analytics', category: 'tools' },
-        { icon: '🔒', name: 'Security', category: 'tools' },
-        { icon: '⚡', name: 'Performance', category: 'tools' },
-        { icon: '🌐', name: 'Network', category: 'tools' },
-      ]
-    },
-    actions: {
-      title: 'Actions',
-      symbols: [
-        { icon: '▶️', name: 'Play', category: 'actions' },
-        { icon: '⏸️', name: 'Pause', category: 'actions' },
-        { icon: '⏹️', name: 'Stop', category: 'actions' },
-        { icon: '💾', name: 'Save', category: 'actions' },
-        { icon: '📤', name: 'Export', category: 'actions' },
-        { icon: '📥', name: 'Import', category: 'actions' },
-        { icon: '🔄', name: 'Refresh', category: 'actions' },
-        { icon: '🗑️', name: 'Delete', category: 'actions' },
-      ]
-    },
-    platforms: {
-      title: 'Platforms',
-      symbols: [
-        { icon: '🌐', name: 'Web', category: 'platforms' },
-        { icon: '📱', name: 'Mobile', category: 'platforms' },
-        { icon: '💻', name: 'Desktop', category: 'platforms' },
-        { icon: '🖥️', name: 'Server', category: 'platforms' },
-        { icon: '☁️', name: 'Cloud', category: 'platforms' },
-        { icon: '📱', name: 'iOS', category: 'platforms' },
-        { icon: '🤖', name: 'Android', category: 'platforms' },
-        { icon: '🐧', name: 'Linux', category: 'platforms' },
-      ]
-    },
-    wellness: {
-      title: 'Wellness',
-      symbols: [
-        { icon: '🧘', name: 'Meditate', category: 'wellness' },
-        { icon: '💪', name: 'Exercise', category: 'wellness' },
-        { icon: '📅', name: 'Habits', category: 'wellness' },
-        { icon: '🎯', name: 'Goals', category: 'wellness' },
-        { icon: '⏰', name: 'Time', category: 'wellness' },
-        { icon: '📈', name: 'Progress', category: 'wellness' },
-        { icon: '🧠', name: 'Focus', category: 'wellness' },
-        { icon: '⚖️', name: 'Balance', category: 'wellness' },
+        { icon: 'robot', name: 'AI Agent', category: 'automation' },
+        { icon: 'automation', name: 'Automation', category: 'automation', rotating: true },
+        { icon: 'factory', name: 'Factory', category: 'automation' },
+        { icon: 'circuit', name: 'Circuit', category: 'automation' },
+        { icon: 'battery', name: 'Power', category: 'automation' },
+        { icon: 'electric', name: 'Electric', category: 'automation' },
       ]
     }
   };
@@ -170,7 +136,12 @@ const SymbolDictionary = () => {
     );
 
   const copyToClipboard = (symbol) => {
-    navigator.clipboard.writeText(symbol.icon);
+    // For mechanical symbols, copy the symbol type instead of emoji
+    const symbolText = typeof symbol.icon === 'string' && symbol.icon.length === 1 
+      ? symbol.icon 
+      : symbol.name;
+    navigator.clipboard.writeText(symbolText);
+    console.log(`Copied ${symbol.name} to clipboard`);
     // Could add a toast notification here
   };
 
@@ -193,8 +164,15 @@ const SymbolDictionary = () => {
                 onClick={() => copyToClipboard(symbol)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                className="mechanical-element"
               >
-                <SymbolIcon>{symbol.icon}</SymbolIcon>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
+                  <MechanicalSymbol 
+                    type={symbol.icon} 
+                    size="48px" 
+                    rotating={symbol.rotating}
+                  />
+                </div>
                 <SymbolName>{symbol.name}</SymbolName>
                 <SymbolCategory>{symbol.category}</SymbolCategory>
               </SymbolCard>
@@ -212,8 +190,15 @@ const SymbolDictionary = () => {
                   onClick={() => copyToClipboard(symbol)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  className="mechanical-element"
                 >
-                  <SymbolIcon>{symbol.icon}</SymbolIcon>
+                  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
+                    <MechanicalSymbol 
+                      type={symbol.icon} 
+                      size="48px" 
+                      rotating={symbol.rotating}
+                    />
+                  </div>
                   <SymbolName>{symbol.name}</SymbolName>
                   <SymbolCategory>{symbol.category}</SymbolCategory>
                 </SymbolCard>
