@@ -1,6 +1,6 @@
 /* Da-Kraken - Modern CSS Variables and Global Styles */
 :root {
-  /* Colors - Light Theme */
+  /* Colors */
   --color-primary: #4338ca;
   --color-primary-dark: #3730a3;
   --color-secondary: #06b6d4;
@@ -9,18 +9,18 @@
   --color-warning: #f59e0b;
   --color-error: #ef4444;
   
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f8fafc;
-  --color-bg-tertiary: #e2e8f0;
-  --color-surface: #ffffff;
-  --color-surface-elevated: #ffffff;
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
+  --color-surface: #1e293b;
+  --color-surface-elevated: #334155;
   
-  --color-text-primary: #1e293b;
-  --color-text-secondary: #64748b;
+  --color-text-primary: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
   --color-text-muted: #94a3b8;
   
-  --color-border: #e2e8f0;
-  --color-border-hover: #cbd5e1;
+  --color-border: #334155;
+  --color-border-hover: #475569;
   
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -61,22 +61,6 @@
   --icon-shadow-color: rgba(0, 0, 0, 0.2);
   --icon-float-duration: 3s;
   --icon-float-offset: -8px;
-}
-
-/* Dark Theme */
-[data-theme="dark"] {
-  --color-bg-primary: #0f172a;
-  --color-bg-secondary: #1e293b;
-  --color-bg-tertiary: #334155;
-  --color-surface: #1e293b;
-  --color-surface-elevated: #334155;
-  
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #cbd5e1;
-  --color-text-muted: #94a3b8;
-  
-  --color-border: #334155;
-  --color-border-hover: #475569;
 }
 
 /* Reset and Base Styles */
@@ -539,6 +523,8 @@ body {
   font-size: 1rem;
   transition: all var(--transition-fast);
 }
+
+.tool-textarea {
   min-height: 120px;
   padding: var(--space-3);
   border: 1px solid var(--color-border);
