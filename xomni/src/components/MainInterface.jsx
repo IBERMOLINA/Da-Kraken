@@ -5,6 +5,7 @@ import CodeEditor from './CodeEditor';
 import ProjectExplorer from './ProjectExplorer';
 import Terminal from './Terminal';
 import ToolPalette from './ToolPalette';
+import MechanicalSymbol from './MechanicalSymbol';
 
 const InterfaceContainer = styled.div`
   display: flex;
@@ -50,6 +51,36 @@ const PanelHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 ${props => props.theme.spacing.md};
+  position: relative;
+  overflow: hidden;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent, 
+      ${props => props.theme.colors.primary}, 
+      transparent);
+    opacity: 0.5;
+  }
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent, 
+      ${props => props.theme.colors.mechanical.metal}, 
+      transparent);
+    opacity: 0.3;
+  }
 `;
 
 const PanelTitle = styled.h3`
@@ -57,6 +88,60 @@ const PanelTitle = styled.h3`
   font-weight: ${props => props.theme.typography.fontWeight.medium};
   color: ${props => props.theme.colors.textSecondary};
   margin: 0;
+`;
+
+const ModeButton = styled(motion.button)`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: ${props => props.isActive 
+    ? `linear-gradient(135deg, ${props.theme.colors.primary}, ${props.theme.colors.secondary})`
+    : `${props.theme.colors.surface}`};
+  border: 1px solid ${props => props.isActive 
+    ? props.theme.colors.primary 
+    : props.theme.colors.border};
+  color: ${props => props.isActive 
+    ? props.theme.colors.background 
+    : props.theme.colors.text};
+  padding: 8px 12px;
+  border-radius: ${props => props.theme.borderRadius.md};
+  font-size: ${props => props.theme.typography.fontSize.sm};
+  font-weight: ${props => props.theme.typography.fontWeight.medium};
+  cursor: pointer;
+  transition: all ${props => props.theme.transitions.normal};
+  position: relative;
+  overflow: hidden;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: ${props => props.theme.colors.primary};
+    
+    &:before {
+      left: 100%;
+    }
+  }
+  
+  &:active {
+    transform: translateY(-1px);
+  }
+`;
+
+const SymbolButtonContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
 `;
 
 const StatusBar = styled.div`
@@ -78,10 +163,10 @@ const MainInterface = ({ isOnline }) => {
   const [currentMode, setCurrentMode] = useState('develop');
 
   const modes = [
-    { id: 'develop', name: 'Develop', icon: '⚡' },
-    { id: 'test', name: 'Test', icon: '🧪' },
-    { id: 'optimize', name: 'Optimize', icon: '🔧' },
-    { id: 'deploy', name: 'Deploy', icon: '🚀' },
+    { id: 'develop', name: 'Develop', icon: '⚡', symbol3d: 'bolt' },
+    { id: 'test', name: 'Test', icon: '🧪', symbol3d: 'cog' },
+    { id: 'optimize', name: 'Optimize', icon: '🔧', symbol3d: 'gear' },
+    { id: 'deploy', name: 'Deploy', icon: '🚀', symbol3d: 'rocket' },
   ];
 
   const addTerminalOutput = (output) => {
@@ -98,33 +183,49 @@ const MainInterface = ({ isOnline }) => {
 
   return (
     <InterfaceContainer>
-      <PanelHeader>
-        <div style={{ display: 'flex', gap: '10px' }}>
+      <PanelHeader className="mechanical-panel">
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           {modes.map(mode => (
-            <motion.button
+            <ModeButton
               key={mode.id}
               onClick={() => setCurrentMode(mode.id)}
-              style={{
-                background: currentMode === mode.id ? props => props.theme.colors.primary : 'transparent',
-                color: currentMode === mode.id ? props => props.theme.colors.background : props => props.theme.colors.text,
-                border: 'none',
-                padding: '5px 10px',
-                borderRadius: '4px',
-                fontSize: '12px',
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              isActive={currentMode === mode.id}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="mechanical-element"
             >
-              {mode.icon} {mode.name}
-            </motion.button>
+              <MechanicalSymbol 
+                type={mode.symbol3d} 
+                size="24px" 
+                rotating={currentMode === mode.id}
+                color={currentMode === mode.id ? '#0a0a0a' : undefined}
+              />
+              {mode.name}
+            </ModeButton>
           ))}
         </div>
         
-        <div style={{ display: 'flex', gap: '5px' }}>
-          <div className="symbol-button">📁</div>
-          <div className="symbol-button">🔍</div>
-          <div className="symbol-button">⚙️</div>
-        </div>
+        <SymbolButtonContainer>
+          <MechanicalSymbol 
+            type="folder" 
+            size="32px" 
+            className="floating-element"
+            onClick={() => console.log('folder clicked')}
+          />
+          <MechanicalSymbol 
+            type="search" 
+            size="32px" 
+            className="glowing-element"
+            onClick={() => console.log('search clicked')}
+          />
+          <MechanicalSymbol 
+            type="settings" 
+            size="32px" 
+            rotating={true}
+            className="spinning-element"
+            onClick={() => console.log('settings clicked')}
+          />
+        </SymbolButtonContainer>
       </PanelHeader>
 
       <Workspace>
