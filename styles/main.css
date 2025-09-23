@@ -55,6 +55,12 @@
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
   --radius-2xl: 1rem;
+
+  /* 3D Icon Effects */
+  --icon-glow-color: hsla(var(--color-accent-hsl), 0.6);
+  --icon-shadow-color: rgba(0, 0, 0, 0.2);
+  --icon-float-duration: 3s;
+  --icon-float-offset: -8px;
 }
 
 /* Dark Theme */
@@ -495,9 +501,44 @@ body {
   margin-bottom: var(--space-4);
 }
 
+/* Build Stages */
+.prompt-container, .build-container, .deploy-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#prompt-input {
+    min-height: 200px;
+    margin-bottom: var(--space-6);
+}
+
+.build-logs-container {
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    min-height: 300px;
+    text-align: left;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+}
+
 /* Form Elements */
 .tool-textarea {
   width: 100%;
+  min-height: 150px;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+}
   min-height: 120px;
   padding: var(--space-3);
   border: 1px solid var(--color-border);

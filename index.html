@@ -21,7 +21,7 @@
                 <div class="tentacle tentacle-2"></div>
                 <div class="tentacle tentacle-3"></div>
                 <div class="tentacle tentacle-4"></div>
-                <div class="kraken-body">⚙️</div>
+                <div class="kraken-body mechanical-icon">⚙️</div>
             </div>
             <h2 class="loading-text">Da-Kraken</h2>
             <p class="loading-subtitle">Initializing Systems...</p>
@@ -33,19 +33,72 @@
             <header class="header">
                 <div class="header-content">
                     <div class="logo">
-                        <span class="logo-icon">⚙️</span>
+                        <span class="logo-icon mechanical-icon">⚙️</span>
                         <h1 class="logo-text">Da-Kraken</h1>
                     </div>
-                    <nav class="nav">
-                        <button class="nav-btn active" data-section="dashboard">Dashboard</button>
-                        <button class="nav-btn" data-section="tools">Tools</button>
-                        <button class="nav-btn" data-section="settings">Settings</button>
+                                        <nav class="nav">
+                        <button class="nav-btn active" data-section="prompt">Prompt</button>
+                        <button class="nav-btn" data-section="build">Build</button>
+                        <button class="nav-btn" data-section="deploy">Deploy</button>
                     </nav>
                     <div class="header-actions">
                         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
                             <span class="theme-icon">🌙</span>
                         </button>
                     </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main">
+                <!-- Prompt Section -->
+                <section id="prompt-section" class="section active">
+                    <div class="section-header">
+                        <h2>Prompt</h2>
+                        <p>Describe the application you want to build</p>
+                    </div>
+                    <div class="prompt-container">
+                        <textarea id="prompt-input" class="tool-textarea" placeholder="Enter your detailed application requirements..."></textarea>
+                        <button id="start-build-btn" class="btn btn-primary">Start Build</button>
+                    </div>
+                </section>
+
+                <!-- Build Section -->
+                <section id="build-section" class="section">
+                    <div class="section-header">
+                        <h2>Build</h2>
+                        <p>Your application is being built...</p>
+                    </div>
+                    <div class="build-container">
+                        <pre id="build-logs" class="build-logs-container"></pre>
+                    </div>
+                </section>
+
+                <!-- Deploy Section -->
+                <section id="deploy-section" class="section">
+                    <div class="section-header">
+                        <h2>Deploy & Download</h2>
+                        <p>Your application is ready</p>
+                    </div>
+                    <div class="deploy-container">
+                        <div class="card">
+                            <h3>Build Successful</h3>
+                            <p>Your application has been successfully built and is ready for download.</p>
+                            <button id="download-btn" class="btn btn-primary">Download Application</button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/theme.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
+
                 </div>
             </header>
 
@@ -60,22 +113,22 @@
                     
                     <div class="dashboard-grid">
                         <div class="card feature-card">
-                            <div class="card-icon">⚡</div>
+                            <div class="card-icon mechanical-icon">⚡</div>
                             <h3>Lightning Fast</h3>
                             <p>Runs entirely local with no external dependencies</p>
                         </div>
                         <div class="card feature-card">
-                            <div class="card-icon">🎨</div>
+                            <div class="card-icon mechanical-icon">🎨</div>
                             <h3>Modern Design</h3>
                             <p>Beautiful, responsive interface with smooth animations</p>
                         </div>
                         <div class="card feature-card">
-                            <div class="card-icon">🔒</div>
+                            <div class="card-icon mechanical-icon">🔒</div>
                             <h3>Private & Secure</h3>
                             <p>Your data stays on your device</p>
                         </div>
                         <div class="card feature-card">
-                            <div class="card-icon">📱</div>
+                            <div class="card-icon mechanical-icon">📱</div>
                             <h3>Cross-Platform</h3>
                             <p>Works on desktop, tablet, and mobile</p>
                         </div>
