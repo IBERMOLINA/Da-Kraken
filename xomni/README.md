@@ -5,9 +5,11 @@ A comprehensive AI-powered coding environment for creating software solutions ac
 ## Features
 
 ### 🤖 AI Agent
-- Built-in AI assistant for framework construction
+- **Claude AI Integration**: Powered by Anthropic's Claude for intelligent coding assistance
+- Built-in AI assistant for framework construction  
 - Intelligent scaffolding and project setup
 - Code optimization and testing assistance
+- Graceful fallback to simulation mode when API key not configured
 
 ### 🎨 Dark Theme UI
 - High-contrast dark theme optimized for coding
@@ -92,11 +94,13 @@ npm run server
 xomni/
 ├── src/
 │   ├── components/          # React components
+│   ├── services/            # API services (Claude integration)
 │   ├── utils/              # Utility functions and themes
 │   ├── assets/             # Static assets and symbols
 │   └── main.jsx            # Application entry point
 ├── server/                 # Backend server
 ├── public/                 # Public assets
+├── CLAUDE_INTEGRATION.md   # Claude AI setup guide
 └── dist/                   # Build output
 ```
 
@@ -122,13 +126,21 @@ npm run deploy           # Deploy to production
 ## Configuration
 
 ### Environment Variables
-Create a `.env` file in the root directory:
+Create a `.env.local` file in the root directory:
 
 ```env
+# Basic configuration
 VITE_API_URL=http://localhost:3001
 VITE_APP_NAME=xomni
 VITE_APP_VERSION=1.0.0
+
+# Claude AI integration (optional)
+VITE_CLAUDE_API_KEY=sk-ant-your-api-key-here
+VITE_CLAUDE_MODEL=claude-3-sonnet-20240229
+VITE_CLAUDE_MAX_TOKENS=4096
 ```
+
+See `CLAUDE_INTEGRATION.md` for detailed Claude AI setup instructions.
 
 ### Customization
 - Modify themes in `src/utils/themes.js`

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
+import ClaudeService from '../services/claudeService';
 
 const AgentContainer = styled.div`
   padding: 20px;
@@ -129,11 +130,17 @@ const AgentPanel = ({ isOnline }) => {
     {
       id: 1,
       type: 'agent',
-      content: 'Hello! I\'m your xomni AI agent. I can help you create frameworks, scaffolding, and manage your development stacks. What would you like to build today?',
+      content: 'Hello! I\'m your xomni AI agent powered by Claude. I can help you create frameworks, scaffolding, and manage your development stacks. What would you like to build today?',
       timestamp: new Date()
     }
   ]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [claudeService] = useState(new ClaudeService());
+  const [isClaudeAvailable, setIsClaudeAvailable] = useState(false);
+
+  useEffect(() => {
+    setIsClaudeAvailable(claudeService.isAvailable());
+  }, [claudeService]);
 
   const quickActions = [
     { icon: '🏗️', label: 'Framework', action: 'create-framework' },
@@ -156,15 +163,53 @@ const AgentPanel = ({ isOnline }) => {
     };
 
     setConversation(prev => [...prev, userMessage]);
+    const currentPrompt = prompt;
     setPrompt('');
     setIsProcessing(true);
 
-    // Simulate AI processing
-    setTimeout(() => {
-      const agentResponse = generateResponse(prompt);
+    try {
+      // Try to use Claude API if available
+      if (isClaudeAvailable && isOnline) {
+        const response = await claudeService.sendMessage(currentPrompt, conversation);
+        
+        let agentResponse;
+        if (response.success) {
+          agentResponse = {
+            id: Date.now() + 1,
+            type: 'agent',
+            content: response.content,
+            timestamp: new Date(),
+            source: 'claude'
+          };
+        } else {
+          // Use fallback response from Claude service
+          agentResponse = {
+            id: Date.now() + 1,
+            type: 'agent',
+            content: response.fallbackResponse,
+            timestamp: new Date(),
+            source: 'fallback',
+            error: response.error
+          };
+        }
+        
+        setConversation(prev => [...prev, agentResponse]);
+      } else {
+        // Use local simulation
+        setTimeout(() => {
+          const agentResponse = generateResponse(currentPrompt);
+          setConversation(prev => [...prev, agentResponse]);
+          setIsProcessing(false);
+        }, 1500);
+        return; // Early return to avoid setting isProcessing(false) twice
+      }
+    } catch (error) {
+      console.error('Error in handleSubmit:', error);
+      const agentResponse = generateResponse(currentPrompt);
       setConversation(prev => [...prev, agentResponse]);
-      setIsProcessing(false);
-    }, 1500);
+    }
+    
+    setIsProcessing(false);
   };
 
   const generateResponse = (userPrompt) => {
@@ -208,10 +253,12 @@ const AgentPanel = ({ isOnline }) => {
           🤖
         </AgentAvatar>
         <h2 style={{ color: props => props.theme.colors.primary, marginBottom: '8px' }}>
-          xomni Agent
+          xomni Agent {isClaudeAvailable ? '✨' : '🤖'}
         </h2>
         <AgentStatus>
-          {isOnline ? 'Online & Ready' : 'Offline Mode'}
+          {isOnline ? 
+            (isClaudeAvailable ? 'Claude AI Ready' : 'Online (Simulation Mode)') : 
+            'Offline Mode'}
         </AgentStatus>
       </AgentHeader>
 
@@ -250,7 +297,12 @@ const AgentPanel = ({ isOnline }) => {
               transition={{ duration: 0.3 }}
             >
               <div style={{ marginBottom: '8px', fontSize: '12px', opacity: 0.7 }}>
-                {message.type === 'user' ? 'You' : 'Agent'} • {message.timestamp.toLocaleTimeString()}
+                {message.type === 'user' ? 'You' : 
+                  (message.source === 'claude' ? 'Claude AI' : 
+                   message.source === 'fallback' ? 'Agent (Fallback)' : 'Agent')} • {message.timestamp.toLocaleTimeString()}
+                {message.error && (
+                  <span style={{ color: 'orange', marginLeft: '8px' }} title={message.error}>⚠️</span>
+                )}
               </div>
               {message.content}
             </ResponseMessage>
