@@ -20,7 +20,7 @@ function findMethodNamesInClass(node, className) {
                 }
             }
         }
-    }
+
 
     for (const key in node) {
         if (node.hasOwnProperty(key)) {
