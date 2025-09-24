@@ -17,6 +17,17 @@
 
 ## 🚀 Quick Start
 
+### Option 1: GitHub Codespace (Recommended for Development) ⚡
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/IBERMOLINA/Da-Kraken)
+
+**Perfect for developing the xomni universal coding environment:**
+1. **Click "Open in Codespace" above** 
+2. **Wait for automatic setup** (installs all 42+ dependencies automatically)
+3. **Start developing immediately** with full Node.js/React environment ready!
+
+All dependencies for the xomni project (React, Vite, Monaco Editor, Three.js, etc.) are preinstalled automatically.
+
+### Option 2: Direct Local Use (Main App)
 1. **Clone or download this repository**
 2. **Open `index.html` directly in your web browser**
 3. **Start using the app immediately - no installation or server required!**
@@ -39,6 +50,25 @@ npx http-server
 ```
 
 **Note:** The local server is only needed for PWA installation testing. The app works perfectly without any server.
+
+### Option 3: xomni Development (Advanced React Environment)
+For developing the **xomni** universal coding environment:
+
+```bash
+# Clone the repository
+git clone https://github.com/IBERMOLINA/Da-Kraken.git
+cd Da-Kraken/xomni
+
+# Install dependencies (42+ packages)
+npm install
+
+# Start development server
+npm run dev        # Frontend (React/Vite) - http://localhost:3000
+npm run server     # Backend (Node.js) - http://localhost:3001
+npm run build      # Production build
+```
+
+**xomni** includes: React 18, Vite, Monaco Editor, Three.js, Socket.IO, Styled Components, and many more modern web technologies.
 
 ## 🛠️ Tools & Utilities
 
