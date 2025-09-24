@@ -1,0 +1,200 @@
+version: '3.8'
+
+services:
+  # Bridge Orchestrator - Central coordinator
+  bridge-orchestrator:
+    build: ./bridge-orchestrator
+    container_name: bridge-orchestrator
+    ports:
+      - "4000:4000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - shared-volume:/shared
+      - ./logs:/app/logs
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    networks:
+      - bridge-network
+    restart: unless-stopped
+
+  # Redis for session management
+  redis:
+    image: redis:7-alpine
+    container_name: bridge-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - bridge-network
+    restart: unless-stopped
+
+  # Node.js Development Container
+  nodejs-container:
+    build: ./nodejs-container
+    container_name: nodejs-dev
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "5173:5173"
+    volumes:
+      - shared-volume:/shared
+      - nodejs-workspace:/workspace
+    environment:
+      - NODE_ENV=development
+      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+    networks:
+      - bridge-network
+    profiles:
+      - nodejs
+      - all
+    restart: unless-stopped
+
+  # Python Development Container
+  python-container:
+    build: ./python-container
+    container_name: python-dev
+    ports:
+      - "5000:5000"
+      - "8000:8000"
+      - "8888:8888"
+      - "8501:8501"
+    volumes:
+      - shared-volume:/shared
+      - python-workspace:/workspace
+    environment:
+      - PYTHONPATH=/workspace
+      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+    networks:
+      - bridge-network
+    profiles:
+      - python
+      - all
+    restart: unless-stopped
+
+  # Java Development Container
+  java-container:
+    build: ./java-container
+    container_name: java-dev
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    volumes:
+      - shared-volume:/shared
+      - java-workspace:/workspace
+    environment:
+      - JAVA_OPTS=-Xmx1g
+      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+    networks:
+      - bridge-network
+    profiles:
+      - java
+      - all
+    restart: unless-stopped
+
+  # Go Development Container
+  go-container:
+    build: ./go-container
+    container_name: go-dev
+    ports:
+      - "8082:8080"
+    volumes:
+      - shared-volume:/shared
+      - go-workspace:/workspace
+    environment:
+      - GOOS=linux
+      - GOARCH=amd64
+      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+    networks:
+      - bridge-network
+    profiles:
+      - go
+      - all
+    restart: unless-stopped
+
+  # Rust Development Container
+  rust-container:
+    build: ./rust-container
+    container_name: rust-dev
+    ports:
+      - "8083:8080"
+    volumes:
+      - shared-volume:/shared
+      - rust-workspace:/workspace
+    environment:
+      - RUST_BACKTRACE=1
+      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+    networks:
+      - bridge-network
+    profiles:
+      - rust
+      - all
+    restart: unless-stopped
+
+  # C++ Development Container
+  cpp-container:
+    build: ./cpp-container
+    container_name: cpp-dev
+    ports:
+      - "8084:8080"
+    volumes:
+      - shared-volume:/shared
+      - cpp-workspace:/workspace
+    environment:
+      - CXX=g++
+      - CC=gcc
+      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+    networks:
+      - bridge-network
+    profiles:
+      - cpp
+      - all
+    restart: unless-stopped
+
+  # Code Generation API
+  codegen-api:
+    build: ./codegen-api
+    container_name: codegen-api
+    ports:
+      - "4001:4001"
+    volumes:
+      - shared-volume:/shared
+    environment:
+      - NODE_ENV=production
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+    depends_on:
+      - bridge-orchestrator
+      - redis
+    networks:
+      - bridge-network
+    restart: unless-stopped
+
+networks:
+  bridge-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  shared-volume:
+    driver: local
+  redis-data:
+    driver: local
+  nodejs-workspace:
+    driver: local
+  python-workspace:
+    driver: local
+  java-workspace:
+    driver: local
+  go-workspace:
+    driver: local
+  rust-workspace:
+    driver: local
+  cpp-workspace:
+    driver: local
