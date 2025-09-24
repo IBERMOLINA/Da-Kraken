@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript AI Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chat-header h1 {
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            margin-left: auto;
+        }
+
+        .ai-message {
+            background-color: #e9ecef;
+            color: #333;
+        }
+
+        .suggestions {
+            margin-top: 10px;
+        }
+
+        .suggestion-chip {
+            display: inline-block;
+            background-color: #6c757d;
+            color: white;
+            padding: 4px 8px;
+            margin: 2px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .suggestion-chip:hover {
+            background-color: #5a6268;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            border-top: 1px solid #dee2e6;
+            background-color: white;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chat-input input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        .send-button {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .send-button:hover {
+            background-color: #0056b3;
+        }
+
+        .status {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .typing {
+            padding: 8px 16px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            font-style: italic;
+            color: #6c757d;
+            max-width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>🤖 JavaScript AI Assistant</h1>
+            <p>React 19 • Node.js 20 • Development Help • Auto-Dependencies</p>
+        </div>
+        
+        <div class="status" id="status">
+            Connecting to AI Assistant...
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai-message">
+                <strong>AI Assistant:</strong> Hello! I'm your JavaScript development assistant. I can help you with:
+                <div class="suggestions">
+                    <span class="suggestion-chip" onclick="sendSuggestion('React components')">React Components</span>
+                    <span class="suggestion-chip" onclick="sendSuggestion('Debug JavaScript')">Debugging</span>
+                    <span class="suggestion-chip" onclick="sendSuggestion('Performance optimization')">Performance</span>
+                    <span class="suggestion-chip" onclick="sendSuggestion('Install dependencies')">Dependencies</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <div class="chat-input">
+                <input 
+                    type="text" 
+                    id="messageInput" 
+                    placeholder="Ask me about JavaScript, React, or development questions..."
+                    onkeypress="handleKeyPress(event)"
+                >
+                <button class="send-button" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const messagesContainer = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const statusDiv = document.getElementById('status');
+
+        socket.on('connect', () => {
+            statusDiv.textContent = 'Connected to AI Assistant';
+            statusDiv.style.backgroundColor = '#28a745';
+        });
+
+        socket.on('disconnect', () => {
+            statusDiv.textContent = 'Disconnected from AI Assistant';
+            statusDiv.style.backgroundColor = '#dc3545';
+        });
+
+        socket.on('welcome', (data) => {
+            addMessage('ai', `Welcome! ${data.message}`);
+            if (data.capabilities) {
+                addMessage('ai', 'I can help you with: ' + data.capabilities.join(', '));
+            }
+        });
+
+        socket.on('ai_response', (data) => {
+            removeTyping();
+            addMessage('ai', data.message, data.suggestions);
+        });
+
+        socket.on('error', (data) => {
+            removeTyping();
+            addMessage('ai', `Sorry, I encountered an error: ${data.message}`);
+        });
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            addMessage('user', message);
+            messageInput.value = '';
+            
+            showTyping();
+            socket.emit('chat_message', {
+                message: message,
+                context: {
+                    timestamp: new Date().toISOString(),
+                    language: 'javascript',
+                    environment: 'container'
+                }
+            });
+        }
+
+        function sendSuggestion(suggestion) {
+            messageInput.value = suggestion;
+            sendMessage();
+        }
+
+        function addMessage(sender, message, suggestions = []) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender === 'user' ? 'user-message' : 'ai-message'}`;
+            
+            let content = `<strong>${sender === 'user' ? 'You' : 'AI Assistant'}:</strong> ${message}`;
+            
+            if (suggestions && suggestions.length > 0) {
+                content += '<div class="suggestions">';
+                suggestions.forEach(suggestion => {
+                    content += `<span class="suggestion-chip" onclick="sendSuggestion('${suggestion}')">${suggestion}</span>`;
+                });
+                content += '</div>';
+            }
+            
+            messageDiv.innerHTML = content;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing';
+            typingDiv.id = 'typing';
+            typingDiv.textContent = 'AI is typing...';
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function removeTyping() {
+            const typingDiv = document.getElementById('typing');
+            if (typingDiv) {
+                typingDiv.remove();
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Auto-focus input
+        messageInput.focus();
+    </script>
+</body>
+</html>
