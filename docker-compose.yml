@@ -1,0 +1,417 @@
+version: '3.8'
+
+services:
+  # AI Chat Hub - Central coordination service
+  ai-hub:
+    build:
+      context: ./containers/ai-hub
+      dockerfile: Dockerfile
+    container_name: da-kraken-ai-hub
+    ports:
+      - "9000:9000"  # AI Hub Dashboard
+      - "9001:9001"  # AI Hub API
+    environment:
+      - NODE_ENV=development
+      - HUB_PORT=9000
+      - API_PORT=9001
+      - ENABLED_LANGUAGES=javascript,python,java,go,rust,cpp,php,ruby
+    volumes:
+      - ./workspace:/workspace
+      - ./shared:/shared
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # JavaScript Development Container
+  javascript-dev:
+    build:
+      context: ./containers/javascript
+      dockerfile: Dockerfile
+    container_name: da-kraken-javascript
+    ports:
+      - "3000:3000"  # React App
+      - "3001:3001"  # AI Assistant
+      - "8080:8080"  # VS Code Server
+    environment:
+      - NODE_ENV=development
+      - AI_ASSISTANT_ENABLED=true
+      - CONTAINER_NAME=javascript-dev
+    volumes:
+      - ./workspace/javascript:/workspace
+      - ./shared:/shared
+      - js_node_modules:/workspace/node_modules
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    depends_on:
+      - ai-hub
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Python Development Container
+  python-dev:
+    build:
+      context: ./containers/python
+      dockerfile: Dockerfile
+    container_name: da-kraken-python
+    ports:
+      - "5000:5000"  # Flask App
+      - "3002:3002"  # AI Assistant
+      - "8081:8080"  # VS Code Server
+      - "8888:8888"  # Jupyter Lab
+    environment:
+      - PYTHONPATH=/workspace
+      - FLASK_ENV=development
+      - AI_ASSISTANT_ENABLED=true
+      - CONTAINER_NAME=python-dev
+    volumes:
+      - ./workspace/python:/workspace
+      - ./shared:/shared
+      - python_venv:/workspace/venv
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    depends_on:
+      - ai-hub
+      - database
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Java Development Container
+  java-dev:
+    build:
+      context: ./containers/java
+      dockerfile: Dockerfile
+    container_name: da-kraken-java
+    ports:
+      - "8000:8000"  # Spring Boot App
+      - "3003:3003"  # AI Assistant
+      - "8082:8080"  # VS Code Server
+    environment:
+      - JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+      - MAVEN_OPTS=-Xmx1024m
+      - AI_ASSISTANT_ENABLED=true
+      - CONTAINER_NAME=java-dev
+    volumes:
+      - ./workspace/java:/workspace
+      - ./shared:/shared
+      - maven_repo:/root/.m2
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    depends_on:
+      - ai-hub
+      - database
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Go Development Container
+  go-dev:
+    build:
+      context: ./containers/go
+      dockerfile: Dockerfile
+    container_name: da-kraken-go
+    ports:
+      - "8001:8001"  # Go App
+      - "3004:3004"  # AI Assistant
+      - "8083:8080"  # VS Code Server
+    environment:
+      - GOPATH=/workspace/go
+      - GOPROXY=https://proxy.golang.org,direct
+      - AI_ASSISTANT_ENABLED=true
+      - CONTAINER_NAME=go-dev
+    volumes:
+      - ./workspace/go:/workspace
+      - ./shared:/shared
+      - go_modules:/go/pkg/mod
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    depends_on:
+      - ai-hub
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Rust Development Container
+  rust-dev:
+    build:
+      context: ./containers/rust
+      dockerfile: Dockerfile
+    container_name: da-kraken-rust
+    ports:
+      - "8002:8002"  # Rust App
+      - "3005:3005"  # AI Assistant
+      - "8084:8080"  # VS Code Server
+    environment:
+      - CARGO_HOME=/workspace/.cargo
+      - RUSTUP_HOME=/workspace/.rustup
+      - AI_ASSISTANT_ENABLED=true
+      - CONTAINER_NAME=rust-dev
+    volumes:
+      - ./workspace/rust:/workspace
+      - ./shared:/shared
+      - rust_cargo:/workspace/.cargo
+      - rust_registry:/workspace/.cargo/registry
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    depends_on:
+      - ai-hub
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # C++ Development Container
+  cpp-dev:
+    build:
+      context: ./containers/cpp
+      dockerfile: Dockerfile
+    container_name: da-kraken-cpp
+    ports:
+      - "8003:8003"  # C++ App
+      - "3006:3006"  # AI Assistant
+      - "8085:8080"  # VS Code Server
+    environment:
+      - CMAKE_BUILD_TYPE=Debug
+      - AI_ASSISTANT_ENABLED=true
+      - CONTAINER_NAME=cpp-dev
+    volumes:
+      - ./workspace/cpp:/workspace
+      - ./shared:/shared
+      - cmake_build:/workspace/build
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    depends_on:
+      - ai-hub
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8085"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PHP Development Container
+  php-dev:
+    build:
+      context: ./containers/php
+      dockerfile: Dockerfile
+    container_name: da-kraken-php
+    ports:
+      - "8004:8004"  # PHP App
+      - "3007:3007"  # AI Assistant
+      - "8086:8080"  # VS Code Server
+    environment:
+      - PHP_ENV=development
+      - AI_ASSISTANT_ENABLED=true
+      - CONTAINER_NAME=php-dev
+    volumes:
+      - ./workspace/php:/workspace
+      - ./shared:/shared
+      - composer_cache:/root/.composer
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    depends_on:
+      - ai-hub
+      - database
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Ruby Development Container
+  ruby-dev:
+    build:
+      context: ./containers/ruby
+      dockerfile: Dockerfile
+    container_name: da-kraken-ruby
+    ports:
+      - "8005:8005"  # Rails App
+      - "3008:3008"  # AI Assistant
+      - "8087:8080"  # VS Code Server
+    environment:
+      - RAILS_ENV=development
+      - BUNDLE_PATH=/workspace/vendor/bundle
+      - AI_ASSISTANT_ENABLED=true
+      - CONTAINER_NAME=ruby-dev
+    volumes:
+      - ./workspace/ruby:/workspace
+      - ./shared:/shared
+      - ruby_gems:/workspace/vendor/bundle
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    depends_on:
+      - ai-hub
+      - database
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8087"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Database Services
+  database:
+    image: postgres:16
+    container_name: da-kraken-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=da_kraken_dev
+      - POSTGRES_USER=developer
+      - POSTGRES_PASSWORD=dev_password_2025
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U developer -d da_kraken_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: da-kraken-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  mongodb:
+    image: mongo:7
+    container_name: da-kraken-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=developer
+      - MONGO_INITDB_ROOT_PASSWORD=dev_password_2025
+      - MONGO_INITDB_DATABASE=da_kraken_dev
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD","mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Monitoring and Observability
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: da-kraken-prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: da-kraken-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin_2025
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  # Reverse Proxy and Load Balancer
+  nginx:
+    image: nginx:alpine
+    container_name: da-kraken-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites-available:/etc/nginx/sites-available
+      - ./ssl:/etc/nginx/ssl
+    networks:
+      - da-kraken-network
+    restart: unless-stopped
+    depends_on:
+      - ai-hub
+      - javascript-dev
+      - python-dev
+      - java-dev
+      - go-dev
+      - rust-dev
+      - cpp-dev
+      - php-dev
+      - ruby-dev
+
+networks:
+  da-kraken-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  # Language-specific volumes
+  js_node_modules:
+  python_venv:
+  maven_repo:
+  go_modules:
+  rust_cargo:
+  rust_registry:
+  cmake_build:
+  composer_cache:
+  ruby_gems:
+  
+  # Database volumes
+  postgres_data:
+  redis_data:
+  mongodb_data:
+  
+  # Monitoring volumes
+  prometheus_data:
+  grafana_data:
