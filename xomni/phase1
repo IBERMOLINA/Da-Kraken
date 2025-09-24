@@ -1,0 +1,2 @@
+cd /workspaces/Da-Kraken/containers
+./manage-containers.sh start
