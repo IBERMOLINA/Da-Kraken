@@ -67,14 +67,14 @@ echo "🚀 Starting JavaScript Development Environment..."
 
 # Auto-install dependencies if package.json exists
 if [ -f "package.json" ]; then
-    echo "📦 Auto-installing dependencies..."
-    npm install
+echo "📦 Auto-installing dependencies..."
+npm install
 fi
 
 # Start AI assistant
 if [ "$AI_ASSISTANT_ENABLED" = "true" ]; then
-    echo "🤖 Starting AI Chat Assistant..."
-    node /workspace/ai-assistant/chat-server.js &
+echo "🤖 Starting AI Chat Assistant..."
+node /workspace/ai-assistant/chat-server.js &
 fi
 
 # Start code-server
