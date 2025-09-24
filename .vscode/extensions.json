@@ -1,5 +1,8 @@
 {
     "pushstartups": [
         "ms-mssql.mssql"
+    ],
+    "recommendations": [
+        "ms-azuretools.vscode-containers"
     ]
 }
