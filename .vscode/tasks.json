@@ -1,0 +1,124 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "ShellCheck: Check All Scripts",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/shellcheck-inhouse.sh",
+            "args": [
+                "--format", "tty",
+                "--severity", "warning"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": {
+                "owner": "shellcheck",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^In (.*) line (\\d+):$",
+                    "file": 1,
+                    "line": 2
+                }
+            },
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
+            "label": "ShellCheck: Generate HTML Report",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/shellcheck-inhouse.sh",
+            "args": [
+                "--format", "all",
+                "--output", "${workspaceFolder}/shellcheck-report.json"
+            ],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "ShellCheck: Fix Common Issues",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/shellcheck-inhouse.sh",
+            "args": [
+                "--fix",
+                "--verbose"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "ShellCheck: Watch Mode",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/shellcheck-inhouse.sh",
+            "args": [
+                "--watch"
+            ],
+            "group": "test",
+            "isBackground": true,
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated"
+            },
+            "problemMatcher": {
+                "owner": "shellcheck-watch",
+                "fileLocation": "absolute",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^Starting watch mode",
+                    "endsPattern": "^Checking.*"
+                },
+                "pattern": {
+                    "regexp": "^In (.*) line (\\d+):$",
+                    "file": 1,
+                    "line": 2
+                }
+            }
+        },
+        {
+            "label": "ShellCheck: Current File",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/shellcheck-inhouse.sh",
+            "args": [
+                "${file}"
+            ],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": {
+                "owner": "shellcheck",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^In (.*) line (\\d+):$",
+                    "file": 1,
+                    "line": 2
+                }
+            }
+        }
+    ]
+}

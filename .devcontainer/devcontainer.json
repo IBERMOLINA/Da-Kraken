@@ -80,7 +80,18 @@
                 "spellright.documentTypes": ["markdown", "latex", "plaintext"],
                 "todo-tree.general.tags": ["BUG", "HACK", "FIXME", "TODO", "XXX", "[ ]", "[x]"],
                 "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
-                "workbench.startupEditor": "readme"
+                "workbench.startupEditor": "readme",
+                "shellcheck.enable": false,
+                "files.associations": {
+                    "*.sh": "shellscript",
+                    "*.bash": "shellscript",
+                    "*.zsh": "shellscript",
+                    "*.ksh": "shellscript"
+                },
+                "problems.sortOrder": "severity",
+                "terminal.integrated.env.linux": {
+                    "SHELLCHECK_OPTS": "--rcfile=${workspaceFolder}/.shellcheckrc"
+                }
             }
         }
     },

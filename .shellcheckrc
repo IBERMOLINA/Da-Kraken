@@ -1,0 +1,33 @@
+# Da-Kraken ShellCheck Configuration
+# Disable specific warnings that are not relevant for our project
+
+# SC2034: Variable appears unused (common in sourced scripts)
+disable=SC2034
+
+# SC1091: Not following sourced files (we have complex sourcing patterns)
+disable=SC1091
+
+# SC2155: Declare and assign separately to avoid masking return values
+# Uncomment if this becomes problematic in your scripts
+# disable=SC2155
+
+# SC2086: Double quote to prevent globbing and word splitting
+# We'll keep this enabled as it's important for security
+
+# SC2181: Check exit code directly with e.g. 'if mycmd;', not indirectly with $?
+# disable=SC2181
+
+# Enable additional checks
+enable=all
+
+# Set shell dialect (default to bash)
+shell=bash
+
+# Check sourced files
+source-path=SCRIPTDIR
+
+# External sources (common paths)
+external-sources=true
+
+# Severity level (error, warning, info, style)
+severity=warning

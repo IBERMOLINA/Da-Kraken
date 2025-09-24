@@ -1,0 +1,26 @@
+{
+    "shellcheck.customArgs": [
+        "--rcfile=${workspaceFolder}/.shellcheckrc"
+    ],
+    "shellcheck.enable": false,
+    "bash-ide-vscode.shellcheckPath": "",
+    "files.associations": {
+        "*.sh": "shellscript",
+        "*.bash": "shellscript",
+        "*.zsh": "shellscript",
+        "*.ksh": "shellscript"
+    },
+    "shell-format.flag": "--rcfile=${workspaceFolder}/.shellcheckrc",
+    "problems.sortOrder": "severity",
+    "problems.defaultViewMode": "table",
+    "terminal.integrated.shellArgs.linux": ["-l"],
+    "terminal.integrated.env.linux": {
+        "SHELLCHECK_OPTS": "--rcfile=${workspaceFolder}/.shellcheckrc"
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true,
+        "**/shellcheck-report.*": true
+    }
+}
