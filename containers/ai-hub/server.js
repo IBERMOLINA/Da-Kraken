@@ -135,7 +135,7 @@ app.get('/api/environments/:language', async (req, res) => {
 app.post('/api/chat/broadcast', async (req, res) => {
     try {
         const { message, languages, priority } = req.body;
-        
+
         const results = await broadcastMessage(message, languages, priority);
         res.json({
             message: 'Broadcast sent',
@@ -151,7 +151,7 @@ app.post('/api/environments/:language/execute', async (req, res) => {
     try {
         const { language } = req.params;
         const { command, args } = req.body;
-        
+
         const result = await executeCommand(language, command, args);
         res.json(result);
     } catch (error) {
@@ -162,7 +162,7 @@ app.post('/api/environments/:language/execute', async (req, res) => {
 // Socket.IO for real-time communication
 io.on('connection', (socket) => {
     console.log(`🔌 Client connected: ${socket.id}`);
-    
+
     activeConnections.set(socket.id, {
         connectedAt: new Date().toISOString(),
         lastActivity: new Date().toISOString()
@@ -225,13 +225,13 @@ io.on('connection', (socket) => {
 // Helper Functions
 async function checkAllEnvironments() {
     const environments = {};
-    
+
     for (const [language, config] of Object.entries(LANGUAGE_ENVIRONMENTS)) {
         if (ENABLED_LANGUAGES.length === 0 || ENABLED_LANGUAGES.includes(language)) {
             environments[language] = await checkEnvironmentHealth(language);
         }
     }
-    
+
     return environments;
 }
 
@@ -242,7 +242,7 @@ async function checkEnvironmentHealth(language) {
     try {
         // Check main health endpoint
         const healthResponse = await axios.get(config.health, { timeout: 5000 });
-        
+
         // Check AI assistant health
         let aiHealth = 'unknown';
         try {
@@ -283,9 +283,9 @@ async function checkEnvironmentHealth(language) {
 
 async function broadcastMessage(message, languages, priority = 'normal') {
     const results = {};
-    
+
     const targetLanguages = languages || Object.keys(LANGUAGE_ENVIRONMENTS);
-    
+
     for (const language of targetLanguages) {
         try {
             const config = LANGUAGE_ENVIRONMENTS[language];
@@ -326,16 +326,16 @@ async function broadcastMessage(message, languages, priority = 'normal') {
 
 async function handleCrossLanguageChat(message, sourceLanguage, targetLanguages) {
     const responses = {};
-    
+
     for (const targetLang of targetLanguages) {
         if (targetLang === sourceLanguage) continue;
-        
+
         try {
             const config = LANGUAGE_ENVIRONMENTS[targetLang];
             if (!config) continue;
 
             const contextualMessage = `Cross-language question from ${sourceLanguage} developer: ${message}`;
-            
+
             const response = await axios.post(`${config.ai_endpoint.replace('/health', '')}/chat`, {
                 message: contextualMessage,
                 context: {
