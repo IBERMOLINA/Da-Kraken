@@ -1,0 +1,536 @@
+/* Symbols CSS - 3D Symbol System */
+
+/* Symbol Base Styles */
+.symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all var(--transition-medium);
+    transform-style: preserve-3d;
+}
+
+/* 3D Symbol Effects */
+.symbol-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all var(--transition-medium);
+}
+
+.symbol-3d::before {
+    content: attr(data-symbol);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgba(0, 0, 0, 0.3);
+    transform: translateZ(-2px) translateX(2px) translateY(2px);
+    filter: blur(1px);
+}
+
+.symbol-3d::after {
+    content: attr(data-symbol);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgba(255, 255, 255, 0.1);
+    transform: translateZ(2px) translateX(-1px) translateY(-1px);
+}
+
+.symbol-3d:hover {
+    transform: rotateX(15deg) rotateY(15deg) translateZ(5px);
+}
+
+/* Mechanical Symbol Variations */
+.symbol-mechanical {
+    position: relative;
+    font-weight: bold;
+    text-shadow: 
+        0 1px 0 rgba(0, 0, 0, 0.5),
+        0 2px 0 rgba(0, 0, 0, 0.4),
+        0 3px 0 rgba(0, 0, 0, 0.3),
+        0 4px 0 rgba(0, 0, 0, 0.2),
+        0 5px 0 rgba(0, 0, 0, 0.1),
+        0 6px 10px rgba(0, 0, 0, 0.3);
+    transition: all var(--transition-medium);
+}
+
+.symbol-mechanical:hover {
+    transform: translateY(-2px);
+    text-shadow: 
+        0 2px 0 rgba(0, 0, 0, 0.5),
+        0 4px 0 rgba(0, 0, 0, 0.4),
+        0 6px 0 rgba(0, 0, 0, 0.3),
+        0 8px 0 rgba(0, 0, 0, 0.2),
+        0 10px 0 rgba(0, 0, 0, 0.1),
+        0 12px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Glowing Symbols */
+.symbol-glow {
+    filter: drop-shadow(0 0 10px currentColor);
+    animation: symbolGlow 3s ease-in-out infinite alternate;
+}
+
+.symbol-glow-blue {
+    color: var(--accent-blue);
+    filter: drop-shadow(0 0 10px var(--accent-blue));
+}
+
+.symbol-glow-cyan {
+    color: var(--accent-cyan);
+    filter: drop-shadow(0 0 10px var(--accent-cyan));
+}
+
+.symbol-glow-green {
+    color: var(--accent-green);
+    filter: drop-shadow(0 0 10px var(--accent-green));
+}
+
+.symbol-glow-orange {
+    color: var(--accent-orange);
+    filter: drop-shadow(0 0 10px var(--accent-orange));
+}
+
+.symbol-glow-red {
+    color: var(--accent-red);
+    filter: drop-shadow(0 0 10px var(--accent-red));
+}
+
+.symbol-glow-purple {
+    color: var(--accent-purple);
+    filter: drop-shadow(0 0 10px var(--accent-purple));
+}
+
+/* Rotating Symbols */
+.symbol-rotate {
+    animation: symbolRotate 4s linear infinite;
+}
+
+.symbol-rotate-reverse {
+    animation: symbolRotate 4s linear infinite reverse;
+}
+
+.symbol-rotate-slow {
+    animation: symbolRotate 8s linear infinite;
+}
+
+/* Pulsing Symbols */
+.symbol-pulse {
+    animation: symbolPulse 2s ease-in-out infinite;
+}
+
+.symbol-pulse-fast {
+    animation: symbolPulse 1s ease-in-out infinite;
+}
+
+.symbol-pulse-slow {
+    animation: symbolPulse 3s ease-in-out infinite;
+}
+
+/* Floating Symbols */
+.symbol-float {
+    animation: symbolFloat 3s ease-in-out infinite;
+}
+
+.symbol-float-up {
+    animation: symbolFloatUp 2s ease-in-out infinite alternate;
+}
+
+/* Bouncing Symbols */
+.symbol-bounce {
+    animation: symbolBounce 1.5s ease-in-out infinite;
+}
+
+.symbol-bounce-horizontal {
+    animation: symbolBounceHorizontal 2s ease-in-out infinite;
+}
+
+/* Wobbling Symbols */
+.symbol-wobble {
+    animation: symbolWobble 2s ease-in-out infinite;
+}
+
+/* Scaling Symbols */
+.symbol-scale {
+    animation: symbolScale 2s ease-in-out infinite alternate;
+}
+
+.symbol-scale-hover:hover {
+    transform: scale(1.2);
+    transition: transform var(--transition-bounce);
+}
+
+/* Interactive Symbols */
+.symbol-interactive {
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    position: relative;
+}
+
+.symbol-interactive:hover {
+    transform: scale(1.1) rotate(5deg);
+    filter: brightness(1.2) drop-shadow(0 0 15px currentColor);
+}
+
+.symbol-interactive:active {
+    transform: scale(0.95) rotate(-2deg);
+}
+
+/* Symbol Button Effects */
+.symbol-button {
+    background: linear-gradient(135deg, var(--glass-bg), rgba(255, 255, 255, 0.02));
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+}
+
+.symbol-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    transition: all var(--transition-medium);
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.symbol-button:hover {
+    border-color: var(--accent-blue);
+    box-shadow: var(--glow-blue);
+    transform: translateY(-2px);
+}
+
+.symbol-button:hover::before {
+    width: 100%;
+    height: 100%;
+}
+
+.symbol-button:active {
+    transform: translateY(0) scale(0.95);
+}
+
+/* Language-Specific Symbol Styles */
+.symbol-nodejs {
+    color: #68a063;
+    filter: drop-shadow(0 0 8px #68a063);
+}
+
+.symbol-python {
+    color: #3776ab;
+    filter: drop-shadow(0 0 8px #3776ab);
+}
+
+.symbol-rust {
+    color: #ce422b;
+    filter: drop-shadow(0 0 8px #ce422b);
+}
+
+.symbol-go {
+    color: #00add8;
+    filter: drop-shadow(0 0 8px #00add8);
+}
+
+.symbol-java {
+    color: #ed8b00;
+    filter: drop-shadow(0 0 8px #ed8b00);
+}
+
+.symbol-php {
+    color: #777bb4;
+    filter: drop-shadow(0 0 8px #777bb4);
+}
+
+.symbol-zig {
+    color: #f7a41d;
+    filter: drop-shadow(0 0 8px #f7a41d);
+}
+
+.symbol-crystal {
+    color: #000000;
+    filter: drop-shadow(0 0 8px #cccccc);
+}
+
+.symbol-elixir {
+    color: #4e2a8e;
+    filter: drop-shadow(0 0 8px #4e2a8e);
+}
+
+.symbol-fortran {
+    color: #734f96;
+    filter: drop-shadow(0 0 8px #734f96);
+}
+
+/* Status Symbol Styles */
+.symbol-status-online {
+    color: var(--accent-green);
+    animation: symbolPulse 2s ease-in-out infinite;
+}
+
+.symbol-status-offline {
+    color: var(--accent-red);
+    opacity: 0.6;
+}
+
+.symbol-status-warning {
+    color: var(--accent-orange);
+    animation: symbolBlink 1s ease-in-out infinite;
+}
+
+.symbol-status-loading {
+    color: var(--accent-blue);
+    animation: symbolRotate 1s linear infinite;
+}
+
+/* Size Variations */
+.symbol-xs {
+    font-size: 0.75rem;
+}
+
+.symbol-sm {
+    font-size: 1rem;
+}
+
+.symbol-md {
+    font-size: 1.25rem;
+}
+
+.symbol-lg {
+    font-size: 1.5rem;
+}
+
+.symbol-xl {
+    font-size: 2rem;
+}
+
+.symbol-2xl {
+    font-size: 2.5rem;
+}
+
+.symbol-3xl {
+    font-size: 3rem;
+}
+
+/* Symbol Groups */
+.symbol-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.symbol-group-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.symbol-group-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+    gap: 8px;
+    align-items: center;
+    justify-items: center;
+}
+
+/* Symbol Tooltips */
+.symbol-tooltip {
+    position: relative;
+}
+
+.symbol-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-dark);
+    color: var(--metal-shine);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all var(--transition-fast);
+    z-index: 1000;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.symbol-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--primary-dark);
+    opacity: 0;
+    transition: all var(--transition-fast);
+}
+
+.symbol-tooltip:hover::after,
+.symbol-tooltip:hover::before {
+    opacity: 1;
+}
+
+/* Symbol Backgrounds */
+.symbol-bg-circle {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    padding: 8px;
+    backdrop-filter: blur(10px);
+}
+
+.symbol-bg-rounded {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-small);
+    padding: 8px;
+    backdrop-filter: blur(10px);
+}
+
+.symbol-bg-square {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 8px;
+    backdrop-filter: blur(10px);
+}
+
+/* Symbol Animations */
+@keyframes symbolGlow {
+    0% { filter: drop-shadow(0 0 5px currentColor); }
+    100% { filter: drop-shadow(0 0 20px currentColor); }
+}
+
+@keyframes symbolRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes symbolPulse {
+    0%, 100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+@keyframes symbolFloat {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg);
+    }
+    33% { 
+        transform: translateY(-8px) rotate(2deg);
+    }
+    66% { 
+        transform: translateY(4px) rotate(-1deg);
+    }
+}
+
+@keyframes symbolFloatUp {
+    from { transform: translateY(0px); }
+    to { transform: translateY(-10px); }
+}
+
+@keyframes symbolBounce {
+    0%, 20%, 53%, 80%, 100% {
+        transform: translateY(0px);
+    }
+    40%, 43% {
+        transform: translateY(-15px);
+    }
+    70% {
+        transform: translateY(-8px);
+    }
+    90% {
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes symbolBounceHorizontal {
+    0%, 20%, 53%, 80%, 100% {
+        transform: translateX(0px);
+    }
+    40%, 43% {
+        transform: translateX(-10px);
+    }
+    70% {
+        transform: translateX(5px);
+    }
+    90% {
+        transform: translateX(-2px);
+    }
+}
+
+@keyframes symbolWobble {
+    0% { transform: rotate(0deg); }
+    15% { transform: rotate(-5deg); }
+    30% { transform: rotate(3deg); }
+    45% { transform: rotate(-3deg); }
+    60% { transform: rotate(2deg); }
+    75% { transform: rotate(-1deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes symbolScale {
+    from { transform: scale(1); }
+    to { transform: scale(1.15); }
+}
+
+@keyframes symbolBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+}
+
+/* Responsive Symbol Adjustments */
+@media (max-width: 768px) {
+    .symbol-xl { font-size: 1.75rem; }
+    .symbol-2xl { font-size: 2rem; }
+    .symbol-3xl { font-size: 2.25rem; }
+    
+    .symbol-group {
+        gap: 6px;
+    }
+    
+    .symbol-group-grid {
+        grid-template-columns: repeat(auto-fit, minmax(32px, 1fr));
+        gap: 6px;
+    }
+    
+    .symbol-button {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .symbol-lg { font-size: 1.25rem; }
+    .symbol-xl { font-size: 1.5rem; }
+    .symbol-2xl { font-size: 1.75rem; }
+    .symbol-3xl { font-size: 2rem; }
+    
+    .symbol-group {
+        gap: 4px;
+    }
+    
+    .symbol-button {
+        width: 32px;
+        height: 32px;
+    }
+}

@@ -1,0 +1,70 @@
+# Compiled binaries
+*.exe
+*.out
+*.o
+*.obj
+*.mod
+*.smod
+*.so
+*.a
+*.dll
+
+# Build directories
+build/
+bin/
+lib/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Fortran specific
+*.mod
+*.MOD
+*.smod
+*.SMOD
+
+# Debug files
+*.pdb
+*.ilk
+*.dSYM/
+
+# Test outputs
+test_output/
+*.log
+*.tmp
+
+# Documentation
+doc/html/
+doc/latex/
+doc/*.pdf
+
+# Package manager
+build.toml
+fpm_dependencies/
+
+# System files
+.env
+.env.local
+*.pid
+core
+
+# Archives
+*.tar.gz
+*.zip
+*.7z
+
+# Temporary files
+temp/
+tmp/
+*.bak
+*.backup

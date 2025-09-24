@@ -1,0 +1,36 @@
+# Crystal Project
+/lib/
+/.shards/
+*.dwarf
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+
+# Build artifacts
+/bin/
+/shard.lock
+
+# IDE
+/.vscode/
+/.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+/logs/
+
+# Environment
+.env
+.env.local
+
+# Development
+/tmp/
+/temp/

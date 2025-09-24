@@ -1,0 +1,181 @@
+{
+  "id": "code-copilot-gpt",
+  "name": "Code Copilot GPT",
+  "description": "Advanced AI code assistant with intelligent suggestions, completion, and multi-language support",
+  "version": "2.0.0",
+  "author": "Da-Kraken Team",
+  "category": "development",
+  "symbol": "👨‍💻",
+  "icon": "fas fa-code",
+  "capabilities": [
+    "code-completion",
+    "intelligent-suggestions",
+    "code-review",
+    "bug-detection",
+    "refactoring",
+    "optimization",
+    "documentation-generation",
+    "unit-test-generation",
+    "code-explanation",
+    "best-practices",
+    "multi-language-support",
+    "framework-assistance"
+  ],
+  "languages": [
+    "javascript",
+    "typescript",
+    "python",
+    "java",
+    "go",
+    "rust",
+    "php",
+    "crystal",
+    "elixir",
+    "fortran",
+    "zig",
+    "html",
+    "css",
+    "matlab",
+    "sql"
+  ],
+  "config": {
+    "model": "gpt-4",
+    "temperature": 0.3,
+    "maxTokens": 3000,
+    "systemPrompt": "You are an expert code assistant with deep knowledge of multiple programming languages, frameworks, and best practices. You excel at providing intelligent code suggestions, identifying issues, and helping developers write clean, efficient, and maintainable code. Always consider performance, security, and readability in your suggestions.",
+    "customSettings": {
+      "responseFormat": "code-focused",
+      "includeExamples": true,
+      "technicalLevel": "adaptive",
+      "codeStyle": "best-practices",
+      "includeComments": true,
+      "suggestAlternatives": true
+    }
+  },
+  "metadata": {
+    "created": "2025-09-24T10:00:00Z",
+    "updated": "2025-09-24T10:00:00Z",
+    "tags": ["coding", "assistant", "completion", "review"],
+    "documentation": "Advanced code assistance with multi-language support",
+    "license": "MIT"
+  },
+  "requirements": {
+    "apiKeys": ["OPENAI_API_KEY"],
+    "permissions": ["chat", "files", "code-analysis"],
+    "minVersion": "1.0.0"
+  },
+  "quickActions": [
+    {
+      "id": "complete-code",
+      "label": "Complete Code",
+      "icon": "fas fa-magic",
+      "prompt": "Help me complete this code with intelligent suggestions and best practices."
+    },
+    {
+      "id": "review-code",
+      "label": "Review Code",
+      "icon": "fas fa-search",
+      "prompt": "Review this code for bugs, performance issues, security vulnerabilities, and suggest improvements."
+    },
+    {
+      "id": "refactor",
+      "label": "Refactor",
+      "icon": "fas fa-sync",
+      "prompt": "Refactor this code to improve readability, maintainability, and performance while preserving functionality."
+    },
+    {
+      "id": "generate-tests",
+      "label": "Generate Tests",
+      "icon": "fas fa-vial",
+      "prompt": "Generate comprehensive unit tests for this code including edge cases and error scenarios."
+    },
+    {
+      "id": "explain-code",
+      "label": "Explain Code",
+      "icon": "fas fa-question-circle",
+      "prompt": "Explain how this code works, including the algorithms, patterns, and key concepts used."
+    },
+    {
+      "id": "optimize",
+      "label": "Optimize",
+      "icon": "fas fa-rocket",
+      "prompt": "Optimize this code for better performance, memory usage, and efficiency."
+    },
+    {
+      "id": "generate-docs",
+      "label": "Generate Docs",
+      "icon": "fas fa-file-text",
+      "prompt": "Generate comprehensive documentation for this code including usage examples and API documentation."
+    },
+    {
+      "id": "fix-bugs",
+      "label": "Fix Bugs",
+      "icon": "fas fa-bug",
+      "prompt": "Identify and fix bugs in this code, explaining what was wrong and how it was corrected."
+    }
+  ],
+  "languageConfigs": {
+    "javascript": {
+      "frameworks": ["React", "Vue", "Angular", "Node.js", "Express"],
+      "tools": ["ESLint", "Prettier", "Jest", "Webpack"],
+      "bestPractices": ["ES6+", "async/await", "modules", "testing"]
+    },
+    "python": {
+      "frameworks": ["Django", "Flask", "FastAPI", "PyTorch", "TensorFlow"],
+      "tools": ["pip", "conda", "pytest", "black", "flake8"],
+      "bestPractices": ["PEP 8", "type hints", "virtual environments", "testing"]
+    },
+    "java": {
+      "frameworks": ["Spring", "Spring Boot", "Hibernate", "Maven", "Gradle"],
+      "tools": ["Maven", "Gradle", "JUnit", "Mockito"],
+      "bestPractices": ["SOLID principles", "design patterns", "clean code"]
+    },
+    "go": {
+      "frameworks": ["Gin", "Echo", "gRPC", "Cobra"],
+      "tools": ["go mod", "go test", "gofmt", "golint"],
+      "bestPractices": ["interfaces", "error handling", "goroutines", "channels"]
+    },
+    "rust": {
+      "frameworks": ["Actix", "Rocket", "Tokio", "Serde"],
+      "tools": ["Cargo", "rustfmt", "clippy"],
+      "bestPractices": ["ownership", "borrowing", "pattern matching", "error handling"]
+    },
+    "matlab": {
+      "frameworks": ["Simulink", "Statistics Toolbox", "Signal Processing"],
+      "tools": ["MATLAB Compiler", "App Designer", "Live Editor"],
+      "bestPractices": ["vectorization", "function organization", "documentation"]
+    }
+  },
+  "codePatterns": {
+    "designPatterns": [
+      "Singleton",
+      "Factory",
+      "Observer",
+      "Strategy",
+      "Command",
+      "Decorator",
+      "Adapter",
+      "Repository"
+    ],
+    "algorithmicPatterns": [
+      "Divide and Conquer",
+      "Dynamic Programming",
+      "Greedy Algorithms",
+      "Backtracking",
+      "Graph Algorithms",
+      "Sorting Algorithms"
+    ]
+  },
+  "examples": [
+    {
+      "title": "JavaScript Function Optimization",
+      "input": "Optimize this JavaScript function: function findMax(arr) { let max = arr[0]; for(let i = 1; i < arr.length; i++) { if(arr[i] > max) max = arr[i]; } return max; }",
+      "output": "Here's an optimized version with multiple approaches:\n\n```javascript\n// Option 1: Using Math.max with spread operator (for smaller arrays)\nconst findMax = (arr) => {\n  if (!arr || arr.length === 0) throw new Error('Array cannot be empty');\n  return Math.max(...arr);\n};\n\n// Option 2: Optimized iterative approach (for larger arrays)\nconst findMaxIterative = (arr) => {\n  if (!arr || arr.length === 0) throw new Error('Array cannot be empty');\n  \n  let max = arr[0];\n  // Start from index 1 since we already have arr[0]\n  for (let i = 1; i < arr.length; i++) {\n    max = arr[i] > max ? arr[i] : max;\n  }\n  return max;\n};\n\n// Option 3: Using reduce (functional approach)\nconst findMaxFunctional = (arr) => {\n  if (!arr || arr.length === 0) throw new Error('Array cannot be empty');\n  return arr.reduce((max, current) => current > max ? current : max);\n};\n```\n\n**Improvements:**\n- Added input validation\n- Used ternary operator for cleaner conditional\n- Provided multiple approaches for different use cases\n- Math.max is fastest for small arrays, iterative for large arrays"
+    },
+    {
+      "title": "Python Code Review",
+      "input": "Review this Python code: def calculate_average(numbers): total = 0; for i in range(len(numbers)): total += numbers[i]; return total / len(numbers)",
+      "output": "Here's a reviewed and improved version:\n\n```python\ndef calculate_average(numbers: list[float]) -> float:\n    \"\"\"\n    Calculate the arithmetic mean of a list of numbers.\n    \n    Args:\n        numbers: List of numeric values\n        \n    Returns:\n        float: The arithmetic mean of the input numbers\n        \n    Raises:\n        ValueError: If the input list is empty\n        TypeError: If the input contains non-numeric values\n    \"\"\"\n    if not numbers:\n        raise ValueError(\"Cannot calculate average of empty list\")\n    \n    try:\n        return sum(numbers) / len(numbers)\n    except TypeError as e:\n        raise TypeError(\"All elements must be numeric\") from e\n\n# Alternative using statistics module (recommended)\nfrom statistics import mean\n\ndef calculate_average_builtin(numbers: list[float]) -> float:\n    \"\"\"Calculate average using built-in statistics module.\"\"\"\n    if not numbers:\n        raise ValueError(\"Cannot calculate average of empty list\")\n    return mean(numbers)\n```\n\n**Issues Fixed:**\n1. Added type hints for better code documentation\n2. Added proper docstring with Args, Returns, and Raises\n3. Used built-in `sum()` function instead of manual loop\n4. Added input validation for empty lists\n5. Added error handling for non-numeric values\n6. Suggested using `statistics.mean()` for production code"
+    }
+  ]
+}

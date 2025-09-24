@@ -1,0 +1,128 @@
+# Modern Fortran Makefile for Da-Kraken
+# Supports Fortran 95/2003/2008/2018 standards
+
+# Compiler settings
+FC = gfortran
+FFLAGS = -std=f2018 -Wall -Wextra -fcheck=all -g -O2
+LDFLAGS = -llapack -lblas
+
+# Directories
+SRCDIR = src
+APPDIR = app  
+TESTDIR = test
+EXAMPLEDIR = example
+BUILDDIR = build
+MODDIR = $(BUILDDIR)/modules
+
+# Source files
+SOURCES = $(wildcard $(SRCDIR)/*.f90)
+OBJECTS = $(SOURCES:$(SRCDIR)/%.f90=$(BUILDDIR)/%.o)
+MODULES = $(OBJECTS:.o=.mod)
+
+# Executables
+MAIN_EXEC = $(BUILDDIR)/da-kraken-fortran
+TEST_EXEC = $(BUILDDIR)/test-da-kraken
+EXAMPLE_EXEC = $(BUILDDIR)/numerical-example
+
+# Default target
+all: $(MAIN_EXEC)
+
+# Create build directory
+$(BUILDDIR):
+	@mkdir -p $(BUILDDIR)
+	@mkdir -p $(MODDIR)
+
+# Compile source files
+$(BUILDDIR)/%.o: $(SRCDIR)/%.f90 | $(BUILDDIR)
+	$(FC) $(FFLAGS) -J$(MODDIR) -c $< -o $@
+
+# Main executable
+$(MAIN_EXEC): $(OBJECTS) $(APPDIR)/main.f90 | $(BUILDDIR)
+	$(FC) $(FFLAGS) -I$(MODDIR) $(OBJECTS) $(APPDIR)/main.f90 -o $@ $(LDFLAGS)
+
+# Test executable
+$(TEST_EXEC): $(OBJECTS) $(TESTDIR)/test_da_kraken.f90 | $(BUILDDIR)
+	$(FC) $(FFLAGS) -I$(MODDIR) $(OBJECTS) $(TESTDIR)/test_da_kraken.f90 -o $@ $(LDFLAGS)
+
+# Example executable
+$(EXAMPLE_EXEC): $(EXAMPLEDIR)/numerical_example.f90 | $(BUILDDIR)
+	$(FC) $(FFLAGS) -I$(MODDIR) $< -o $@ $(LDFLAGS)
+
+# Run targets
+run: $(MAIN_EXEC)
+	./$(MAIN_EXEC)
+
+test: $(TEST_EXEC)
+	./$(TEST_EXEC)
+
+example: $(EXAMPLE_EXEC)
+	./$(EXAMPLE_EXEC)
+
+# Different Fortran standards
+f95: FFLAGS = -std=f95 -Wall -Wextra -g -O2
+f95: $(MAIN_EXEC)
+
+f2003: FFLAGS = -std=f2003 -Wall -Wextra -g -O2
+f2003: $(MAIN_EXEC)
+
+f2008: FFLAGS = -std=f2008 -Wall -Wextra -g -O2
+f2008: $(MAIN_EXEC)
+
+f2018: FFLAGS = -std=f2018 -Wall -Wextra -g -O2
+f2018: $(MAIN_EXEC)
+
+# Parallel versions
+openmp: FFLAGS += -fopenmp
+openmp: LDFLAGS += -fopenmp
+openmp: $(MAIN_EXEC)
+
+mpi: FC = mpif90
+mpi: $(MAIN_EXEC)
+
+# Debug version
+debug: FFLAGS = -std=f2018 -Wall -Wextra -fcheck=all -g -O0 -fbacktrace
+debug: $(MAIN_EXEC)
+
+# Release version
+release: FFLAGS = -std=f2018 -Wall -O3 -march=native
+release: $(MAIN_EXEC)
+
+# Clean
+clean:
+	rm -rf $(BUILDDIR)
+
+# Install (optional)
+install: $(MAIN_EXEC)
+	cp $(MAIN_EXEC) /usr/local/bin/
+
+# Documentation
+docs:
+	@echo "Generating documentation with FORD..."
+	ford doc/ford_settings.md || echo "FORD not available"
+
+# Lint (using fortls if available)
+lint:
+	@echo "Running Fortran linter..."
+	fortls --check src/ app/ test/ example/ || echo "fortls not available"
+
+# Help
+help:
+	@echo "Available targets:"
+	@echo "  all      - Build main executable (default)"
+	@echo "  run      - Build and run main executable"
+	@echo "  test     - Build and run tests"
+	@echo "  example  - Build and run example"
+	@echo "  f95      - Build with Fortran 95 standard"
+	@echo "  f2003    - Build with Fortran 2003 standard"
+	@echo "  f2008    - Build with Fortran 2008 standard"
+	@echo "  f2018    - Build with Fortran 2018 standard"
+	@echo "  openmp   - Build with OpenMP support"
+	@echo "  mpi      - Build with MPI support"
+	@echo "  debug    - Build debug version"
+	@echo "  release  - Build optimized release version"
+	@echo "  clean    - Remove build files"
+	@echo "  docs     - Generate documentation"
+	@echo "  lint     - Run code linter"
+	@echo "  help     - Show this help"
+
+.PHONY: all run test example f95 f2003 f2008 f2018 openmp mpi debug release clean install docs lint help

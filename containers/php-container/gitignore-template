@@ -1,0 +1,16 @@
+# PHP Template
+**/vendor/
+**/node_modules/
+**/.env
+**/.env.local
+**/cache/
+**/logs/
+**/tmp/
+**/*.log
+**/storage/
+**/public/uploads/
+**/.DS_Store
+**/Thumbs.db
+**/.phpunit.result.cache
+**/.psalm/
+**/composer.phar

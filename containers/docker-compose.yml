@@ -1,200 +1,649 @@
 version: '3.8'
 
+# Da-Kraken AI Development Console
+# Organized following ChatGPT/Anthropic console principles
+# Group: Core AI Services -> Language Containers -> UI Services
+
 services:
-  # Bridge Orchestrator - Central coordinator
+  # ============================================
+  # CORE AI SERVICES (ChatGPT/Anthropic Style)
+  # ============================================
+  
+  # Bridge Orchestrator - AI Console Controller
   bridge-orchestrator:
     build: ./bridge-orchestrator
-    container_name: bridge-orchestrator
+    container_name: da-kraken-console
     ports:
-      - "4000:4000"
+      - "4000:4000"    # Main API
+      - "4001:4001"    # Handshake Protocol
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - shared-volume:/shared
       - ./logs:/app/logs
+      - ./gpt-apps:/app/gpt-apps
     environment:
       - NODE_ENV=production
       - REDIS_URL=redis://redis:6379
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-mock_key}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-mock_key}
+      - CONSOLE_MODE=chatgpt-style
     depends_on:
       - redis
     networks:
-      - bridge-network
+      - ai-console-network
     restart: unless-stopped
+    labels:
+      - "da-kraken.service=core"
+      - "da-kraken.category=ai-console"
 
-  # Redis for session management
+  # Redis - Session & AI Context Storage
   redis:
     image: redis:7-alpine
-    container_name: bridge-redis
+    container_name: da-kraken-memory
     ports:
       - "6379:6379"
     volumes:
       - redis-data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
     networks:
-      - bridge-network
+      - ai-console-network
     restart: unless-stopped
+    labels:
+      - "da-kraken.service=core"
+      - "da-kraken.category=storage"
+
+  # ============================================
+  # WEB DEVELOPMENT STACK
+  # ============================================
+  
+  # Modern Web Container - HTML/CSS/JavaScript + Frameworks
+  web-container:
+    build: ./web-container
+    container_name: da-kraken-web
+    ports:
+      - "8080:8080"    # Live Server
+      - "5173:5173"    # Vite Dev Server
+      - "4200:4200"    # Angular Dev Server
+    volumes:
+      - shared-volume:/shared
+      - web-workspace:/workspace
+    environment:
+      - NODE_ENV=development
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - AI_ASSISTANCE=enabled
+    networks:
+      - ai-console-network
+    profiles:
+      - web
+      - frontend
+      - all
+    restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=web"
+      - "da-kraken.stack=frontend"
 
   # Node.js Development Container
   nodejs-container:
     build: ./nodejs-container
-    container_name: nodejs-dev
+    container_name: da-kraken-nodejs
     ports:
-      - "3000:3000"
-      - "3001:3001"
-      - "5173:5173"
+      - "3000:3000"    # Express Server
+      - "3001:3001"    # Alternative Port
+      - "9229:9229"    # Debug Port
     volumes:
       - shared-volume:/shared
       - nodejs-workspace:/workspace
     environment:
       - NODE_ENV=development
-      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - GPT_INTEGRATION=enabled
     networks:
-      - bridge-network
+      - ai-console-network
     profiles:
       - nodejs
+      - backend
       - all
     restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=javascript"
+      - "da-kraken.stack=backend"
 
-  # Python Development Container
+  # ============================================
+  # DATA SCIENCE & ANALYTICS STACK
+  # ============================================
+  
+  # Python Development Container - Data Science Focus
   python-container:
     build: ./python-container
-    container_name: python-dev
+    container_name: da-kraken-python
     ports:
-      - "5000:5000"
-      - "8000:8000"
-      - "8888:8888"
-      - "8501:8501"
+      - "5000:5000"    # Flask/FastAPI
+      - "8000:8000"    # Alternative Web Server
+      - "8888:8888"    # Jupyter Notebook
+      - "8501:8501"    # Streamlit
     volumes:
       - shared-volume:/shared
       - python-workspace:/workspace
     environment:
       - PYTHONPATH=/workspace
-      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - JUPYTER_ENABLE_LAB=yes
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
     networks:
-      - bridge-network
+      - ai-console-network
     profiles:
       - python
+      - datascience
       - all
     restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=datascience"
+      - "da-kraken.stack=analytics"
 
-  # Java Development Container
+  # MATLAB/Octave Development Container - Scientific Computing
+  matlab-container:
+    build: ./matlab-container
+    container_name: da-kraken-matlab
+    ports:
+      - "8888:8888"    # Jupyter MATLAB
+      - "8889:8889"    # Alternative Jupyter
+    volumes:
+      - shared-volume:/shared
+      - matlab-workspace:/workspace
+    environment:
+      - DISPLAY=:99
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - GOOGLE_OAUTH_ENABLED=${GOOGLE_OAUTH_ENABLED:-false}
+    networks:
+      - ai-console-network
+    profiles:
+      - matlab
+      - scientific
+      - all
+    restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=scientific"
+      - "da-kraken.stack=computing"
+
+  # ============================================
+  # ENTERPRISE BACKEND STACK
+  # ============================================
+  
+  # Java Development Container - Enterprise Focus
   java-container:
     build: ./java-container
-    container_name: java-dev
+    container_name: da-kraken-java
     ports:
-      - "8080:8080"
-      - "8081:8081"
+      - "8080:8080"    # Spring Boot
+      - "8081:8081"    # Alternative Port
+      - "9010:9010"    # JMX Port
     volumes:
       - shared-volume:/shared
       - java-workspace:/workspace
     environment:
-      - JAVA_OPTS=-Xmx1g
-      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+      - JAVA_OPTS=-Xmx2g -XX:+UseG1GC
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - SPRING_PROFILES_ACTIVE=development
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
     networks:
-      - bridge-network
+      - ai-console-network
     profiles:
       - java
+      - enterprise
       - all
     restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=enterprise"
+      - "da-kraken.stack=backend"
 
-  # Go Development Container
+  # Go Development Container - Cloud Native Focus
   go-container:
     build: ./go-container
-    container_name: go-dev
+    container_name: da-kraken-go
     ports:
-      - "8082:8080"
+      - "8082:8080"    # Go HTTP Server
+      - "6060:6060"    # pprof Profiling
     volumes:
       - shared-volume:/shared
       - go-workspace:/workspace
     environment:
       - GOOS=linux
       - GOARCH=amd64
-      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+      - CGO_ENABLED=1
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - GOOGLE_APPLICATION_CREDENTIALS=/workspace/google-credentials.json
     networks:
-      - bridge-network
+      - ai-console-network
     profiles:
       - go
+      - cloud
       - all
     restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=cloud"
+      - "da-kraken.stack=backend"
 
-  # Rust Development Container
+  # ============================================
+  # SYSTEMS PROGRAMMING STACK
+  # ============================================
+  
+  # Rust Development Container - Performance Focus
   rust-container:
     build: ./rust-container
-    container_name: rust-dev
+    container_name: da-kraken-rust
     ports:
-      - "8083:8080"
+      - "8083:8083"    # Actix/Rocket Server
+      - "8090:8090"    # Alternative Port
+      - "8091:8091"    # WebAssembly Server
     volumes:
       - shared-volume:/shared
       - rust-workspace:/workspace
     environment:
       - RUST_BACKTRACE=1
-      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+      - CARGO_TARGET_DIR=/workspace/target
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - RUST_LOG=debug
     networks:
-      - bridge-network
+      - ai-console-network
     profiles:
       - rust
+      - systems
+      - performance
       - all
     restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=systems"
+      - "da-kraken.stack=performance"
+      
+  # Zig Development Container - Modern Systems
+  zig-container:
+    build: ./zig-container
+    container_name: da-kraken-zig
+    ports:
+      - "8087:8087"    # Zig HTTP Server
+      - "8088:8088"    # Alternative Port
+      - "8089:8089"    # Debug Server
+    volumes:
+      - shared-volume:/shared
+      - zig-workspace:/workspace
+    environment:
+      - ZIG_GLOBAL_CACHE_DIR=/workspace/zig-cache
+      - ZIG_LOCAL_CACHE_DIR=/tmp/zig-cache
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+    networks:
+      - ai-console-network
+    profiles:
+      - zig
+      - systems
+      - modern
+      - all
+    restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=systems"
+      - "da-kraken.stack=modern"
 
-  # C++ Development Container
+  # ============================================
+  # WEB & API SERVICES STACK
+  # ============================================
+  
+  # PHP Development Container - Web Services Focus
+  php-container:
+    build: ./php-container
+    container_name: da-kraken-php
+    ports:
+      - "8085:80"      # Apache/Nginx
+      - "8086:8000"    # PHP Built-in Server
+      - "9003:9000"    # Xdebug
+    volumes:
+      - shared-volume:/shared
+      - php-workspace:/workspace
+    environment:
+      - PHP_INI_SCAN_DIR=/usr/local/etc/php/conf.d
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - XDEBUG_MODE=develop,debug
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+    networks:
+      - ai-console-network
+    profiles:
+      - php
+      - web
+      - api
+      - all
+    restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=web"
+      - "da-kraken.stack=api"
+
+  # ============================================
+  # FUNCTIONAL & CONCURRENT STACK
+  # ============================================
+  
+  # Elixir Development Container - Concurrent Systems
+  elixir-container:
+    build: ./elixir-container
+    container_name: da-kraken-elixir
+    ports:
+      - "4002:4000"    # Phoenix Server (avoiding conflict)
+      - "4003:4001"    # Phoenix LiveView
+      - "8092:8092"    # Alternative Port
+      - "8093:8093"    # Monitoring Port
+    volumes:
+      - shared-volume:/shared
+      - elixir-workspace:/workspace
+    environment:
+      - MIX_ENV=dev
+      - PHX_SERVER=true
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+    networks:
+      - ai-console-network
+    profiles:
+      - elixir
+      - functional
+      - concurrent
+      - all
+    restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=functional"
+      - "da-kraken.stack=concurrent"
+
+  # Crystal Development Container - Ruby-like Performance
+  crystal-container:
+    build: ./crystal-container
+    container_name: da-kraken-crystal
+    ports:
+      - "8094:8094"    # Crystal HTTP Server
+      - "8095:8095"    # Alternative Port
+      - "8096:8096"    # Debug Port
+    volumes:
+      - shared-volume:/shared
+      - crystal-workspace:/workspace
+    environment:
+      - CRYSTAL_ENV=development
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - CRYSTAL_WORKERS=4
+    networks:
+      - ai-console-network
+    depends_on:
+      - redis
+    profiles:
+      - crystal
+      - performance
+      - modern
+      - all
+    restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=performance"
+      - "da-kraken.stack=modern"
+
+  # ============================================
+  # SCIENTIFIC & HPC STACK
+  # ============================================
+  
+  # Fortran Development Container - Scientific Computing
+  fortran-container:
+    build: ./fortran-container
+    container_name: da-kraken-fortran
+    ports:
+      - "8097:8097"    # Fortran HTTP Interface
+      - "8098:8098"    # MPI Communication
+      - "8099:8099"    # OpenMP Monitoring
+    volumes:
+      - shared-volume:/shared
+      - fortran-workspace:/workspace
+    environment:
+      - FORTRAN_ENV=development
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - OMP_NUM_THREADS=4
+      - FC=gfortran
+    networks:
+      - ai-console-network
+    depends_on:
+      - redis
+    profiles:
+      - fortran
+      - scientific
+      - hpc
+      - all
+    restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=scientific"
+      - "da-kraken.stack=hpc"
+
+  # C++ Development Container - High Performance
   cpp-container:
     build: ./cpp-container
-    container_name: cpp-dev
+    container_name: da-kraken-cpp
     ports:
-      - "8084:8080"
+      - "8084:8080"    # C++ HTTP Server
+      - "9020:9020"    # GDB Remote Debug
     volumes:
       - shared-volume:/shared
       - cpp-workspace:/workspace
     environment:
       - CXX=g++
       - CC=gcc
-      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+      - CMAKE_BUILD_TYPE=Debug
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
     networks:
-      - bridge-network
+      - ai-console-network
     profiles:
       - cpp
+      - systems
+      - performance
       - all
     restart: unless-stopped
+    labels:
+      - "da-kraken.service=language"
+      - "da-kraken.category=systems"
+      - "da-kraken.stack=performance"
 
-  # Code Generation API
+  # ============================================
+  # UI & SERVICE INFRASTRUCTURE
+  # ============================================
+  
+  # Modern UI - AI Console Interface
+  modern-ui:
+    build: ./modern-ui
+    container_name: da-kraken-ui
+    ports:
+      - "3000:3000"    # Main UI Port
+      - "3001:3001"    # Hot Reload
+    volumes:
+      - shared-volume:/shared
+      - ./modern-ui:/app
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_URL=http://localhost:4000
+      - REACT_APP_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - REACT_APP_CONSOLE_MODE=chatgpt-style
+    networks:
+      - ai-console-network
+    depends_on:
+      - bridge-orchestrator
+    profiles:
+      - ui
+      - all
+    restart: unless-stopped
+    labels:
+      - "da-kraken.service=ui"
+      - "da-kraken.category=interface"
+
+  # Code Generation API with Google Auth
   codegen-api:
     build: ./codegen-api
-    container_name: codegen-api
+    container_name: da-kraken-codegen
     ports:
-      - "4001:4001"
+      - "4001:4001"    # Code Generation API
     volumes:
       - shared-volume:/shared
     environment:
       - NODE_ENV=production
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - BRIDGE_ENDPOINT=http://bridge-orchestrator:4000
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-mock_key}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-mock_key}
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+      - JWT_SECRET=${JWT_SECRET:-da-kraken-secret-key}
     depends_on:
       - bridge-orchestrator
       - redis
     networks:
-      - bridge-network
+      - ai-console-network
     restart: unless-stopped
+    labels:
+      - "da-kraken.service=api"
+      - "da-kraken.category=generation"
+      
+  # Google Authentication Service
+  google-auth-service:
+    image: node:20-alpine
+    container_name: da-kraken-auth
+    ports:
+      - "4002:4002"    # Auth Service Port
+    volumes:
+      - ./auth-service:/app
+      - shared-volume:/shared
+    working_dir: /app
+    command: npm start
+    environment:
+      - NODE_ENV=production
+      - PORT=4002
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+      - JWT_SECRET=${JWT_SECRET:-da-kraken-secret-key}
+      - REDIS_URL=redis://da-kraken-memory:6379
+      - CONSOLE_ENDPOINT=http://da-kraken-console:4000
+    depends_on:
+      - redis
+    networks:
+      - ai-console-network
+    restart: unless-stopped
+    labels:
+      - "da-kraken.service=auth"
+      - "da-kraken.category=security"
+
+# ============================================
+# NETWORK & VOLUME CONFIGURATION
+# ============================================
 
 networks:
-  bridge-network:
+  ai-console-network:
     driver: bridge
+    name: da-kraken-network
     ipam:
+      driver: default
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.21.0.0/16
+          gateway: 172.21.0.1
+    labels:
+      - "da-kraken.network=console"
 
 volumes:
+  # Core Infrastructure
   shared-volume:
     driver: local
+    labels:
+      - "da-kraken.volume=shared"
   redis-data:
     driver: local
+    labels:
+      - "da-kraken.volume=cache"
+      
+  # Language Workspaces - Optimized for Performance
+  web-workspace:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=2g,uid=1000,gid=1000
+    labels:
+      - "da-kraken.workspace=web"
+      - "da-kraken.performance=high"
+      
   nodejs-workspace:
     driver: local
+    labels:
+      - "da-kraken.workspace=nodejs"
+      
   python-workspace:
     driver: local
+    labels:
+      - "da-kraken.workspace=python"
+      
   java-workspace:
     driver: local
+    labels:
+      - "da-kraken.workspace=java"
+      
   go-workspace:
     driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=1g,uid=1000,gid=1000
+    labels:
+      - "da-kraken.workspace=go"
+      - "da-kraken.performance=high"
+      
   rust-workspace:
     driver: local
+    labels:
+      - "da-kraken.workspace=rust"
+      
+  php-workspace:
+    driver: local
+    labels:
+      - "da-kraken.workspace=php"
+      
+  zig-workspace:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=1g,uid=1000,gid=1000
+    labels:
+      - "da-kraken.workspace=zig"
+      - "da-kraken.performance=high"
+      
+  elixir-workspace:
+    driver: local
+    labels:
+      - "da-kraken.workspace=elixir"
+      
+  crystal-workspace:
+    driver: local
+    labels:
+      - "da-kraken.workspace=crystal"
+      
+  fortran-workspace:
+    driver: local
+    labels:
+      - "da-kraken.workspace=fortran"
+      
   cpp-workspace:
     driver: local
+    labels:
+      - "da-kraken.workspace=cpp"
+      
+  matlab-workspace:
+    driver: local
+    labels:
+      - "da-kraken.workspace=matlab"

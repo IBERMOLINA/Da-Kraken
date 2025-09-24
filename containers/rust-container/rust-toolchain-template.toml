@@ -1,0 +1,6 @@
+# Rust Toolchain Configuration
+[toolchain]
+channel = "stable"
+components = ["rustfmt", "clippy", "rust-analyzer"]
+targets = ["x86_64-unknown-linux-gnu", "wasm32-unknown-unknown"]
+profile = "default"

@@ -1,0 +1,82 @@
+{
+  "id": "example-custom-gpt",
+  "name": "Example Custom GPT",
+  "description": "An example custom GPT application for demonstration purposes",
+  "version": "1.0.0",
+  "author": "Custom Developer",
+  "category": "custom",
+  "symbol": "🧪",
+  "icon": "fas fa-flask",
+  "capabilities": [
+    "custom-logic",
+    "specialized-responses",
+    "domain-specific-knowledge"
+  ],
+  "languages": ["all"],
+  "config": {
+    "model": "gpt-4",
+    "temperature": 0.7,
+    "maxTokens": 2000,
+    "systemPrompt": "You are a specialized AI assistant for custom tasks. Provide helpful and accurate responses based on your specialized knowledge.",
+    "customSettings": {
+      "responseFormat": "detailed",
+      "includeExamples": true,
+      "technicalLevel": "intermediate"
+    }
+  },
+  "metadata": {
+    "created": "2024-01-15T10:30:00Z",
+    "updated": "2024-01-15T10:30:00Z",
+    "tags": ["custom", "example", "demo"],
+    "documentation": "https://example.com/docs",
+    "support": "https://example.com/support",
+    "license": "MIT"
+  },
+  "requirements": {
+    "apiKeys": ["OPENAI_API_KEY"],
+    "permissions": ["chat", "files"],
+    "minVersion": "1.0.0"
+  },
+  "endpoints": {
+    "chat": "/api/v1/chat",
+    "health": "/api/v1/health",
+    "config": "/api/v1/config"
+  },
+  "customFunctions": [
+    {
+      "name": "processCustomInput",
+      "description": "Process custom input with specialized logic",
+      "parameters": {
+        "input": "string",
+        "options": "object"
+      }
+    },
+    {
+      "name": "generateSpecializedResponse",
+      "description": "Generate responses with domain-specific knowledge",
+      "parameters": {
+        "query": "string",
+        "context": "object"
+      }
+    }
+  ],
+  "ui": {
+    "theme": "dark",
+    "primaryColor": "#00ff88",
+    "accentColor": "#ff6b6b",
+    "customCSS": "",
+    "layout": "standard"
+  },
+  "examples": [
+    {
+      "title": "Basic Usage",
+      "input": "Hello, can you help me with a custom task?",
+      "output": "Of course! I'm a specialized assistant designed for custom tasks. Please tell me more about what you need help with."
+    },
+    {
+      "title": "Specialized Query",
+      "input": "Analyze this data: [1, 2, 3, 4, 5]",
+      "output": "Based on the data [1, 2, 3, 4, 5], I can see this is a simple ascending sequence. The mean is 3, median is 3, and it shows a linear progression with a difference of 1 between consecutive elements."
+    }
+  ]
+}

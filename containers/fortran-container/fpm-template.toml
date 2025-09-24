@@ -1,0 +1,40 @@
+name = "da-kraken-fortran"
+version = "0.1.0"
+license = "MIT"
+author = "Da-Kraken Team"
+maintainer = "team@da-kraken.dev"
+copyright = "Copyright 2025, Da-Kraken Team"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+
+[dependencies]
+# Add Fortran dependencies here
+# Example: stdlib = { git = "https://github.com/fortran-lang/stdlib" }
+
+[dev-dependencies]
+# Development dependencies
+
+[[executable]]
+name = "da-kraken-fortran"
+source-dir = "app"
+main = "main.f90"
+
+[[executable]]
+name = "numerical-example"
+source-dir = "example"
+main = "numerical_example.f90"
+
+[[test]]
+name = "da-kraken-test"
+source-dir = "test"
+main = "test_da_kraken.f90"
+
+[install]
+library = false

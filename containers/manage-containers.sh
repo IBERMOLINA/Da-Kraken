@@ -53,7 +53,7 @@ Commands:
     bridge              Start bridge orchestrator only
 
 Languages:
-    nodejs, python, java, go, rust, cpp
+    nodejs, python, java, go, php, zig, rust, elixir, crystal, cpp
 
 Examples:
     $0 start                    # Start all containers
@@ -206,7 +206,12 @@ show_endpoints() {
 │ Python Dev Server       │ 5000, 8000, 8888│ http://localhost:5000  │
 │ Java Dev Server         │ 8080, 8081      │ http://localhost:8080  │
 │ Go Dev Server           │ 8082            │ http://localhost:8082  │
-│ Rust Dev Server         │ 8083            │ http://localhost:8083  │
+│ PHP Dev Server          │ 8085, 8086      │ http://localhost:8085  │
+│ Zig Dev Server          │ 8087, 8088, 8089│ http://localhost:8087  │
+│ Rust Dev Server         │ 8090, 8091, 8092│ http://localhost:8090  │
+│ Elixir Dev Server       │ 8090, 8091, 8092│ http://localhost:8090  │
+│ Crystal Dev Server      │ 8094, 8095, 8096│ http://localhost:8094  │
+│ Fortran Dev Server      │ 8097, 8098, 8099│ http://localhost:8097  │
 │ C++ Dev Server          │ 8084            │ http://localhost:8084  │
 │ Redis                   │ 6379            │ redis://localhost:6379 │
 └─────────────────────────┴─────────────────┴────────────────────────┘
@@ -238,7 +243,7 @@ Available commands:
 
 - Open http://localhost:4000/health to check status
 
-Languages: nodejs, python, java, go, rust, cpp
+Languages: nodejs, python, java, go, php, zig, rust, elixir, crystal, fortran, cpp
 
 EOF
 }

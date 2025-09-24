@@ -1,0 +1,516 @@
+/* Animations CSS - Advanced 3D Mechanical Animations */
+
+/* Core Animation Variables */
+:root {
+    --animation-duration-fast: 0.3s;
+    --animation-duration-medium: 0.6s;
+    --animation-duration-slow: 1.2s;
+    --animation-easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --animation-easing-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Loading Animations */
+.animate-loading {
+    animation: loading 2s ease-in-out infinite;
+}
+
+.animate-loading-dots::after {
+    content: '';
+    animation: loadingDots 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes loadingDots {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+    100% { content: ''; }
+}
+
+/* Entrance Animations */
+.animate-fade-in {
+    animation: fadeIn var(--animation-duration-medium) var(--animation-easing-smooth) forwards;
+}
+
+.animate-slide-in-up {
+    animation: slideInUp var(--animation-duration-medium) var(--animation-easing-bounce) forwards;
+}
+
+.animate-slide-in-down {
+    animation: slideInDown var(--animation-duration-medium) var(--animation-easing-bounce) forwards;
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft var(--animation-duration-medium) var(--animation-easing-bounce) forwards;
+}
+
+.animate-slide-in-right {
+    animation: slideInRight var(--animation-duration-medium) var(--animation-easing-bounce) forwards;
+}
+
+.animate-zoom-in {
+    animation: zoomIn var(--animation-duration-medium) var(--animation-easing-elastic) forwards;
+}
+
+.animate-rotate-in {
+    animation: rotateIn var(--animation-duration-medium) var(--animation-easing-smooth) forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(50px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes rotateIn {
+    from { transform: rotate(-180deg); opacity: 0; }
+    to { transform: rotate(0deg); opacity: 1; }
+}
+
+/* Mechanical Gear Animations */
+.animate-gear-rotate {
+    animation: gearRotate 4s linear infinite;
+}
+
+.animate-gear-rotate-reverse {
+    animation: gearRotate 4s linear infinite reverse;
+}
+
+.animate-gear-rotate-slow {
+    animation: gearRotate 8s linear infinite;
+}
+
+.animate-gear-complex {
+    animation: gearComplex 6s ease-in-out infinite;
+}
+
+@keyframes gearRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes gearComplex {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(90deg) scale(1.1); }
+    50% { transform: rotate(180deg) scale(1); }
+    75% { transform: rotate(270deg) scale(0.9); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Hydraulic Animations */
+.animate-hydraulic-extend {
+    animation: hydraulicExtend 3s ease-in-out infinite alternate;
+}
+
+.animate-hydraulic-compress {
+    animation: hydraulicCompress 2s ease-in-out infinite alternate;
+}
+
+@keyframes hydraulicExtend {
+    from { transform: scaleY(1); }
+    to { transform: scaleY(1.5); }
+}
+
+@keyframes hydraulicCompress {
+    from { transform: scaleY(1); }
+    to { transform: scaleY(0.7); }
+}
+
+/* Spring Animations */
+.animate-spring-bounce {
+    animation: springBounce 1.5s ease-in-out infinite;
+}
+
+.animate-spring-compress {
+    animation: springCompress 2s ease-in-out infinite alternate;
+}
+
+@keyframes springBounce {
+    0%, 100% { transform: scaleY(1); }
+    25% { transform: scaleY(0.8); }
+    50% { transform: scaleY(1.2); }
+    75% { transform: scaleY(0.9); }
+}
+
+@keyframes springCompress {
+    from { transform: scaleY(1) translateY(0); }
+    to { transform: scaleY(0.6) translateY(20%); }
+}
+
+/* Mechanical Vibration */
+.animate-vibrate {
+    animation: vibrate 0.5s ease-in-out infinite;
+}
+
+.animate-vibrate-intense {
+    animation: vibrateIntense 0.3s ease-in-out infinite;
+}
+
+@keyframes vibrate {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-1px) rotate(-0.5deg); }
+    50% { transform: translateX(1px) rotate(0.5deg); }
+    75% { transform: translateX(-1px) rotate(-0.5deg); }
+}
+
+@keyframes vibrateIntense {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(-2px) translateY(-1px) rotate(-1deg); }
+    50% { transform: translateX(2px) translateY(1px) rotate(1deg); }
+    75% { transform: translateX(-2px) translateY(1px) rotate(-1deg); }
+}
+
+/* Pulsating Lights and Indicators */
+.animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.animate-pulse-glow-fast {
+    animation: pulseGlow 1s ease-in-out infinite;
+}
+
+.animate-pulse-glow-slow {
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% { 
+        box-shadow: 0 0 10px currentColor;
+        filter: brightness(1);
+    }
+    50% { 
+        box-shadow: 0 0 25px currentColor, 0 0 35px currentColor;
+        filter: brightness(1.3);
+    }
+}
+
+/* Mechanical Assembly Animations */
+.animate-assemble {
+    animation: assemble 2s var(--animation-easing-bounce) forwards;
+}
+
+.animate-disassemble {
+    animation: disassemble 1.5s ease-in forwards;
+}
+
+@keyframes assemble {
+    0% { 
+        transform: translateY(-100px) rotate(180deg) scale(0);
+        opacity: 0;
+    }
+    50% { 
+        transform: translateY(10px) rotate(10deg) scale(1.1);
+        opacity: 0.8;
+    }
+    100% { 
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes disassemble {
+    0% { 
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    100% { 
+        transform: scale(0) rotate(-180deg) translateY(-100px);
+        opacity: 0;
+    }
+}
+
+/* Conveyor Belt Animation */
+.animate-conveyor {
+    background: repeating-linear-gradient(
+        90deg,
+        var(--metal-medium) 0px,
+        var(--metal-medium) 10px,
+        var(--metal-light) 10px,
+        var(--metal-light) 20px
+    );
+    background-size: 40px 100%;
+    animation: conveyor 2s linear infinite;
+}
+
+@keyframes conveyor {
+    from { background-position-x: 0; }
+    to { background-position-x: 40px; }
+}
+
+/* Mechanical Lever Animation */
+.animate-lever-pull {
+    animation: leverPull 1s ease-in-out infinite alternate;
+}
+
+@keyframes leverPull {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(25deg); }
+}
+
+/* Steam and Smoke Effects */
+.animate-steam {
+    animation: steam 3s ease-in-out infinite;
+}
+
+@keyframes steam {
+    0% { 
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateY(-20px) scale(1.2);
+        opacity: 0.4;
+    }
+    100% { 
+        transform: translateY(-40px) scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Pressure Gauge Animation */
+.animate-pressure-gauge {
+    animation: pressureGauge 4s ease-in-out infinite;
+}
+
+@keyframes pressureGauge {
+    0% { transform: rotate(-45deg); }
+    25% { transform: rotate(0deg); }
+    50% { transform: rotate(45deg); }
+    75% { transform: rotate(90deg); }
+    100% { transform: rotate(-45deg); }
+}
+
+/* Mechanical Clock Animation */
+.animate-clock-tick {
+    animation: clockTick 1s steps(60) infinite;
+}
+
+@keyframes clockTick {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 3D Flip Animations */
+.animate-flip-x {
+    animation: flipX 1s ease-in-out infinite alternate;
+}
+
+.animate-flip-y {
+    animation: flipY 1s ease-in-out infinite alternate;
+}
+
+@keyframes flipX {
+    from { transform: rotateX(0deg); }
+    to { transform: rotateX(180deg); }
+}
+
+@keyframes flipY {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(180deg); }
+}
+
+/* Mechanical Wobble */
+.animate-wobble {
+    animation: wobble 2s ease-in-out infinite;
+}
+
+@keyframes wobble {
+    0% { transform: rotate(0deg); }
+    15% { transform: rotate(-5deg); }
+    30% { transform: rotate(3deg); }
+    45% { transform: rotate(-3deg); }
+    60% { transform: rotate(2deg); }
+    75% { transform: rotate(-1deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Mechanical Swing */
+.animate-swing {
+    animation: swing 2s ease-in-out infinite;
+    transform-origin: top center;
+}
+
+@keyframes swing {
+    0%, 100% { transform: rotate(0deg); }
+    20% { transform: rotate(15deg); }
+    40% { transform: rotate(-10deg); }
+    60% { transform: rotate(5deg); }
+    80% { transform: rotate(-5deg); }
+}
+
+/* Typewriter Effect */
+.animate-typewriter {
+    overflow: hidden;
+    border-right: 2px solid var(--accent-cyan);
+    white-space: nowrap;
+    animation: typewriter 3s steps(40) forwards, blink 0.5s step-end infinite;
+}
+
+@keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink {
+    0%, 50% { border-color: var(--accent-cyan); }
+    51%, 100% { border-color: transparent; }
+}
+
+/* Matrix Digital Rain Effect */
+.animate-matrix {
+    animation: matrix 20s linear infinite;
+}
+
+@keyframes matrix {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+}
+
+/* Holographic Effect */
+.animate-holographic {
+    animation: holographic 3s ease-in-out infinite;
+}
+
+@keyframes holographic {
+    0%, 100% { 
+        filter: hue-rotate(0deg) brightness(1);
+        transform: scale(1);
+    }
+    25% { 
+        filter: hue-rotate(90deg) brightness(1.2);
+        transform: scale(1.05);
+    }
+    50% { 
+        filter: hue-rotate(180deg) brightness(0.8);
+        transform: scale(0.95);
+    }
+    75% { 
+        filter: hue-rotate(270deg) brightness(1.1);
+        transform: scale(1.02);
+    }
+}
+
+/* Delay Classes for Staggered Animations */
+.animate-delay-100 { animation-delay: 0.1s; }
+.animate-delay-200 { animation-delay: 0.2s; }
+.animate-delay-300 { animation-delay: 0.3s; }
+.animate-delay-500 { animation-delay: 0.5s; }
+.animate-delay-700 { animation-delay: 0.7s; }
+.animate-delay-1000 { animation-delay: 1s; }
+
+/* Animation Play States */
+.animate-paused { animation-play-state: paused; }
+.animate-running { animation-play-state: running; }
+
+/* Hover-Triggered Animations */
+.hover-animate-lift:hover {
+    animation: lift 0.3s ease-out forwards;
+}
+
+.hover-animate-tilt:hover {
+    animation: tilt 0.3s ease-out forwards;
+}
+
+.hover-animate-glow:hover {
+    animation: hoverGlow 0.3s ease-out forwards;
+}
+
+@keyframes lift {
+    to { transform: translateY(-10px) translateZ(10px); }
+}
+
+@keyframes tilt {
+    to { transform: perspective(1000px) rotateX(10deg) rotateY(10deg); }
+}
+
+@keyframes hoverGlow {
+    to { 
+        box-shadow: 0 0 30px currentColor;
+        filter: brightness(1.3);
+    }
+}
+
+/* Complex Mechanical Sequences */
+.animate-factory-sequence {
+    animation: 
+        factoryRotate 8s linear infinite,
+        factoryScale 4s ease-in-out infinite alternate,
+        factoryGlow 2s ease-in-out infinite;
+}
+
+@keyframes factoryRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes factoryScale {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+@keyframes factoryGlow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3) saturate(1.2); }
+}
+
+/* Responsive Animation Adjustments */
+@media (max-width: 768px) {
+    .animate-gear-rotate,
+    .animate-gear-rotate-reverse,
+    .animate-gear-rotate-slow {
+        animation-duration: 6s;
+    }
+    
+    .animate-vibrate,
+    .animate-vibrate-intense {
+        animation-duration: 0.8s;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Print Styles */
+@media print {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

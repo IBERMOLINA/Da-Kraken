@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Da-Kraken | AI-Powered Development Console</title>
+    
+    <!-- Meta Tags for SEO and Social -->
+    <meta name="description" content="ChatGPT-style AI console for multi-language development with 15+ programming languages and GPT integration">
+    <meta name="keywords" content="AI development, GPT integration, programming console, containers, docker, chatgpt interface">
+    <meta name="author" content="IBERMOLINA">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="./css/symbols.css" as="style">
+    <link rel="preload" href="./js/symbols.js" as="script">
+    <link rel="preload" href="./js/mechanical-animations.js" as="script">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/symbols.css">
+    <link rel="stylesheet" href="./css/mechanical-3d.css">
+        <!-- Styles -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/symbols.css">
+    <link rel="stylesheet" href="css/gpt-apps.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Symbol Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/4.0.0/material-design-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/devicon@2.15.1/devicon.min.css">
+</head>
+<body class="mechanical-theme">
+    <!-- Loading Screen with 3D Animation -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="mechanical-loader">
+            <div class="gear-assembly">
+                <div class="gear gear-large" data-symbol="⚙">
+                    <div class="gear-teeth"></div>
+                </div>
+                <div class="gear gear-medium" data-symbol="⚡">
+                    <div class="gear-teeth"></div>
+                </div>
+                <div class="gear gear-small" data-symbol="🔧">
+                    <div class="gear-teeth"></div>
+                </div>
+            </div>
+            <div class="loading-text">
+                <span class="symbol" data-symbol="🚀">🚀</span>
+                <span class="text">Initializing Da-Kraken</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Application -->
+    <div id="app" class="app-container">
+        <!-- Navigation Header -->
+        <header class="nav-header">
+            <div class="nav-container">
+                <!-- Logo and Brand -->
+                <div class="brand-section">
+                    <div class="logo-3d" data-symbol="🐙">
+                        <div class="logo-inner">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                    </div>
+                    <div class="brand-text">
+                        <h1 class="brand-title">Da-Kraken</h1>
+                        <p class="brand-subtitle">AI Development Console</p>
+                    </div>
+                </div>
+
+                <!-- Language Selector -->
+                <div class="language-selector">
+                    <div class="language-grid">
+                        <button class="lang-btn active" data-lang="all" data-symbol="🌐">
+                            <div class="btn-3d">
+                                <i class="fas fa-globe"></i>
+                                <span class="btn-text">All</span>
+                            </div>
+                        </button>
+                        <button class="lang-btn" data-lang="nodejs" data-symbol="⚡">
+                            <div class="btn-3d">
+                                <i class="devicon-nodejs-plain"></i>
+                                <span class="btn-text">Node.js</span>
+                            </div>
+                        </button>
+                        <button class="lang-btn" data-lang="python" data-symbol="🐍">
+                            <div class="btn-3d">
+                                <i class="devicon-python-plain"></i>
+                                <span class="btn-text">Python</span>
+                            </div>
+                        </button>
+                        <button class="lang-btn" data-lang="rust" data-symbol="🦀">
+                            <div class="btn-3d">
+                                <i class="devicon-rust-plain"></i>
+                                <span class="btn-text">Rust</span>
+                            </div>
+                        </button>
+                        <button class="lang-btn" data-lang="go" data-symbol="🚀">
+                            <div class="btn-3d">
+                                <i class="devicon-go-plain"></i>
+                                <span class="btn-text">Go</span>
+                            </div>
+                        </button>
+                        <button class="lang-btn" data-lang="java" data-symbol="☕">
+                            <div class="btn-3d">
+                                <i class="devicon-java-plain"></i>
+                                <span class="btn-text">Java</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="action-controls">
+                    <button class="control-btn" data-action="start" data-symbol="▶">
+                        <div class="btn-3d">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </button>
+                    <button class="control-btn" data-action="stop" data-symbol="⏹">
+                        <div class="btn-3d">
+                            <i class="fas fa-stop"></i>
+                        </div>
+                    </button>
+                    <button class="control-btn" data-action="restart" data-symbol="🔄">
+                        <div class="btn-3d">
+                            <i class="fas fa-redo"></i>
+                        </div>
+                    </button>
+                    <button class="control-btn" data-action="settings" data-symbol="⚙">
+                        <div class="btn-3d">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Status Dashboard -->
+            <section class="status-dashboard">
+                <div class="dashboard-grid">
+                    <!-- System Status -->
+                    <div class="status-card system-status">
+                        <div class="card-header">
+                            <div class="card-symbol" data-symbol="💻">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h3 class="card-title">System Status</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="status-indicator online" data-symbol="🟢">
+                                <div class="indicator-light"></div>
+                                <span>Online</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Container Status -->
+                    <div class="status-card container-status">
+                        <div class="card-header">
+                            <div class="card-symbol" data-symbol="📦">
+                                <i class="fab fa-docker"></i>
+                            </div>
+                            <h3 class="card-title">Containers</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="container-list" id="container-list">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Metrics -->
+                    <div class="status-card performance-metrics">
+                        <div class="card-header">
+                            <div class="card-symbol" data-symbol="📊">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="card-title">Performance</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-row">
+                                <span class="metric-label" data-symbol="🔋">CPU</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width: 45%"></div>
+                                </div>
+                                <span class="metric-value">45%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label" data-symbol="💾">RAM</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width: 32%"></div>
+                                </div>
+                                <span class="metric-value">32%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="status-card activity-log">
+                        <div class="card-header">
+                            <div class="card-symbol" data-symbol="📝">
+                                <i class="fas fa-list"></i>
+                            </div>
+                            <h3 class="card-title">Activity Log</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="activity-list" id="activity-list">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Console Interface -->
+            <section class="ai-console">
+                <div class="console-header">
+                    <h2 class="section-title">
+                        <span class="title-symbol" data-symbol="🧠">🧠</span>
+                        AI Development Console
+                    </h2>
+                    <div class="gpt-selector">
+                        <select id="gpt-selector" class="gpt-dropdown">
+                            <option value="software-architect">🏗️ Software Architect GPT</option>
+                            <option value="code-copilot">👨‍💻 Code Copilot GPT</option>
+                            <option value="data-analyst">📊 Data Analyst GPT</option>
+                            <option value="ui-designer">🎨 UI/UX Designer GPT</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="console-interface">
+                    <!-- Chat Messages -->
+                    <div class="chat-container" id="chat-container">
+                        <div class="chat-message system">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="sender">Software Architect GPT</span>
+                                    <span class="timestamp">Now</span>
+                                </div>
+                                <div class="message-text">
+                                    Hello! I'm your AI development assistant. I can help with system design, code generation, architecture planning, and more. What would you like to build today?
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Input Section -->
+                    <div class="chat-input-section">
+                        <div class="input-toolbar">
+                            <button class="toolbar-btn" data-action="code" title="Generate Code">
+                                <i class="fas fa-code"></i>
+                            </button>
+                            <button class="toolbar-btn" data-action="architecture" title="Design Architecture">
+                                <i class="fas fa-sitemap"></i>
+                            </button>
+                            <button class="toolbar-btn" data-action="debug" title="Debug Code">
+                                <i class="fas fa-bug"></i>
+                            </button>
+                            <button class="toolbar-btn" data-action="optimize" title="Optimize Performance">
+                                <i class="fas fa-rocket"></i>
+                            </button>
+                        </div>
+                        <div class="input-container">
+                            <textarea id="chat-input" placeholder="Type your development question or request..." rows="3"></textarea>
+                            <button id="send-btn" class="send-btn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Development Environment -->
+            <section class="dev-environment">
+                <div class="environment-header">
+                    <h2 class="section-title">
+                        <span class="title-symbol" data-symbol="⚡">⚡</span>
+                        Container Environment
+                    </h2>
+                    <div class="environment-controls">
+                        <button class="env-btn" data-action="profile-web">Web Dev</button>
+                        <button class="env-btn" data-action="profile-data">Data Science</button>
+                        <button class="env-btn" data-action="profile-enterprise">Enterprise</button>
+                        <button class="env-btn active" data-action="profile-all">All Languages</button>
+                    </div>
+                </div>
+                
+                <div class="service-grid" id="service-grid">
+                    <!-- Services will be dynamically populated -->
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <div class="actions-header">
+                    <h2 class="section-title">
+                        <span class="title-symbol" data-symbol="🚀">🚀</span>
+                        Quick Actions
+                    </h2>
+                </div>
+                
+                <div class="actions-grid">
+                    <button class="action-card" data-action="generate-code" data-symbol="🤖">
+                        <div class="action-symbol">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Generate Code</h3>
+                            <p>AI-powered code generation</p>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" data-action="run-tests" data-symbol="🧪">
+                        <div class="action-symbol">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Run Tests</h3>
+                            <p>Execute test suites</p>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" data-action="deploy" data-symbol="🚀">
+                        <div class="action-symbol">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Deploy</h3>
+                            <p>Deploy to production</p>
+                        </div>
+                    </button>
+                    
+                    <button class="action-card" data-action="monitor" data-symbol="📊">
+                        <div class="action-symbol">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Monitor</h3>
+                            <p>System monitoring</p>
+                        </div>
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <span class="footer-symbol" data-symbol="🔧">🔧</span>
+                    <span class="footer-text">Da-Kraken v1.0.0</span>
+                </div>
+                <div class="footer-section">
+                    <span class="footer-symbol" data-symbol="⚡">⚡</span>
+                    <span class="footer-text">BUILD - DEPLOY - ENJOY</span>
+                </div>
+                <div class="footer-section">
+                    <span class="footer-symbol" data-symbol="🌐">🌐</span>
+                    <span class="footer-text">IBERMOLINA © 2025</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <button class="fab-main" data-symbol="➕">
+            <div class="fab-3d">
+                <i class="fas fa-plus"></i>
+            </div>
+        </button>
+        <div class="fab-menu">
+            <button class="fab-item" data-action="new-project" data-symbol="📁">
+                <i class="fas fa-folder-plus"></i>
+            </button>
+            <button class="fab-item" data-action="terminal" data-symbol="💻">
+                <i class="fas fa-terminal"></i>
+            </button>
+            <button class="fab-item" data-action="help" data-symbol="❓">
+                <i class="fas fa-question"></i>
+            </button>
+        </div>
+    </div>
+
+        <!-- Scripts -->
+    <script src="js/theme.js"></script>
+    <script src="js/symbols.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/api-client.js"></script>
+    <script src="js/gpt-apps-manager.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+{
+    "name": "Da-Kraken Multi-Language Development",
+    "dockerComposeFile": "./containers/docker-compose.yml",
+    "service": "bridge-orchestrator",
+    "workspaceFolder": "/workspaces/Da-Kraken",
+    "shutdownAction": "stopCompose",
+    
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "20"
+        },
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "3.12"
+        },
+        "ghcr.io/devcontainers/features/java:1": {
+            "version": "17"
+        },
+        "ghcr.io/devcontainers/features/go:1": {
+            "version": "1.21"
+        },
+        "ghcr.io/devcontainers/features/php:1": {
+            "version": "8.2"
+        },
+        "ghcr.io/devcontainers/features/rust:1": {},
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true,
+            "configureZshAsDefaultShell": true,
+            "username": "vscode",
+            "userUid": "1000",
+            "userGid": "1000"
+        }
+    },
+    
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.vscode-typescript-next",
+                "ms-python.python",
+                "rust-lang.rust-analyzer",
+                "golang.go",
+                "redhat.java",
+                "bmewburn.vscode-intelephense-client",
+                "elixir-lsp.elixir-ls",
+                "crystal-lang-tools.crystal-lang",
+                "ziglang.vscode-zig",
+                "fortran-lang.lfortran",
+                "ms-vscode.vscode-docker",
+                "ms-vscode.vscode-json",
+                "ms-vscode.vscode-yaml",
+                "streetsidesoftware.code-spell-checker",
+                "ms-vscode.vscode-eslint",
+                "ms-python.pylint",
+                "ms-python.flake8",
+                "bradlc.vscode-tailwindcss",
+                "formulahendry.auto-rename-tag",
+                "christian-kohler.path-intellisense",
+                "ms-vscode.vscode-todo-highlight",
+                "gruntfuggly.todo-tree"
+            ],
+            "settings": {
+                "workbench.colorTheme": "Default Dark+",
+                "editor.fontSize": 14,
+                "editor.tabSize": 2,
+                "editor.insertSpaces": true,
+                "editor.formatOnSave": true,
+                "files.autoSave": "afterDelay",
+                "files.autoSaveDelay": 1000,
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "docker.enableDockerComposeLanguageService": true,
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "rust-analyzer.enable": true,
+                "go.toolsManagement.autoUpdate": true,
+                "java.home": "/usr/local/sdkman/candidates/java/current",
+                "elixir.projectPath": "./containers/elixir-container",
+                "crystal-lang.enable": true,
+                "zig.enable": true,
+                "fortran.fortls.enable": true,
+                "spellright.language": ["en"],
+                "spellright.documentTypes": ["markdown", "latex", "plaintext"],
+                "todo-tree.general.tags": ["BUG", "HACK", "FIXME", "TODO", "XXX", "[ ]", "[x]"],
+                "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+                "workbench.startupEditor": "readme"
+            }
+        }
+    },
+    
+    "forwardPorts": [
+        3000, 3001, 4000, 4001, 5000, 5173, 6379,
+        8000, 8080, 8081, 8082, 8083, 8084, 8085, 8086,
+        8087, 8088, 8089, 8090, 8091, 8092, 8094, 8095,
+        8096, 8097, 8098, 8099, 8888
+    ],
+    
+    "portsAttributes": {
+        "3000": {
+            "label": "Node.js Dev Server",
+            "onAutoForward": "notify"
+        },
+        "4000": {
+            "label": "Bridge Orchestrator",
+            "onAutoForward": "openPreview"
+        },
+        "5000": {
+            "label": "Python Dev Server",
+            "onAutoForward": "notify"
+        },
+        "8080": {
+            "label": "Java Dev Server",
+            "onAutoForward": "notify"
+        },
+        "8082": {
+            "label": "Go Dev Server",
+            "onAutoForward": "notify"
+        },
+        "8085": {
+            "label": "PHP Dev Server",
+            "onAutoForward": "notify"
+        },
+        "8087": {
+            "label": "Zig Dev Server",
+            "onAutoForward": "notify"
+        },
+        "8090": {
+            "label": "Rust Dev Server",
+            "onAutoForward": "notify"
+        },
+        "8094": {
+            "label": "Crystal Dev Server",
+            "onAutoForward": "notify"
+        },
+        "8097": {
+            "label": "Fortran Dev Server",
+            "onAutoForward": "notify"
+        }
+    },
+    
+    "postCreateCommand": "bash .codespace-startup.sh auto",
+    
+    "postStartCommand": "echo '🚀 Da-Kraken Multi-Language Development Environment Ready!'",
+    
+    "remoteUser": "vscode",
+    
+    "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
+    ],
+    
+    "overrideCommand": false,
+    
+    "runArgs": [
+        "--privileged"
+    ]
+}

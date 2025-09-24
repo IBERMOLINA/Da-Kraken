@@ -1,0 +1,553 @@
+/* Mechanical 3D Effects CSS */
+
+/* 3D Transform Base */
+.mechanical-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: all var(--transition-medium);
+}
+
+/* Mechanical Panel Effects */
+.mechanical-panel {
+    background: linear-gradient(135deg, var(--metal-light) 0%, var(--metal-dark) 100%);
+    border: 2px solid var(--metal-medium);
+    border-radius: var(--border-radius);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: all var(--transition-medium);
+}
+
+.mechanical-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--metal-shine) 20%, 
+        var(--metal-shine) 80%, 
+        transparent 100%);
+    opacity: 0.6;
+}
+
+.mechanical-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    bottom: 0;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        var(--metal-shine) 20%, 
+        var(--metal-shine) 80%, 
+        transparent 100%);
+    opacity: 0.6;
+}
+
+.mechanical-panel:hover {
+    transform: translateZ(10px) rotateX(2deg) rotateY(2deg);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* Mechanical Button Effects */
+.mechanical-button {
+    background: linear-gradient(145deg, var(--metal-medium) 0%, var(--metal-dark) 50%, var(--metal-light) 100%);
+    border: 2px solid var(--metal-medium);
+    border-radius: var(--border-radius-small);
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: all var(--transition-fast);
+    overflow: hidden;
+}
+
+.mechanical-button::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    height: 50%;
+    background: linear-gradient(180deg, 
+        rgba(255, 255, 255, 0.3) 0%, 
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%);
+    border-radius: var(--border-radius-small) var(--border-radius-small) 0 0;
+}
+
+.mechanical-button::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    height: 2px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 0 0 var(--border-radius-small) var(--border-radius-small);
+}
+
+.mechanical-button:hover {
+    transform: translateY(-2px) translateZ(5px);
+    box-shadow: 
+        0 6px 15px rgba(0, 0, 0, 0.3),
+        inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.mechanical-button:active {
+    transform: translateY(1px) translateZ(2px);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Gear Mechanisms */
+.mechanical-gear {
+    position: relative;
+    display: inline-block;
+    transform-style: preserve-3d;
+}
+
+.gear {
+    position: relative;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--metal-light) 30%, var(--metal-dark) 70%);
+    border: 3px solid var(--metal-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    transition: all var(--transition-medium);
+}
+
+.gear::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20%;
+    height: 20%;
+    background: var(--metal-dark);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.gear-teeth {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    background: 
+        radial-gradient(circle at 50% 0%, var(--metal-medium) 45%, transparent 50%),
+        radial-gradient(circle at 86.6% 25%, var(--metal-medium) 45%, transparent 50%),
+        radial-gradient(circle at 86.6% 75%, var(--metal-medium) 45%, transparent 50%),
+        radial-gradient(circle at 50% 100%, var(--metal-medium) 45%, transparent 50%),
+        radial-gradient(circle at 13.4% 75%, var(--metal-medium) 45%, transparent 50%),
+        radial-gradient(circle at 13.4% 25%, var(--metal-medium) 45%, transparent 50%);
+}
+
+.gear:hover {
+    transform: rotateZ(15deg) rotateX(10deg);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.4),
+        inset 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Mechanical Joints and Connectors */
+.mechanical-joint {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, var(--metal-chrome) 30%, var(--metal-medium) 70%);
+    border: 2px solid var(--metal-dark);
+    border-radius: 50%;
+    display: inline-block;
+    transform-style: preserve-3d;
+}
+
+.mechanical-joint::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: var(--metal-dark);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.8);
+}
+
+.mechanical-connector {
+    position: relative;
+    height: 4px;
+    background: linear-gradient(90deg, var(--metal-medium) 0%, var(--metal-light) 50%, var(--metal-medium) 100%);
+    border: 1px solid var(--metal-dark);
+    border-radius: 2px;
+    transform-style: preserve-3d;
+}
+
+.mechanical-connector::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px 2px 0 0;
+}
+
+/* Hydraulic Cylinders */
+.mechanical-cylinder {
+    position: relative;
+    background: linear-gradient(180deg, var(--metal-light) 0%, var(--metal-medium) 50%, var(--metal-dark) 100%);
+    border: 2px solid var(--metal-medium);
+    border-radius: 10px;
+    transform-style: preserve-3d;
+    overflow: hidden;
+}
+
+.mechanical-cylinder::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 2px;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 1px;
+}
+
+.mechanical-cylinder::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 10%;
+    width: 2px;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 1px;
+}
+
+.cylinder-piston {
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    right: 20%;
+    height: 60%;
+    background: linear-gradient(180deg, var(--metal-chrome) 0%, var(--metal-medium) 100%);
+    border: 1px solid var(--metal-dark);
+    border-radius: 5px;
+    transform: translateZ(2px);
+    transition: all var(--transition-medium);
+}
+
+.mechanical-cylinder:hover .cylinder-piston {
+    transform: translateZ(2px) translateY(-10%);
+}
+
+/* Mechanical Screws and Bolts */
+.mechanical-screw {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle, var(--metal-chrome) 20%, var(--metal-medium) 80%);
+    border: 1px solid var(--metal-dark);
+    border-radius: 50%;
+    display: inline-block;
+    transform-style: preserve-3d;
+}
+
+.mechanical-screw::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 1px;
+    background: var(--metal-dark);
+    transform: translate(-50%, -50%);
+    box-shadow: 0 -2px 0 var(--metal-dark), 0 2px 0 var(--metal-dark);
+}
+
+.mechanical-screw::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 8px;
+    background: var(--metal-dark);
+    transform: translate(-50%, -50%);
+}
+
+/* Mechanical Springs */
+.mechanical-spring {
+    position: relative;
+    width: 20px;
+    height: 60px;
+    background: repeating-linear-gradient(
+        0deg,
+        var(--metal-medium) 0px,
+        var(--metal-medium) 2px,
+        var(--metal-light) 2px,
+        var(--metal-light) 4px
+    );
+    border: 1px solid var(--metal-dark);
+    border-radius: 10px;
+    transform-style: preserve-3d;
+    transition: all var(--transition-medium);
+}
+
+.mechanical-spring::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    width: 24px;
+    height: 4px;
+    background: var(--metal-chrome);
+    border: 1px solid var(--metal-dark);
+    border-radius: 2px;
+    transform: translateX(-50%);
+}
+
+.mechanical-spring::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 24px;
+    height: 4px;
+    background: var(--metal-chrome);
+    border: 1px solid var(--metal-dark);
+    border-radius: 2px;
+    transform: translateX(-50%);
+}
+
+.mechanical-spring:hover {
+    transform: scaleY(0.8) rotateX(5deg);
+}
+
+/* Industrial Pipes */
+.mechanical-pipe {
+    position: relative;
+    background: linear-gradient(90deg, var(--metal-dark) 0%, var(--metal-medium) 50%, var(--metal-light) 100%);
+    border: 2px solid var(--metal-medium);
+    border-radius: 50px;
+    transform-style: preserve-3d;
+}
+
+.mechanical-pipe::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 0;
+    right: 0;
+    height: 20%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+}
+
+.mechanical-pipe::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    left: 0;
+    right: 0;
+    height: 20%;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+}
+
+/* Mechanical Rivets */
+.mechanical-rivet {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, var(--metal-chrome) 30%, var(--metal-medium) 70%);
+    border: 1px solid var(--metal-dark);
+    border-radius: 50%;
+    display: inline-block;
+    transform-style: preserve-3d;
+}
+
+.mechanical-rivet::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    background: var(--metal-dark);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.8);
+}
+
+/* Mechanical Indicators */
+.mechanical-indicator {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, var(--metal-dark) 30%, var(--metal-medium) 70%);
+    border: 3px solid var(--metal-chrome);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    transition: all var(--transition-medium);
+}
+
+.mechanical-indicator::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    height: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50% 50% 0 0;
+}
+
+.indicator-light {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    box-shadow: 
+        0 0 10px var(--accent-green),
+        inset 0 0 5px rgba(255, 255, 255, 0.3);
+    animation: mechanicalPulse 2s ease-in-out infinite;
+}
+
+.indicator-light.warning {
+    background: var(--accent-orange);
+    box-shadow: 
+        0 0 10px var(--accent-orange),
+        inset 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.indicator-light.error {
+    background: var(--accent-red);
+    box-shadow: 
+        0 0 10px var(--accent-red),
+        inset 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+/* Mechanical Progress Bars */
+.mechanical-progress {
+    position: relative;
+    height: 12px;
+    background: var(--metal-dark);
+    border: 2px solid var(--metal-medium);
+    border-radius: 6px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+.mechanical-progress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px 6px 0 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+    border-radius: 4px;
+    position: relative;
+    transition: width var(--transition-medium);
+    transform-style: preserve-3d;
+}
+
+.progress-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px 4px 0 0;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: mechanicalShine 2s ease-in-out infinite;
+}
+
+/* Mechanical Animations */
+@keyframes mechanicalPulse {
+    0%, 100% { 
+        transform: scale(1);
+        box-shadow: 
+            0 0 10px currentColor,
+            inset 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+    50% { 
+        transform: scale(1.1);
+        box-shadow: 
+            0 0 20px currentColor,
+            inset 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+}
+
+@keyframes mechanicalShine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+@keyframes mechanicalVibrate {
+    0%, 100% { transform: translateX(0); }
+    10% { transform: translateX(-1px); }
+    20% { transform: translateX(1px); }
+    30% { transform: translateX(-1px); }
+    40% { transform: translateX(1px); }
+    50% { transform: translateX(-1px); }
+    60% { transform: translateX(1px); }
+    70% { transform: translateX(-1px); }
+    80% { transform: translateX(1px); }
+    90% { transform: translateX(-1px); }
+}
+
+@keyframes mechanicalRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive Mechanical Elements */
+@media (max-width: 768px) {
+    .gear {
+        transform: scale(0.8);
+    }
+    
+    .mechanical-cylinder {
+        transform: scale(0.9);
+    }
+    
+    .mechanical-spring {
+        transform: scale(0.8);
+    }
+}

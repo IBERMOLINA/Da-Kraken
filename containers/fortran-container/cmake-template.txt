@@ -1,0 +1,114 @@
+cmake_minimum_required(VERSION 3.12)
+project(DaKrakenFortran LANGUAGES Fortran)
+
+# Set Fortran standard (options: 95, 2003, 2008, 2018)
+set(CMAKE_Fortran_STANDARD 2018)
+set(CMAKE_Fortran_STANDARD_REQUIRED ON)
+
+# Compiler-specific options
+if(CMAKE_Fortran_COMPILER_ID MATCHES "GNU")
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Wall -Wextra -fcheck=all")
+    set(CMAKE_Fortran_FLAGS_DEBUG "-g -O0 -fbacktrace")
+    set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -march=native")
+elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -warn all -check all")
+    set(CMAKE_Fortran_FLAGS_DEBUG "-g -O0 -traceback")
+    set(CMAKE_Fortran_FLAGS_RELEASE "-O3 -xHost")
+endif()
+
+# Find required packages
+find_package(LAPACK REQUIRED)
+find_package(BLAS REQUIRED)
+
+# Optional: OpenMP support
+find_package(OpenMP REQUIRED)
+if(OpenMP_Fortran_FOUND)
+    target_link_libraries(main OpenMP::OpenMP_Fortran)
+endif()
+
+# Optional: MPI support
+find_package(MPI REQUIRED)
+if(MPI_Fortran_FOUND)
+    include_directories(${MPI_Fortran_INCLUDE_DIRS})
+endif()
+
+# Include directories
+include_directories(${CMAKE_BINARY_DIR}/modules)
+
+# Set module directory
+set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/modules)
+
+# Source files
+file(GLOB_RECURSE SOURCES "src/*.f90")
+
+# Library from source files
+add_library(da_kraken_lib ${SOURCES})
+target_link_libraries(da_kraken_lib ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+
+# Main executable
+add_executable(da-kraken-fortran app/main.f90)
+target_link_libraries(da-kraken-fortran da_kraken_lib)
+if(OpenMP_Fortran_FOUND)
+    target_link_libraries(da-kraken-fortran OpenMP::OpenMP_Fortran)
+endif()
+if(MPI_Fortran_FOUND)
+    target_link_libraries(da-kraken-fortran ${MPI_Fortran_LIBRARIES})
+endif()
+
+# Test executable
+add_executable(test-da-kraken test/test_da_kraken.f90)
+target_link_libraries(test-da-kraken da_kraken_lib)
+
+# Example executable
+add_executable(numerical-example example/numerical_example.f90)
+target_link_libraries(numerical-example ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
+
+# Enable testing
+enable_testing()
+add_test(NAME unit_tests COMMAND test-da-kraken)
+
+# Custom targets for different standards
+add_custom_target(f95
+    COMMAND ${CMAKE_COMMAND} -DCMAKE_Fortran_STANDARD=95 ${CMAKE_SOURCE_DIR}
+    COMMAND ${CMAKE_COMMAND} --build .
+    COMMENT "Building with Fortran 95 standard"
+)
+
+add_custom_target(f2003
+    COMMAND ${CMAKE_COMMAND} -DCMAKE_Fortran_STANDARD=2003 ${CMAKE_SOURCE_DIR}
+    COMMAND ${CMAKE_COMMAND} --build .
+    COMMENT "Building with Fortran 2003 standard"
+)
+
+add_custom_target(f2008
+    COMMAND ${CMAKE_COMMAND} -DCMAKE_Fortran_STANDARD=2008 ${CMAKE_SOURCE_DIR}
+    COMMAND ${CMAKE_COMMAND} --build .
+    COMMENT "Building with Fortran 2008 standard"
+)
+
+add_custom_target(f2018
+    COMMAND ${CMAKE_COMMAND} -DCMAKE_Fortran_STANDARD=2018 ${CMAKE_SOURCE_DIR}
+    COMMAND ${CMAKE_COMMAND} --build .
+    COMMENT "Building with Fortran 2018 standard"
+)
+
+# Documentation target
+find_program(FORD_EXECUTABLE ford)
+if(FORD_EXECUTABLE)
+    add_custom_target(docs
+        COMMAND ${FORD_EXECUTABLE} doc/ford_settings.md
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMENT "Generating documentation with FORD"
+    )
+endif()
+
+# Install targets
+install(TARGETS da-kraken-fortran DESTINATION bin)
+install(TARGETS test-da-kraken DESTINATION bin)
+install(TARGETS numerical-example DESTINATION bin)
+
+# CPack configuration for packaging
+set(CPACK_PACKAGE_NAME "DaKrakenFortran")
+set(CPACK_PACKAGE_VERSION "0.1.0")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Modern Fortran application for Da-Kraken")
+include(CPack)

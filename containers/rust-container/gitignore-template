@@ -1,0 +1,39 @@
+# Rust Project
+/target/
+/Cargo.lock
+*.rs.bk
+*.pdb
+
+# IDE
+/.vscode/
+/.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+/dist/
+/build/
+*.o
+*.so
+*.dylib
+*.dll
+
+# Logs
+*.log
+/logs/
+
+# Environment
+.env
+.env.local
+
+# Documentation
+/target/doc/
+
+# Cargo
+/.cargo/
+Cargo.lock

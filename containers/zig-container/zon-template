@@ -1,0 +1,23 @@
+.{
+    .name = "da-kraken-zig-project",
+    .version = "0.1.0",
+    .minimum_zig_version = "0.11.0",
+    
+    .dependencies = .{
+        // Add dependencies here
+        // Example:
+        // .some_dep = .{
+        //     .url = "https://github.com/user/repo/archive/commit.tar.gz",
+        //     .hash = "hash_here",
+        // },
+    },
+    
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        "tests",
+        "examples",
+        "README.md",
+    },
+}

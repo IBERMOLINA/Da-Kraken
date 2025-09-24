@@ -1,0 +1,66 @@
+name: da-kraken-crystal
+version: 0.1.0
+
+authors:
+  - Da-Kraken Team
+
+crystal: 1.10.1
+
+license: MIT
+
+description: |
+  Crystal application for Da-Kraken development environment
+
+dependencies:
+  # HTTP client and server
+  crest:
+    github: mamantoha/crest
+    version: ~> 1.3.12
+  
+  # JSON handling
+  # (built into Crystal standard library)
+  
+  # Web framework
+  kemal:
+    github: kemalcr/kemal
+    version: ~> 1.4.0
+    
+  # Database
+  pg:
+    github: will/crystal-pg
+    version: ~> 0.26.0
+  mysql:
+    github: crystal-lang/crystal-mysql
+    version: ~> 0.14.0
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
+    version: ~> 0.20.0
+    
+  # Utilities
+  uuid:
+    github: wyhaines/uuid.cr
+    version: ~> 1.2.0
+  time_format:
+    github: vladfaust/time_format.cr
+    version: ~> 0.1.1
+
+development_dependencies:
+  # Testing
+  spec2:
+    github: waterlink/spec2.cr
+    version: ~> 0.10.4
+  
+  # Development tools
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 1.5.0
+
+targets:
+  da-kraken-crystal:
+    main: src/da_kraken.cr
+  
+  server:
+    main: src/da_kraken.cr
+
+scripts:
+  postinstall: echo "Crystal dependencies installed successfully!"
