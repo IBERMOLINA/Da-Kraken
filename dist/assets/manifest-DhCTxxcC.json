@@ -1,0 +1,70 @@
+{
+  "name": "Da-Kraken Local App",
+  "short_name": "Da-Kraken",
+  "description": "A modern local application with engaging user experience, no external dependencies",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#4338ca",
+  "theme_color": "#4338ca",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "utilities", "tools"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512", 
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "assets/screenshot-narrow.png", 
+      "sizes": "375x812",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View app dashboard",
+      "url": "./index.html#dashboard",
+      "icons": []
+    },
+    {
+      "name": "Tools",
+      "short_name": "Tools",
+      "description": "Access productivity tools",
+      "url": "./index.html#tools", 
+      "icons": []
+    },
+    {
+      "name": "Settings",
+      "short_name": "Settings",
+      "description": "App settings and preferences",
+      "url": "./index.html#settings",
+      "icons": []
+    }
+  ]
+}
