@@ -97,8 +97,8 @@ echo "🐍 Starting Python Development Environment..."
 
 # Create virtual environment if not exists
 if [ ! -d "venv" ]; then
-    echo "🔧 Creating Python virtual environment..."
-    python -m venv venv
+echo "🔧 Creating Python virtual environment..."
+python -m venv venv
 fi
 
 # Activate virtual environment
@@ -106,14 +106,14 @@ source venv/bin/activate
 
 # Auto-install dependencies if requirements.txt exists
 if [ -f "requirements.txt" ]; then
-    echo "📦 Auto-installing Python dependencies..."
-    pip install -r requirements.txt
+echo "📦 Auto-installing Python dependencies..."
+pip install -r requirements.txt
 fi
 
 # Auto-install from setup.py if exists
 if [ -f "setup.py" ]; then
-    echo "📦 Installing package in development mode..."
-    pip install -e .
+echo "📦 Installing package in development mode..."
+pip install -e .
 fi
 
 # Start Jupyter Lab
@@ -122,8 +122,8 @@ jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.tok
 
 # Start AI assistant
 if [ "$AI_ASSISTANT_ENABLED" = "true" ]; then
-    echo "🤖 Starting Python AI Assistant..."
-    python /workspace/ai-assistant/chat_server.py &
+echo "🤖 Starting Python AI Assistant..."
+python /workspace/ai-assistant/chat_server.py &
 fi
 
 # Start code-server
@@ -132,10 +132,10 @@ code-server --bind-addr 0.0.0.0:8080 --auth none /workspace &
 
 # Start Flask development server if app.py exists
 if [ -f "app.py" ]; then
-    echo "🌐 Starting Flask development server..."
-    export FLASK_ENV=development
-    export FLASK_DEBUG=1
-    flask run --host=0.0.0.0 --port=5000 &
+echo "🌐 Starting Flask development server..."
+export FLASK_ENV=development
+export FLASK_DEBUG=1
+flask run --host=0.0.0.0 --port=5000 &
 fi
 
 echo "✅ Python Development Environment Ready!"

@@ -30,7 +30,7 @@ app.get('/api/health', (req, res) => {
 
 app.post('/api/chat', async (req, res) => {
     const { message, context } = req.body;
-    
+
     try {
         // Simulate AI response (replace with actual AI integration)
         const aiResponse = await simulateAIResponse(message, context);
@@ -54,7 +54,7 @@ app.post('/api/chat', async (req, res) => {
 // Socket.io for real-time chat
 io.on('connection', (socket) => {
     console.log('🤖 AI Assistant connected:', socket.id);
-    
+
     socket.emit('welcome', {
         message: 'Welcome to JavaScript AI Assistant!',
         capabilities: [
@@ -94,9 +94,9 @@ io.on('connection', (socket) => {
 async function simulateAIResponse(message, context) {
     // Simulate processing time
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     const lowerMessage = message.toLowerCase();
-    
+
     if (lowerMessage.includes('react')) {
         return `For React 19 development: ${generateReactAdvice(message)}`;
     } else if (lowerMessage.includes('error') || lowerMessage.includes('debug')) {
