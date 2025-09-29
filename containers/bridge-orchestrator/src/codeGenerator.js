@@ -182,22 +182,22 @@ class CodeGenerator {
         let userPrompt = `Generate ${language} code for: ${prompt}`;
         
         if (context.framework) {
-            userPrompt += `\\nFramework: ${context.framework}`;
+            userPrompt += `\nFramework: ${context.framework}`;
         }
         
         if (context.database) {
-            userPrompt += `\\nDatabase: ${context.database}`;
+            userPrompt += `\nDatabase: ${context.database}`;
         }
         
         if (options.include_tests) {
-            userPrompt += `\\nInclude unit tests.`;
+            userPrompt += `\nInclude unit tests.`;
         }
         
         if (options.include_docker) {
-            userPrompt += `\\nInclude Dockerfile.`;
+            userPrompt += `\nInclude Dockerfile.`;
         }
         
-        userPrompt += `\\nProvide complete, working code with proper error handling.`;
+        userPrompt += `\nProvide complete, working code with proper error handling.`;
         
         return userPrompt;
     }
