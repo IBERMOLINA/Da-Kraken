@@ -1,0 +1,5 @@
+{
+    "pushstartups": [
+        "ms-mssql.mssql"
+    ]
+}

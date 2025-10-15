@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Da-Kraken - Local App</title>
+    <meta name="description" content="A modern local application with engaging user experience">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2d3748">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+
+<body>
+    <div id="app" class="app">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="kraken-loader">
+                <div class="tentacle tentacle-1"></div>
+                <div class="tentacle tentacle-2"></div>
+                <div class="tentacle tentacle-3"></div>
+                <div class="tentacle tentacle-4"></div>
+                <div class="kraken-body mechanical-icon">⚙️</div>
+            </div>
+            <h2 class="loading-text">Da-Kraken</h2>
+            <p class="loading-subtitle">Initializing Systems...</p>
+        </div>
+
+        <!-- Main Application -->
+        <div id="main-app" class="main-app hidden">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-content">
+                    <div class="logo">
+                        <span class="logo-icon mechanical-icon">⚙️</span>
+                        <h1 class="logo-text">Da-Kraken</h1>
+                    </div>
+                    <nav class="nav">
+                        <button class="nav-btn active" data-section="prompt">Prompt</button>
+                        <button class="nav-btn" data-section="build">Build</button>
+                        <button class="nav-btn" data-section="deploy">Deploy</button>
+                    </nav>
+                    <div class="header-actions">
+                        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                            <span class="theme-icon">🌙</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main">
+                <!-- Prompt Section -->
+                <section id="prompt-section" class="section active">
+                    <div class="section-header">
+                        <h2>Prompt</h2>
+                        <p>Describe the application you want to build</p>
+                    </div>
+                    <div class="prompt-container">
+                        <textarea id="prompt-input" class="tool-textarea"
+                            placeholder="Enter your detailed application requirements..."></textarea>
+                        <button id="start-build-btn" class="btn btn-primary">Start Build</button>
+                    </div>
+                </section>
+
+                <!-- Build Section -->
+                <section id="build-section" class="section">
+                    <div class="section-header">
+                        <h2>Build</h2>
+                        <p>Your application is being built...</p>
+                    </div>
+                    <div class="build-container">
+                        <pre id="build-logs" class="build-logs-container"></pre>
+                    </div>
+                </section>
+
+                <!-- Deploy Section -->
+                <section id="deploy-section" class="section">
+                    <div class="section-header">
+                        <h2>Deploy & Download</h2>
+                        <p>Your application is ready</p>
+                    </div>
+                    <div class="deploy-container">
+                        <div class="card">
+                            <h3>Build Successful</h3>
+                            <p>Your application has been successfully built and is ready for download.</p>
+                            <button id="download-btn" class="btn btn-primary">Download Application</button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="/scripts/app.js"></script>
+</body>
+
+</html>
+
+</div>
+</header>
+
+<!-- Main Content -->
+<main class="main">
+    <!-- Dashboard Section -->
+    <section id="dashboard-section" class="section active">
+        <div class="section-header">
+            <h2>Dashboard</h2>
+            <p>Welcome to your local Da-Kraken application</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card feature-card">
+                <div class="card-icon mechanical-icon">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Runs entirely local with no external dependencies</p>
+            </div>
+            <div class="card feature-card">
+                <div class="card-icon mechanical-icon">🎨</div>
+                <h3>Modern Design</h3>
+                <p>Beautiful, responsive interface with smooth animations</p>
+            </div>
+            <div class="card feature-card">
+                <div class="card-icon mechanical-icon">🔒</div>
+                <h3>Private & Secure</h3>
+                <p>Your data stays on your device</p>
+            </div>
+            <div class="card feature-card">
+                <div class="card-icon mechanical-icon">📱</div>
+                <h3>Cross-Platform</h3>
+                <p>Works on desktop, tablet, and mobile</p>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" id="uptime">00:00:00</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="interactions">0</div>
+                <div class="stat-label">Interactions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Local</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section id="tools-section" class="section">
+        <div class="section-header">
+            <h2>Tools</h2>
+            <p>Useful utilities for your daily tasks</p>
+        </div>
+
+        <div class="tools-grid">
+            <div class="tool-card">
+                <h3>📝 Note Keeper</h3>
+                <p>Simple note-taking with local storage</p>
+                <textarea id="notes" class="tool-textarea" placeholder="Start writing your notes..."></textarea>
+                <div class="tool-actions">
+                    <button class="btn btn-primary" id="save-notes">Save</button>
+                    <button class="btn btn-secondary" id="clear-notes">Clear</button>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <h3>🎨 Color Palette</h3>
+                <p>Generate beautiful color combinations</p>
+                <div class="color-palette" id="color-palette"></div>
+                <button class="btn btn-primary" id="generate-colors">Generate New Palette</button>
+            </div>
+
+            <div class="tool-card">
+                <h3>⏱️ Pomodoro Timer</h3>
+                <p>Stay focused with time management</p>
+                <div class="timer-display" id="timer-display">25:00</div>
+                <div class="timer-controls">
+                    <button class="btn btn-primary" id="start-timer">Start</button>
+                    <button class="btn btn-secondary" id="pause-timer">Pause</button>
+                    <button class="btn btn-secondary" id="reset-timer">Reset</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Settings Section -->
+    <section id="settings-section" class="section">
+        <div class="section-header">
+            <h2>Settings</h2>
+            <p>Customize your Da-Kraken experience</p>
+        </div>
+
+        <div class="settings-grid">
+            <div class="setting-group">
+                <h3>Appearance</h3>
+                <div class="setting-item">
+                    <label for="theme-select">Theme:</label>
+                    <select id="theme-select" class="setting-select">
+                        <option value="auto">Auto</option>
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="animation-toggle">Animations:</label>
+                    <input type="checkbox" id="animation-toggle" checked>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h3>Data</h3>
+                <div class="setting-item">
+                    <button class="btn btn-danger" id="clear-data">Clear All Data</button>
+                    <p class="setting-description">This will remove all stored notes and settings</p>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h3>About</h3>
+                <p>Da-Kraken v1.0.0</p>
+                <p>A modern local application built with love 💙</p>
+                <p>No external dependencies • Fully offline • Privacy-focused</p>
+            </div>
+        </div>
+    </section>
+</main>
+</div>
+</div>
+
+<!-- Scripts -->
+<script src="scripts/utils.js"></script>
+<script src="scripts/theme.js"></script>
+<script src="scripts/tools.js"></script>
+<script src="scripts/app.js"></script>
+</body>
+
+</html>
