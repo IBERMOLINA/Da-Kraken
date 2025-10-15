@@ -136,7 +136,7 @@ class AutoCommitManager {
   getSessionId() {
     let sessionId = sessionStorage.getItem('da-kraken-session-id');
     if (!sessionId) {
-      sessionId = `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      sessionId = `session-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
       sessionStorage.setItem('da-kraken-session-id', sessionId);
     }
     return sessionId;
